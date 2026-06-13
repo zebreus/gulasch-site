@@ -3,7 +3,7 @@
 
 let
   cfg = config.services.gulasch-sites;
-  sitePackage = self.packages.${pkgs.system}.gulasch-sites;
+  sitePackage = self.packages.${pkgs.stdenv.hostPlatform.system}.gulasch-sites;
 
   mkHost = name: root: lib.nameValuePair "${name}.${cfg.baseDomain}" {
     inherit root;
