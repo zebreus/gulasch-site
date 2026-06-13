@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Eine ruhige, leicht verständliche Website darüber, wie KI im Alltag praktisch helfen kann.">
+  <title>KI im Alltag, ganz praktisch</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="spark-canvas" aria-hidden="true"></canvas>
+  <div class="glow-field" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <a class="skip-link" href="#inhalt">Direkt zum Inhalt</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Startseite">
+      <span class="brand-icon">KI</span>
+      <span>KI im Alltag</span>
+    </a>
+    <nav aria-label="Hauptnavigation">
+      <a href="#einfach">Grundidee</a>
+      <a href="#nutzen">Beispiele</a>
+      <a href="#demo">Ausprobieren</a>
+      <a href="#regeln">Vorsicht</a>
+    </nav>
+  </header>
+
+  <main id="inhalt">
+    <section class="hero" id="top">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Ausprobiert, nicht angebetet.</p>
+        <h1>Ein paar Dinge, bei denen KI wirklich helfen kann.</h1>
+        <p class="lead">
+          Nicht jede Aufgabe braucht KI. Aber manchmal ist sie angenehm praktisch: einen Brief verständlicher
+          machen, eine Liste sortieren, einen ersten Entwurf schreiben oder eine Sache in Ruhe erklären.
+        </p>
+        <div class="hero-note">
+          <strong>Meine einfache Beschreibung:</strong> KI ist kein kluger Mensch im Computer. Sie ist eher ein
+          Werkzeug, das aus vielen Beispielen passende Vorschläge macht. Man nimmt, was hilft, und prüft den Rest.
+        </div>
+        <div class="hero-actions">
+          <a class="button primary" href="#nutzen">Beispiele lesen</a>
+          <a class="button secondary" href="#demo">Kurzes Beispiel</a>
+        </div>
+      </div>
+
+      <div class="hero-art reveal" aria-label="Skizze: KI als praktischer Notizzettel-Helfer">
+        <div class="assistant-card">
+          <div class="paper-sheet sheet-one">
+            <span>Frage</span>
+            <p>Erklär mir diesen Brief in normalem Deutsch.</p>
+          </div>
+          <div class="paper-sheet sheet-two">
+            <span>Antwort</span>
+            <p>Das Amt möchte noch eine Bestätigung. Frist: 14 Tage.</p>
+          </div>
+          <div class="paper-sheet sheet-three">
+            <span>Nächster Schritt</span>
+            <p>Unterlagen heraussuchen, Kopie machen, morgen abschicken.</p>
+          </div>
+          <div class="pencil" aria-hidden="true"></div>
+          <p class="quote-slip" data-rotate>„Kannst du mir das einfacher erklären?“</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section simple" id="einfach">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Grundidee</p>
+        <h2>Man muss KI nicht bestaunen. Man kann sie benutzen.</h2>
+        <p>
+          Ich würde KI ungefähr so einordnen wie einen Taschenrechner oder ein Wörterbuch: hilfreich,
+          wenn man weiß, wofür man es nimmt. Sie kann Sprache, Bilder und Daten schnell bearbeiten.
+          Entscheiden und nachdenken müssen aber weiterhin wir.
+        </p>
+      </div>
+
+      <div class="analogy-grid">
+        <article class="analogy-card reveal">
+          <span class="card-icon">1</span>
+          <h3>Wenn ein Text zu kompliziert ist</h3>
+          <p>Man kann schreiben: „Bitte in einfachen Worten.“ Das ist besonders bei Behördenbriefen, Technik und langen Artikeln angenehm.</p>
+        </article>
+        <article class="analogy-card reveal">
+          <span class="card-icon">2</span>
+          <h3>Wenn zu viele Zettel herumliegen</h3>
+          <p>Notizen, E-Mails oder Ideen lassen sich in eine Liste bringen. Das ersetzt kein Ordnungssystem, hilft aber beim ersten Sortieren.</p>
+        </article>
+        <article class="analogy-card reveal">
+          <span class="card-icon">3</span>
+          <h3>Wenn die erste Formulierung fehlt</h3>
+          <p>Für Einladungen, Geburtstagsgrüße oder Vereinsarbeit ist ein erster Entwurf oft schon die halbe Arbeit.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section proof" id="nutzen">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Nützliche Stellen</p>
+        <h2>Die guten Seiten sind meistens unspektakulär. Genau das macht sie praktisch.</h2>
+      </div>
+
+      <div class="proof-grid">
+        <article class="proof-card big reveal">
+          <div class="metric"><span data-count="5">0</span><small>kleine Aufgaben</small></div>
+          <h3>Für das, was sonst liegen bleibt</h3>
+          <p>
+            Zusammenfassen, umformulieren, übersetzen, Ideen sammeln, eine Liste ordnen: Das sind keine Wunder,
+            aber im Alltag spart es oft Nerven.
+          </p>
+        </article>
+
+        <article class="proof-card reveal">
+          <div class="bar-chart" aria-hidden="true">
+            <span style="--height: 45%"></span>
+            <span style="--height: 68%"></span>
+            <span style="--height: 88%"></span>
+          </div>
+          <h3>Einen Text kleinmachen</h3>
+          <p>Aus zehn Absätzen werden drei einfache Sätze. Danach kann man immer noch selbst prüfen, ob alles stimmt.</p>
+        </article>
+
+        <article class="proof-card reveal">
+          <div class="orbit-badge" aria-hidden="true"><span></span></div>
+          <h3>Barrieren abbauen</h3>
+          <p>Vorlesen, diktieren, übersetzen oder vereinfachen kann Menschen helfen, die mit kleinen Schriftgrößen oder Fachsprache kämpfen.</p>
+        </article>
+
+        <article class="proof-card reveal">
+          <div class="metric"><span data-count="24">0</span><small>Stunden erreichbar</small></div>
+          <h3>Wenn gerade niemand Zeit hat</h3>
+          <p>Für eine erste Erklärung oder einen Formulierungsvorschlag ist KI auch dann da, wenn man niemanden stören möchte.</p>
+        </article>
+
+        <article class="proof-card reveal">
+          <div class="spark-stack" aria-hidden="true"><i></i><i></i><i></i></div>
+          <h3>Erster Entwurf statt leere Seite</h3>
+          <p>Man muss nicht bei null anfangen. Der Vorschlag ist selten perfekt, aber er bringt einen in Gang.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section everyday">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Konkrete Beispiele</p>
+        <h2>Vier ganz normale Situationen</h2>
+      </div>
+
+      <div class="timeline">
+        <article class="timeline-item reveal">
+          <span>Morgens</span>
+          <h3>Nachrichten einordnen</h3>
+          <p>„Fasse den Artikel kurz zusammen. Schreib dazu, welche Punkte sicher sind und wo man vorsichtig sein sollte.“</p>
+        </article>
+        <article class="timeline-item reveal">
+          <span>Mittags</span>
+          <h3>Einkaufen ohne Grübeln</h3>
+          <p>„Ich habe Kartoffeln, Eier und Spinat. Was kann ich daraus kochen? Bitte einfach und ohne exotische Zutaten.“</p>
+        </article>
+        <article class="timeline-item reveal">
+          <span>Nachmittags</span>
+          <h3>Einladung für den Verein</h3>
+          <p>„Schreibe eine Einladung fürs Sommerfest. Freundlich, kurz, nicht zu geschäftlich.“</p>
+        </article>
+        <article class="timeline-item reveal">
+          <span>Abends</span>
+          <h3>Technik Schritt für Schritt</h3>
+          <p>„Erkläre mir langsam, wie ich Fotos vom Handy auf den Computer bekomme. Nach jedem Schritt kurz stoppen.“</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section demo" id="demo">
+      <div class="demo-panel reveal">
+        <div class="demo-copy">
+          <p class="eyebrow">Kleiner Probezettel</p>
+          <h2>So ungefähr fühlt sich eine brauchbare Frage an.</h2>
+          <p>
+            Die Beispiele hier sind vorbereitet. Sie zeigen nur das Prinzip: normal fragen, klar sagen,
+            was man braucht, und die Antwort anschließend prüfen.
+          </p>
+          <div class="demo-buttons" role="group" aria-label="Beispiel auswählen">
+            <button type="button" data-demo="letter">Brief</button>
+            <button type="button" data-demo="explain">Erklären</button>
+            <button type="button" data-demo="travel">Reise</button>
+          </div>
+        </div>
+        <div class="demo-screen" aria-live="polite">
+          <p class="screen-label">Beispiel</p>
+          <h3 id="demo-title">Einladung etwas lockerer</h3>
+          <p id="demo-text">
+            Liebe Nachbarinnen und Nachbarn, am Samstag stellen wir ein paar Tische in den Hof.
+            Wer Lust hat, kommt einfach dazu. Eine Kleinigkeit zu essen ist willkommen, aber kein Muss.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section balance" id="regeln">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Meine Faustregeln</p>
+        <h2>Gut ist KI, wenn sie Arbeit abnimmt, aber nicht das Denken.</h2>
+      </div>
+
+      <div class="rule-grid">
+        <article class="rule-card reveal">
+          <span></span>
+          <h3>Ergebnis prüfen</h3>
+          <p>Bei Gesundheit, Geld, Recht und Verträgen nicht blind übernehmen. Lieber einmal mehr nachfragen.</p>
+        </article>
+        <article class="rule-card reveal">
+          <span></span>
+          <h3>Normal nachfragen</h3>
+          <p>Gute Fragen sind einfach: „Was heißt das?“, „Gib ein Beispiel“ oder „Welche Stelle ist unsicher?“</p>
+        </article>
+        <article class="rule-card reveal">
+          <span></span>
+          <h3>Privates sparsam teilen</h3>
+          <p>Keine Passwörter, Ausweisnummern oder sehr persönlichen Dinge eintippen. Das braucht KI für gute Hilfe meistens nicht.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="final-cta reveal">
+      <p class="eyebrow">Mein Fazit</p>
+      <h2>KI ist kein Wunder. Aber manchmal ein ziemlich guter Helfer.</h2>
+      <p>
+        Am besten wirkt KI da, wo sie kleine Hürden senkt: einen Text verständlich machen, eine Idee starten,
+        eine Aufgabe sortieren. Nicht spektakulär, aber oft genau richtig.
+      </p>
+      <a class="button primary" href="#top">Noch einmal ansehen</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>testwebseite2.gulasch.site. Eine praktische KI-Erklärung in einfacher Sprache.</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

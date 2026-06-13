@@ -52,6 +52,10 @@ in
       (mkHost "drive" "${sitePackage}/drive")
       (mkHost "aisaas" "${sitePackage}/aisaas")
       (mkHost "c3cock" "${sitePackage}/c3cock")
+      (mkHost "testwebseite" "${sitePackage}/testwebseite")
+      (mkHost "testwebseite2" "${sitePackage}/testwebseite2")
+      (mkHost "chat" "${sitePackage}/chat")
+      (mkHost "angular" "${sitePackage}/angular")
     ];
   };
 }

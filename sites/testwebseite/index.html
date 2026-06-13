@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Eine einfach verständliche, animierte Erklärung, warum KI für Menschen, Gesellschaft und Umwelt problematisch sein kann.">
+  <title>KI: Die versteckten Kosten</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="network" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <a class="skip-link" href="#inhalt">Direkt zum Inhalt</a>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Startseite">
+      <span class="brand-mark">KI</span>
+      <span>Versteckte Kosten</span>
+    </a>
+    <nav aria-label="Hauptnavigation">
+      <a href="#einfach">Einfach erklärt</a>
+      <a href="#probleme">Probleme</a>
+      <a href="#schutz">Schutz</a>
+    </nav>
+  </header>
+
+  <main id="inhalt">
+    <section class="hero" id="top">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Keine Panikmache. Klare Worte.</p>
+        <h1>KI wirkt wie Magie. Aber sie hat echte Kosten.</h1>
+        <p class="hero-lead">
+          Diese Seite erklärt in einfacher Sprache, warum künstliche Intelligenz für Menschen,
+          Arbeit, Demokratie, Privatsphäre und Umwelt gefährlich werden kann.
+        </p>
+        <p class="plain-box">
+          Kurz gesagt: KI ist ein Computerprogramm, das aus sehr vielen Beispielen Muster lernt.
+          Es kann Texte, Bilder, Stimmen und Entscheidungen erzeugen. Es versteht die Welt aber
+          nicht wie ein Mensch und übernimmt keine Verantwortung.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#probleme">Probleme ansehen</a>
+          <a class="button ghost" href="#schutz">Was kann ich tun?</a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal" aria-label="Animation zu den Folgekosten von KI">
+        <div class="glass-panel">
+          <div class="core-orb">
+            <span data-rotate>Strom</span>
+          </div>
+          <div class="orbit orbit-one"><span>Daten</span></div>
+          <div class="orbit orbit-two"><span>Betrug</span></div>
+          <div class="orbit orbit-three"><span>Vorurteile</span></div>
+          <div class="warning-line"></div>
+          <p>Wenn KI schneller wächst als Regeln, Kontrolle und Aufklärung, entstehen reale Schäden.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section intro" id="einfach">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Erst das Grundverständnis</p>
+        <h2>Was KI kann und was sie nicht kann</h2>
+        <p>
+          Stellen Sie sich KI wie eine sehr schnelle Nachahmungsmaschine vor. Sie schaut auf alte
+          Beispiele und sagt dann voraus, was wahrscheinlich passt. Das ist beeindruckend, aber nicht
+          dasselbe wie Denken, Gewissen oder Wahrheit.
+        </p>
+      </div>
+
+      <div class="truth-grid">
+        <article class="truth-card reveal">
+          <span class="mini-label">1</span>
+          <h3>KI rät überzeugend</h3>
+          <p>Sie kann sehr sicher klingen, obwohl die Antwort falsch ist. Das ist wie ein Mensch, der sehr selbstbewusst Unsinn erzählt.</p>
+        </article>
+        <article class="truth-card reveal">
+          <span class="mini-label">2</span>
+          <h3>KI kennt keine Verantwortung</h3>
+          <p>Wenn ein System jemanden benachteiligt, leidet ein Mensch. Die Software selbst kann sich nicht entschuldigen oder haften.</p>
+        </article>
+        <article class="truth-card reveal">
+          <span class="mini-label">3</span>
+          <h3>KI braucht riesige Mengen</h3>
+          <p>Viele Daten, starke Computer, Strom, Kühlung und Fachleute sind nötig. Das ist nicht unsichtbar und nicht kostenlos.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section problems" id="probleme">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Die wichtigsten Risiken</p>
+        <h2>Warum KI der Welt und den Menschen schaden kann</h2>
+        <p>
+          KI ist nicht automatisch böse. Gefährlich wird sie, wenn sie ohne klare Regeln, ohne Kontrolle
+          und ohne Rücksicht auf Menschen eingesetzt wird.
+        </p>
+      </div>
+
+      <div class="problem-grid">
+        <article class="problem-card reveal">
+          <span class="card-number">01</span>
+          <h3>Mehr Strom, Wasser und Rohstoffe</h3>
+          <p>
+            Große KI-Rechner laufen in Rechenzentren. Sie verbrauchen Strom und müssen gekühlt werden.
+            Je nach Ort kann dafür auch viel Wasser nötig sein. Zusätzlich braucht die Hardware Rohstoffe,
+            die abgebaut, transportiert und ersetzt werden müssen.
+          </p>
+        </article>
+
+        <article class="problem-card reveal">
+          <span class="card-number">02</span>
+          <h3>Betrug wird glaubwürdiger</h3>
+          <p>
+            KI kann Stimmen, Fotos und Videos nachmachen. Ein falscher Anruf kann plötzlich klingen wie
+            ein Familienmitglied. Ein gefälschtes Video kann aussehen wie eine echte Nachricht.
+          </p>
+        </article>
+
+        <article class="problem-card reveal">
+          <span class="card-number">03</span>
+          <h3>Privatsphäre geht verloren</h3>
+          <p>
+            Wer persönliche Daten in KI-Dienste eingibt, verliert oft die Kontrolle darüber. Auch Firmen,
+            Behörden oder Apps können KI nutzen, um Menschen genauer zu beobachten, zu bewerten oder zu sortieren.
+          </p>
+        </article>
+
+        <article class="problem-card reveal">
+          <span class="card-number">04</span>
+          <h3>Arbeitsplätze geraten unter Druck</h3>
+          <p>
+            KI kann Schreibarbeit, Kundenservice, Auswertung und einfache Büroaufgaben beschleunigen oder ersetzen.
+            Neue Jobs entstehen zwar, aber nicht automatisch für dieselben Menschen am selben Ort.
+          </p>
+        </article>
+
+        <article class="problem-card reveal">
+          <span class="card-number">05</span>
+          <h3>Alte Vorurteile werden kopiert</h3>
+          <p>
+            Wenn die Trainingsdaten ungerecht waren, kann die KI diese Ungerechtigkeit wiederholen. Das kann bei
+            Bewerbungen, Krediten, Versicherungen oder polizeilichen Bewertungen echte Folgen haben.
+          </p>
+        </article>
+
+        <article class="problem-card reveal">
+          <span class="card-number">06</span>
+          <h3>Wenige Firmen werden sehr mächtig</h3>
+          <p>
+            Die stärksten KI-Systeme brauchen viel Geld, Daten und Spezialchips. Dadurch können wenige große Anbieter
+            bestimmen, welche Werkzeuge alle anderen benutzen müssen.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section chain">
+      <div class="section-heading reveal">
+        <p class="eyebrow">So entsteht Schaden</p>
+        <h2>Die Kette ist einfach</h2>
+      </div>
+
+      <div class="chain-track" aria-label="Kette der KI-Folgen">
+        <div class="chain-step reveal">
+          <span>Daten</span>
+          <p>Texte, Bilder, Stimmen, Bewegungen und persönliche Spuren werden gesammelt.</p>
+        </div>
+        <div class="chain-step reveal">
+          <span>Training</span>
+          <p>Computer suchen Muster. Fehler und Vorurteile können dabei mitgelernt werden.</p>
+        </div>
+        <div class="chain-step reveal">
+          <span>Einsatz</span>
+          <p>Die KI schreibt, bewertet, empfiehlt oder entscheidet in Alltag, Arbeit und Behörden.</p>
+        </div>
+        <div class="chain-step reveal">
+          <span>Folgen</span>
+          <p>Menschen verlieren Vertrauen, Chancen, Geld, Privatsphäre oder Arbeit.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section spotlight">
+      <div class="spotlight-card reveal">
+        <p class="eyebrow">Besonders wichtig, wenn Technik nicht Ihr Alltag ist</p>
+        <h2>Warum das auch Menschen ab 55 direkt betrifft</h2>
+        <div class="spotlight-grid">
+          <p><strong>Telefonbetrug:</strong> Stimmen können nachgemacht werden. Prüfen Sie Geldbitten immer über einen zweiten Weg.</p>
+          <p><strong>Behörden und Banken:</strong> Automatische Bewertungen können schwer verständlich sein. Fragen Sie nach menschlicher Prüfung.</p>
+          <p><strong>Familie:</strong> Fotos und Daten von Kindern und Enkeln können ohne klare Kontrolle weiterverwendet werden.</p>
+          <p><strong>Nachrichten:</strong> Gefälschte Bilder und Videos machen es schwerer, wahr von falsch zu unterscheiden.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section protection" id="schutz">
+      <div class="section-heading reveal">
+        <p class="eyebrow">Einfach merken</p>
+        <h2>So schützen Sie sich und andere</h2>
+      </div>
+
+      <div class="protection-grid">
+        <article class="protection-card reveal">
+          <h3>Keine Geheimnisse eingeben</h3>
+          <p>Keine Passwörter, Ausweisnummern, Gesundheitsdaten, Kundendaten oder Familiengeheimnisse in KI-Programme schreiben.</p>
+        </article>
+        <article class="protection-card reveal">
+          <h3>Bei Druck sofort stoppen</h3>
+          <p>Wenn jemand am Telefon schnell Geld, Codes oder Überweisungen verlangt: auflegen und die Person selbst zurückrufen.</p>
+        </article>
+        <article class="protection-card reveal">
+          <h3>Wichtige Antworten prüfen</h3>
+          <p>Medizin, Recht, Finanzen und Verträge nie blind übernehmen. KI kann falsch liegen, auch wenn sie freundlich klingt.</p>
+        </article>
+        <article class="protection-card reveal">
+          <h3>Menschliche Entscheidung verlangen</h3>
+          <p>Bei Ablehnungen, Bewertungen oder Sperren fragen: Wer hat entschieden? Welche Daten wurden genutzt? Kann ein Mensch prüfen?</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="final-cta reveal">
+      <p class="eyebrow">Das Ziel</p>
+      <h2>Nicht blind glauben. Nicht blind fürchten. Genau hinschauen.</h2>
+      <p>
+        KI kann nützlich sein, aber ohne Grenzen kann sie Menschen schaden. Gute Regeln, Transparenz,
+        Datenschutz, Bildung und echte menschliche Verantwortung sind deshalb keine Nebensache.
+      </p>
+      <a class="button primary" href="#top">Noch einmal von oben</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Erstellt für testwebseite.gulasch.site. Inhalte bewusst einfach formuliert und auf Risiken von KI fokussiert.</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

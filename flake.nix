@@ -30,6 +30,10 @@
               cp -R sites/drive "$out/drive"
               cp -R sites/aisaas "$out/aisaas"
               cp -R sites/c3cock "$out/c3cock"
+              cp -R sites/testwebseite "$out/testwebseite"
+              cp -R sites/testwebseite2 "$out/testwebseite2"
+              cp -R sites/chat "$out/chat"
+              cp -R sites/angular "$out/angular"
               runHook postInstall
             '';
           };
