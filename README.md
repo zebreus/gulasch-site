@@ -13,6 +13,7 @@ Static versions of selected `gulasch.site` properties plus backend source snapsh
 - `testwebseite2.gulasch.site` from `sites/testwebseite2`
 - `chat.gulasch.site` from `sites/chat`
 - `angular.gulasch.site` from `sites/angular`
+- `n50camp.gulasch.site` from `sites/n50camp`, with a static `guestbook.txt` and no write API
 
 ## Included backend source
 

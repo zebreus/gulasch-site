@@ -34,6 +34,7 @@
               cp -R sites/testwebseite2 "$out/testwebseite2"
               cp -R sites/chat "$out/chat"
               cp -R sites/angular "$out/angular"
+              cp -R sites/n50camp "$out/n50camp"
               runHook postInstall
             '';
           };

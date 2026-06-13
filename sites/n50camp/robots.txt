@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Lorem ipsum slop lorem ipsum slop.

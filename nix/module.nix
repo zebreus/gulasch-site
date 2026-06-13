@@ -56,6 +56,7 @@ in
       (mkHost "testwebseite2" "${sitePackage}/testwebseite2")
       (mkHost "chat" "${sitePackage}/chat")
       (mkHost "angular" "${sitePackage}/angular")
+      (mkHost "n50camp" "${sitePackage}/n50camp")
     ];
   };
 }
