@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SignalScout | AI Lead Finder</title>
+    <link rel="stylesheet" href="styles.css?v=20260609-1" />
+  </head>
+  <body>
+    <main class="shell">
+      <div class="level-plane">
+        <section class="hero">
+          <div>
+            <p class="eyebrow">SignalScout</p>
+            <h1>Find the companies most likely to buy.</h1>
+            <p class="subhead">
+              Paste a list of companies. SignalScout ranks them, explains why they fit,
+              and writes a first email your sales team can use today.
+            </p>
+          </div>
+          <div class="hero-stage" aria-label="3D lead scoring preview">
+            <div class="orb orb-one"></div>
+            <div class="orb orb-two"></div>
+            <div class="model-card model-card-a">
+              <span>Fit</span>
+              <strong>94</strong>
+            </div>
+            <div class="model-card model-card-b">
+              <span>Signal</span>
+              <strong>Hot</strong>
+            </div>
+            <div class="cube">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="model-strip" aria-label="3D sales models">
+          <article class="mini-model prism">
+            <div class="shape"></div>
+            <h3>Account Radar</h3>
+            <p>Spots companies showing buying intent.</p>
+          </article>
+          <article class="mini-model stack">
+            <div class="shape"></div>
+            <h3>Fit Engine</h3>
+            <p>Ranks best-fit accounts first.</p>
+          </article>
+          <article class="mini-model sphere">
+            <div class="shape"></div>
+            <h3>Message Brain</h3>
+            <p>Turns lead data into clean outreach.</p>
+          </article>
+        </section>
+
+        <section class="workspace">
+          <form id="lead-form" class="panel input-panel">
+            <div class="panel-heading">
+              <p class="eyebrow">Step 1</p>
+              <h2>Describe your buyer</h2>
+            </div>
+
+            <label>
+              What you sell
+              <input id="offer" name="offer" value="AI customer support automation" />
+            </label>
+
+            <label>
+              Best industries
+              <input id="industries" name="industries" value="SaaS, ecommerce, fintech" />
+            </label>
+
+            <label>
+              Buying signals
+              <input id="signals" name="signals" value="hiring support agents, fast growth, many tickets, Zendesk" />
+            </label>
+
+            <label>
+              Company list
+              <textarea id="companies" name="companies" rows="9">Acme Cart | ecommerce brand hiring 12 support agents, uses Shopify and Zendesk, 180 employees
+Northstar Ledger | fintech accounting platform, raised Series B, 95 employees, support team expanding
+BrightDesk | HR software for small teams, steady growth, 35 employees
+Urban Crate | marketplace with thousands of monthly customer questions, 240 employees
+PaperTrail Co | local print shop, 18 employees, low online volume</textarea>
+            </label>
+
+            <button type="submit">Rank leads</button>
+          </form>
+
+          <section class="panel results-panel">
+            <div class="panel-heading split">
+              <div>
+                <p class="eyebrow">Step 2</p>
+                <h2>Best accounts</h2>
+              </div>
+              <button id="copy-button" class="ghost" type="button">Copy email</button>
+            </div>
+            <div id="results" class="results"></div>
+          </section>
+        </section>
+      </div>
+
+      <section class="panel chat-panel" aria-label="Persistent SignalScout chat overlay">
+        <div class="chat-alert">high alert</div>
+        <div class="panel-heading split">
+          <div>
+            <p class="eyebrow">AI Bot</p>
+            <h2>ScoutBot is locked in</h2>
+          </div>
+          <span class="status-pill">Gemini powered</span>
+        </div>
+        <div id="chat-log" class="chat-log">
+          <div class="message bot urgent">I found a hot lead pattern in the spreadsheet. Rank the leads.</div>
+        </div>
+        <div class="chat-suggestions" aria-label="Quick chat prompts">
+          <button class="chat-suggestion" type="button" data-prompt="Tell me the single hottest lead and write a bold but professional first email.">Bolder email</button>
+          <button class="chat-suggestion" type="button" data-prompt="Tell me what buying signal I am missing and make the targeting more focused.">Sharper targeting</button>
+        </div>
+        <form id="chat-form" class="chat-form">
+          <input id="chat-input" name="message" placeholder="Ask for better targeting or a stronger email..." autocomplete="off" />
+          <button type="submit">Ask AI</button>
+        </form>
+      </section>
+    </main>
+
+    <div id="fullscreen-notifications" class="fullscreen-notifications" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="app.js?v=20260609-1"></script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gulasch Drive</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="intro" aria-label="Game information">
+        <p class="kicker">drive.gulasch.site</p>
+        <h1>Gulasch Drive</h1>
+        <p>
+          A tiny first-person time trial: manage throttle, brake before tight
+          bends, hit checkpoints in order, and beat your best lap.
+        </p>
+        <div class="stats" aria-live="polite">
+          <span>Lap <strong id="lapTime">0.000</strong></span>
+          <span>Best <strong id="bestTime">--.---</strong></span>
+          <span>Checkpoint <strong id="checkpoint">1/6</strong></span>
+        </div>
+        <form class="driver" id="driverForm">
+          <label for="driverName">Driver</label>
+          <input id="driverName" name="driverName" maxlength="18" autocomplete="nickname" placeholder="Your name" />
+          <button type="submit">Save Name</button>
+        </form>
+        <label class="track-picker" for="trackSelect">
+          <span>Track</span>
+          <select id="trackSelect">
+            <option value="starter">Starter Sprint</option>
+            <option value="airfield">Airfield Sprint</option>
+            <option value="alpine">Alpine Loop</option>
+            <option value="dockside">Dockside Sprint</option>
+            <option value="nurburgring">Green Hell Inspired</option>
+          </select>
+        </label>
+        <p class="controls">
+          Keyboard: <kbd>W</kbd>/<kbd>↑</kbd> throttle, <kbd>S</kbd>/<kbd>↓</kbd>
+          brake, <kbd>A</kbd>/<kbd>←</kbd> and <kbd>D</kbd>/<kbd>→</kbd> steer,
+          <kbd>R</kbd> reset. Stay on the road: grass kills speed and grip.
+        </p>
+      </section>
+
+      <section class="stage" aria-label="Playable racing game">
+        <canvas id="game" width="1280" height="800"></canvas>
+        <div class="message" id="message">Cross the green start gate.</div>
+      </section>
+
+      <section class="touch" aria-label="Touch controls">
+        <div class="touch-pair">
+          <button data-key="left" aria-label="Steer left">←</button>
+          <button data-key="right" aria-label="Steer right">→</button>
+        </div>
+        <div class="touch-pair pedals">
+          <button data-key="brake" aria-label="Brake">Brake</button>
+          <button data-key="gas" aria-label="Throttle">Gas</button>
+        </div>
+      </section>
+
+      <section class="leaderboard" aria-labelledby="leaderboardTitle">
+        <h2 id="leaderboardTitle">Persistent Leaderboard</h2>
+        <ol id="leaderboardList">
+          <li>Loading...</li>
+        </ol>
+      </section>
+    </main>
+    <script src="game.js"></script>
+  </body>
+</html>

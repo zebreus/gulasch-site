@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="C3COCK — Critter Cube Cockpit. Modular, hand-finished pet cages built in Karlsruhe."
+    />
+    <meta name="theme-color" content="#080b10" />
+    <title>C3COCK | Critter Cube Cockpit</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="scene.js"></script>
+    <script defer src="editor.js"></script>
+    <script defer src="fx.js"></script>
+  </head>
+  <body data-time="day">
+    <div class="ambient" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <header class="site-header" aria-label="Site navigation">
+      <a class="brand" href="#top" aria-label="C3COCK home">
+        <span class="brand-mark">C³</span>
+        <span>Critter Cube Cockpit</span>
+      </a>
+      <nav>
+        <a href="#mission">Mission</a>
+        <a href="#build">Build</a>
+        <a href="#pets">Pets</a>
+        <a href="#stats">Stats</a>
+        <a href="#purrs">Purrs</a>
+        <a href="#contact">Order</a>
+      </nav>
+      <button type="button" class="time-toggle" data-time-toggle aria-pressed="false">
+        <span class="time-icon">☾</span>
+        <span class="time-label">Day</span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="title">
+        <div class="hero-stage" aria-label="Animated 3D pet habitat model">
+          <canvas id="cageScene"></canvas>
+          <div class="model-fallback" aria-hidden="true">
+            <div class="iso-room">
+              <div class="rack rack-a">
+                <i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="rack rack-b">
+                <i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="desk">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="antenna"></div>
+              <div class="orbit orbit-a"></div>
+              <div class="orbit orbit-b"></div>
+            </div>
+          </div>
+          <div class="stage-labels" aria-hidden="true">
+            <span>resident: cozy</span>
+            <span>wheel: 2,418 rpm</span>
+            <span>UV-B: nominal</span>
+            <span>snack level: critical</span>
+            <span>mood: curious</span>
+          </div>
+          <div class="hud-stack" aria-hidden="true">
+            <div><b>WHEEL</b><i style="--v: 78%"></i></div>
+            <div><b>WATER</b><i style="--v: 92%"></i></div>
+            <div><b>UV-B</b><i style="--v: 66%"></i></div>
+          </div>
+          <div class="warning-cloud" aria-hidden="true">
+            <span>SOFT VOICES</span>
+            <span>FRESH WATER</span>
+            <span>WHEELS DAILY</span>
+          </div>
+        </div>
+
+        <div class="hero-copy">
+          <p class="eyebrow">C³COCK / Critter Cube Cockpit</p>
+          <h1 id="title" data-text="Cages your pet actually likes.">Cages your pet actually likes.</h1>
+          <p class="lead">
+            Modular, hand-finished habitats for hamsters, parrots, reptiles, and the small mammals that own the house. Designed around the animal inside, not just the room outside. Built in Karlsruhe. Shipped to wherever the pet is.
+          </p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a href="#build">See the cages</a>
+            <a href="#pets" class="ghost">Pick a resident</a>
+          </div>
+        </div>
+
+        <aside class="terminal" aria-label="Habitat status terminal">
+          <div class="terminal-bar">
+            <span></span><span></span><span></span>
+            <strong>c3cock.gulasch.site</strong>
+          </div>
+          <div class="terminal-screen">
+            <p><b>PET</b><span data-live="pet">Syrian hamster</span></p>
+            <p><b>SCOPE</b><span>home habitat</span></p>
+            <p><b>BUILD</b><span>Karlsruhe, DE</span></p>
+            <p><b>MOOD</b><span class="pulse" data-live="mood">curious</span></p>
+          </div>
+          <div class="ticker" aria-hidden="true">
+            <span>fresh bedding weekly / silent wheels available / UV-B lamps shipped / no plastic smell / spare parts forever / </span>
+          </div>
+          <div class="radar" aria-label="Activity radar">
+            <div class="beam"></div>
+            <i class="blip one"></i>
+            <i class="blip two"></i>
+            <i class="blip three"></i>
+          </div>
+        </aside>
+      </section>
+
+      <section class="showcase" aria-labelledby="showcase-title">
+        <div>
+          <p class="eyebrow">Live habitat</p>
+          <h2 id="showcase-title">A tiny world, rendered in motion.</h2>
+        </div>
+        <p>
+          The hero scene models the cage: racks, a running wheel, climbing toys, a water bottle, a feeding station, floating status labels, rotating signal rings, and a tiny resident who never stops. Click the cage to give them a snack.
+        </p>
+      </section>
+
+      <section id="mission" class="mission" aria-labelledby="mission-title">
+        <p class="eyebrow">What this is</p>
+        <h2 id="mission-title">A pet cage worth looking at, built around the animal that lives in it.</h2>
+        <p>
+          C³COCK designs and builds modular cages for critters with strong opinions. Real wood, quiet hardware, full-size doors, and the kind of texture and lighting that keeps a small animal curious for more than a week.
+        </p>
+      </section>
+
+      <section id="build" class="cards" aria-label="Build services">
+        <article>
+          <span>01</span>
+          <h2>Design</h2>
+          <p>Layouts sized to your floor, your species, and your pet's stress level. We ask about climbing, burrowing, sun, and noise before we draw a line.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>Build</h2>
+          <p>Modular frames, real birch and oak, full-width doors, and silent running wheels. No plastic smell, no sharp edges, no mystery hardware.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>Equip</h2>
+          <p>UV-B lamps, basking spots, drip systems, climbing walls, feeding stations, and night-cycle lighting. Wired to one tidy panel.</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h2>Care</h2>
+          <p>Refurbishment, replacement parts, and upgrades on demand. Send a photo of a chewed corner, get a panel back in the post.</p>
+        </article>
+      </section>
+
+      <section id="pets" class="pets" aria-labelledby="pets-title">
+        <div class="pets-head">
+          <p class="eyebrow">Pick a resident</p>
+          <h2 id="pets-title">Six species. Six default habitats. Yours to tune.</h2>
+        </div>
+        <div class="pet-grid" role="radiogroup" aria-label="Choose a pet">
+          <button type="button" data-pet="hamster" class="pet-card is-active" role="radio" aria-checked="true">
+            <span class="pet-emoji" aria-hidden="true">🐹</span>
+            <strong>Hamster</strong>
+            <em>Syrian, dwarf, robo</em>
+            <i class="pet-meter" style="--v: 70%"></i>
+            <small>min. 100 × 50 cm</small>
+          </button>
+          <button type="button" data-pet="parrot" class="pet-card" role="radio" aria-checked="false">
+            <span class="pet-emoji" aria-hidden="true">🦜</span>
+            <strong>Parrot</strong>
+            <em>cockatiel to macaw</em>
+            <i class="pet-meter" style="--v: 90%"></i>
+            <small>min. 120 × 80 cm</small>
+          </button>
+          <button type="button" data-pet="reptile" class="pet-card" role="radio" aria-checked="false">
+            <span class="pet-emoji" aria-hidden="true">🦎</span>
+            <strong>Reptile</strong>
+            <em>gecko, dragon, snake</em>
+            <i class="pet-meter" style="--v: 85%"></i>
+            <small>min. 90 × 45 cm</small>
+          </button>
+          <button type="button" data-pet="rabbit" class="pet-card" role="radio" aria-checked="false">
+            <span class="pet-emoji" aria-hidden="true">🐰</span>
+            <strong>Rabbit</strong>
+            <em>holland lop, mini rex</em>
+            <i class="pet-meter" style="--v: 95%"></i>
+            <small>min. 150 × 80 cm</small>
+          </button>
+          <button type="button" data-pet="fish" class="pet-card" role="radio" aria-checked="false">
+            <span class="pet-emoji" aria-hidden="true">🐟</span>
+            <strong>Fish</strong>
+            <em>betta to community</em>
+            <i class="pet-meter" style="--v: 60%"></i>
+            <small>min. 30 L tank</small>
+          </button>
+          <button type="button" data-pet="ferret" class="pet-card" role="radio" aria-checked="false">
+            <span class="pet-emoji" aria-hidden="true">🦦</span>
+            <strong>Ferret</strong>
+            <em>single or mischief</em>
+            <i class="pet-meter" style="--v: 88%"></i>
+            <small>min. 140 × 70 cm</small>
+          </button>
+        </div>
+      </section>
+
+      <section id="stats" class="stats-section" aria-labelledby="stats-title">
+        <div class="stats-head">
+          <p class="eyebrow">Live habitat</p>
+          <h2 id="stats-title">Numbers from inside the cage.</h2>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <p class="stat-label">Wheel revolutions</p>
+            <p class="stat-value" data-stat="wheel">0</p>
+            <span class="stat-delta">+12% vs yesterday</span>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label">Water level</p>
+            <p class="stat-value" data-stat="water">0%</p>
+            <span class="stat-delta">last refill: 2h ago</span>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label">UV-B hours left</p>
+            <p class="stat-value" data-stat="uvb">0</p>
+            <span class="stat-delta">lamp 1 of 2</span>
+          </article>
+          <article class="stat-card">
+            <p class="stat-label">Mood index</p>
+            <p class="stat-value" data-stat="mood">—</p>
+            <span class="stat-delta" data-stat="mood-note">probing</span>
+          </article>
+          <article class="stat-card stat-wide">
+            <p class="stat-label">Activity (last 24h)</p>
+            <div class="bars" aria-hidden="true">
+              <span style="--h: 22%"></span>
+              <span style="--h: 38%"></span>
+              <span style="--h: 64%"></span>
+              <span style="--h: 28%"></span>
+              <span style="--h: 80%"></span>
+              <span style="--h: 52%"></span>
+              <span style="--h: 18%"></span>
+              <span style="--h: 70%"></span>
+              <span style="--h: 44%"></span>
+              <span style="--h: 60%"></span>
+              <span style="--h: 88%"></span>
+              <span style="--h: 32%"></span>
+            </div>
+            <span class="stat-delta">peaks at 21:00</span>
+          </article>
+          <article class="stat-card stat-wide">
+            <p class="stat-label">Snack inventory</p>
+            <div class="snack-row">
+              <span style="--p: 80%">Sunflower<span><b style="--w:80%"></b></span></span>
+              <span style="--p: 32%">Pumpkin<span><b style="--w:32%"></b></span></span>
+              <span style="--p: 64%">Mealworm<span><b style="--w:64%"></b></span></span>
+              <span style="--p: 14%">Papaya<span><b style="--w:14%"></b></span></span>
+            </div>
+            <span class="stat-delta">reorder paprika treats</span>
+          </article>
+        </div>
+      </section>
+
+      <section id="purrs" class="purrs" aria-label="Customer and resident reviews">
+        <div class="purrs-head">
+          <p class="eyebrow">From the residents</p>
+          <h2>Reviews written in squeaks, screeches, and the silent treatment.</h2>
+        </div>
+        <div class="purrs-grid">
+          <article>
+            <p class="purr-stars" aria-label="5 out of 5">★★★★★</p>
+            <p>"I ran 4,217 wheel revolutions in one night and the wheel did not squeak. I rate it 5 sunflower seeds."</p>
+            <p class="purr-by">— Pippa, Syrian hamster</p>
+          </article>
+          <article>
+            <p class="purr-stars" aria-label="5 out of 5">★★★★★</p>
+            <p>"The door is wide enough for dignified entry. The perch is the right diameter. Acceptable."</p>
+            <p class="purr-by">— Lord Mango, cockatiel</p>
+          </article>
+          <article>
+            <p class="purr-stars" aria-label="4 out of 5">★★★★☆</p>
+            <p>"Basking spot is warm. Humidity is correct. The only flaw is the cat next door, but that is a building issue, not a cage issue."</p>
+            <p class="purr-by">— Noodle, bearded dragon</p>
+          </article>
+          <article>
+            <p class="purr-stars" aria-label="5 out of 5">★★★★★</p>
+            <p>"My human assembled it in 22 minutes without swearing. The instructions are clear. The wood smells like the forest I dream about."</p>
+            <p class="purr-by">— Toast, holland lop</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="signals" class="signals" aria-labelledby="signals-title">
+        <div>
+          <p class="eyebrow">Care levels</p>
+          <h2 id="signals-title">Quiet cages, clear signals.</h2>
+        </div>
+        <ul>
+          <li><span class="green"></span> Calm: sleeping, eating, behaving.</li>
+          <li><span class="yellow"></span> Active: climbing, exploring, mild chaos.</li>
+          <li><span class="red"></span> Incident: escape attempt, loud protest, vet on standby.</li>
+        </ul>
+      </section>
+
+      <section id="contact" class="contact" aria-labelledby="contact-title">
+        <p class="eyebrow">Order a cage</p>
+        <h2 id="contact-title">Tell us the species, the space, and the snack budget. We will draw a cage and a quote.</h2>
+        <p>
+          Send us a photo of the room, a few notes about the pet, and the kind of look you want. We respond with a layout, a mood board, and a price that does not require a second mortgage.
+        </p>
+        <form class="contact-form" id="quoteForm">
+          <label>
+            <span>Pet</span>
+            <input type="text" name="pet" placeholder="Syrian hamster, 9 months" required />
+          </label>
+          <label>
+            <span>Room size</span>
+            <input type="text" name="room" placeholder="120 × 60 cm available" required />
+          </label>
+          <label>
+            <span>Your email</span>
+            <input type="email" name="email" placeholder="you@example.com" required />
+          </label>
+          <button type="submit">Request a quote</button>
+          <output></output>
+        </form>
+      </section>
+    </main>
+
+    <aside class="chat-editor" aria-label="Live website editor">
+      <button class="chat-toggle" type="button" aria-expanded="true" aria-controls="editorPanel">
+        <span>Live Edit</span>
+        <b>AI-ish</b>
+      </button>
+      <section id="editorPanel" class="chat-panel">
+        <div class="chat-head">
+          <div>
+            <p class="eyebrow">C³COCK editor</p>
+            <h2>Rework the cage</h2>
+          </div>
+          <button type="button" data-editor-action="reset">Reset</button>
+        </div>
+        <div class="chat-log" id="chatLog"></div>
+        <form class="chat-form" id="chatForm">
+          <label for="chatInput">Tell the website what to change</label>
+          <textarea
+            id="chatInput"
+            rows="3"
+            placeholder="Try: make it red, title CAGE OVERDRIVE, more chaos, calm mode, day mode, night mode, add banner FREE WHEEL UPGRADE"
+          ></textarea>
+          <div class="chat-actions">
+            <button type="button" data-prompt="night mode">Night</button>
+            <button type="button" data-prompt="day mode">Day</button>
+            <button type="button" data-prompt="more chaos">Chaos</button>
+            <button type="button" data-prompt="calm mode">Calm</button>
+            <button type="submit">Apply</button>
+          </div>
+        </form>
+      </section>
+    </aside>
+  </body>
+</html>
