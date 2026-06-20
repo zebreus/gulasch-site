@@ -46,7 +46,7 @@ in
   config = lib.mkIf cfg.enable {
     services.nginx.enable = true;
 
-    services.nginx.virtualHosts = lib.listToAttrs [
+    services.nginx.virtualHosts = lib.listToAttrs ([
       (mkHost "ocpncord" "${sitePackage}/ocpncord")
       (mkHost "pokemon" "${sitePackage}/pokemon")
       (mkHost "drive" "${sitePackage}/drive")
@@ -59,6 +59,15 @@ in
       (mkHost "n50camp" "${sitePackage}/n50camp")
       (mkHost "bagger" "${sitePackage}/bagger")
       (mkHost "analytics" "${sitePackage}/analytics")
-    ];
+    ] // {
+      "${cfg.baseDomain}" = {
+        root = "${sitePackage}/analytics";
+        forceSSL = cfg.forceSSL;
+        enableACME = cfg.enableACME;
+        extraConfig = ''
+          add_header Cache-Control "${cfg.cacheControl}" always;
+        '';
+      };
+    });
   };
 }
