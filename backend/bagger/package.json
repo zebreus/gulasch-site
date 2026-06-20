@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "test": "python3 tools/regression_tests.py && python3 tools/ui_smoke_test.py && node tools/e2e_browser_test.js",
+    "test:api": "python3 tools/regression_tests.py",
+    "test:ui": "python3 tools/ui_smoke_test.py && node tools/e2e_browser_test.js"
+  },
+  "dependencies": {
+    "playwright": "^1.61.0"
+  }
+}

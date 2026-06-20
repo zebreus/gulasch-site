@@ -35,6 +35,7 @@
               cp -R sites/chat "$out/chat"
               cp -R sites/angular "$out/angular"
               cp -R sites/n50camp "$out/n50camp"
+              cp -R sites/bagger "$out/bagger"
               runHook postInstall
             '';
           };

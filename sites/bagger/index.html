@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bagger Hearts: Hydraulik Rendezvous</title>
+  <meta name="description" content="Eine Gemini-gestützte Bagger-Dating-Sim mit 3D-Baggern, Routen, Kalender und echten Erinnerungen.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/" } }
+  </script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN: MAIN MENU
+     ═══════════════════════════════════════════════ -->
+<section id="screen-main-menu" class="screen fullscreen-screen">
+  <canvas id="menu-canvas" class="menu-canvas"></canvas>
+  <div class="menu-content">
+    <div class="menu-kana">
+      <span class="kana-char" style="color:#ffbf46;text-shadow:0 0 30px rgba(255,191,70,0.4)">月</span>
+      <span class="kana-char" style="color:#f36d3d;text-shadow:0 0 30px rgba(243,109,61,0.4)">剛</span>
+      <span class="kana-char" style="color:#9b7cff;text-shadow:0 0 30px rgba(155,124,255,0.4)">詩</span>
+    </div>
+    <p class="eyebrow">Gulasch Visual Novel System</p>
+    <h1>Bagger Hearts</h1>
+    <p class="subtitle">Hydraulik Rendezvous</p>
+    <nav class="menu-buttons">
+      <button id="menu-new-game" class="menu-btn">Neues Spiel</button>
+      <button id="menu-load" class="menu-btn">Spiel Laden</button>
+      <button id="menu-gallery" class="menu-btn">Galerie</button>
+      <button id="menu-settings" class="menu-btn">Einstellungen</button>
+    </nav>
+    <p class="menu-footer">3 besondere Bagger · 30 Tage · unendlich leise Hydraulik</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN: SETUP
+     ═══════════════════════════════════════════════ -->
+<section id="screen-setup" class="screen fullscreen-screen hidden">
+  <div class="setup-card">
+    <p class="eyebrow">Neues Spiel</p>
+    <h1 id="setup-title">Wer betritt den Bauhof?</h1>
+    <div class="setup-guide">
+      <strong>So gewinnt man:</strong> Du hast 30 Tage und 4 Tageszeiten pro Tag. Trainiere route-passende Werte, verabrede hoechstens ein gutes Date pro Tag, bring passende Geschenke mit und locke zwischen Tag 10 und 16 eine Route. Offene Krisen, Funkstille und Bomben muessen repariert werden; sonst droht ein Bad End. Das LLM schreibt die Szenen, aber Lock, Werte und Endings folgen festen Regeln.
+    </div>
+    <form id="setup-form" class="setup-form">
+      <label>Name <input id="player-name" maxlength="32" placeholder="Pilot"></label>
+      <label>Anrede <input id="player-address" maxlength="32" placeholder="du"></label>
+      <label>Persönlichkeit
+        <select id="player-style"></select>
+      </label>
+      <button type="submit">Route beginnen</button>
+    </form>
+    <form id="restore-form" class="setup-form compact">
+      <label>Save Token wiederherstellen <input id="restore-token" maxlength="90" placeholder="Token einfügen"></label>
+      <button type="submit">Wiederherstellen</button>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN: ADV (Haupt-Spielscreen)
+     ═══════════════════════════════════════════════ -->
+<section id="screen-adv" class="screen fullscreen-screen hidden">
+  <div id="adv-bg" class="adv-bg"></div>
+
+  <div id="adv-character" class="adv-character">
+    <div id="model-stage" class="model-stage" aria-label="3D Modell des aktuellen Baggers"></div>
+  </div>
+
+  <div id="location-tag" class="location-tag">
+    <span id="location-name">Bauhof bei Sonnenaufgang</span>
+    <span id="location-fit" class="fit-badge"></span>
+    <span id="route-phase">Prolog</span>
+  </div>
+
+  <div id="calendar-tag" class="calendar-tag hidden">
+    <span id="day-display">Tag 1 / 30</span>
+    <span id="period-display">Morgen</span>
+    <span id="lock-display">Keine Route gelockt</span>
+  </div>
+
+  <div id="route-guide-card" class="route-guide-card hidden">
+    <strong id="guide-stage">Anfang</strong>
+    <span id="guide-goal">Baue Bindung auf und plane ein Date.</span>
+  </div>
+
+  <div id="action-feedback" class="action-feedback hidden"></div>
+
+  <div id="quick-menu" class="quick-menu">
+    <button class="qm-btn" data-action="skip" title="Skip" aria-label="Skip">↺</button>
+    <button class="qm-btn" data-action="auto" title="Auto" aria-label="Auto-Play">▶</button>
+    <button class="qm-btn" data-action="backlog" title="Backlog" aria-label="Backlog">📖</button>
+    <button class="qm-btn" data-action="save" title="Speichern" aria-label="Speichern">💾</button>
+    <button class="qm-btn" data-action="schedule" title="Planen" aria-label="Planen">📅</button>
+    <button class="qm-btn" data-action="date" title="Rendezvous" aria-label="Rendezvous planen">☕</button>
+    <button class="qm-btn" data-action="status" title="Status" aria-label="Status">♥</button>
+    <button class="qm-btn" data-action="settings" title="Einstellungen" aria-label="Einstellungen">⚙</button>
+    <button class="qm-btn" data-action="nvl-toggle" title="NVL-Modus" aria-label="NVL umschalten">📄</button>
+    <button class="qm-btn" data-action="hide" title="UI ausblenden" aria-label="UI verstecken">👁</button>
+  </div>
+
+  <div id="textbox" class="textbox">
+    <div id="nameplate" class="nameplate" style="background:#ffbf46;color:#160f08">
+      <span id="speaker-name">Aurora 7000</span>
+      <span id="speaker-mood">vorsichtig neugierig</span>
+    </div>
+    <div id="dialogue-box" class="dialogue-box">
+      <p id="dialogue-text">Der Bauhof ist still. Drei besondere Bagger warten darauf, dass du nicht nur klickst, sondern wirklich bleibst.</p>
+      <div id="ctc-indicator" class="ctc-indicator">▼</div>
+    </div>
+  </div>
+
+  <div id="ending-card" class="ending-card hidden"></div>
+
+  <div id="choices-panel" class="choices-panel">
+    <div id="choices" class="choices"></div>
+    <div id="free-text-area" class="free-text-area">
+      <form id="talk-form" class="talk-form">
+        <textarea id="free-message" maxlength="900" rows="1" placeholder="✎ Eigene Zeile schreiben..."></textarea>
+        <button type="submit" id="free-submit">Senden</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="route-select-bar" class="route-select-bar">
+    <button class="route-pill" data-route="aurora" style="--route-color:#ffbf46">Aurora</button>
+    <button class="route-pill" data-route="brummbert" style="--route-color:#f36d3d">Brummbert</button>
+    <button class="route-pill" data-route="mira" style="--route-color:#9b7cff">Mira</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERLAY: NVL
+     ═══════════════════════════════════════════════ -->
+<section id="screen-nvl" class="screen overlay-screen hidden">
+  <div class="nvl-bg"></div>
+  <div class="nvl-content">
+    <div id="nvl-lines" class="nvl-lines"></div>
+    <div id="nvl-ctc" class="nvl-ctc">▼</div>
+  </div>
+  <div class="nvl-choices">
+    <div id="nvl-choices" class="choices"></div>
+  </div>
+  <div id="nvl-quick-menu" class="quick-menu nvl-qm">
+    <button class="qm-btn" data-action="skip" title="Skip">↺</button>
+    <button class="qm-btn" data-action="auto" title="Auto">▶</button>
+    <button class="qm-btn" data-action="backlog" title="Backlog">📖</button>
+    <button class="qm-btn" data-action="save" title="Speichern">💾</button>
+    <button class="qm-btn" data-action="schedule" title="Planen">📅</button>
+    <button class="qm-btn" data-action="date" title="Rendezvous">☕</button>
+    <button class="qm-btn" data-action="status" title="Status">♥</button>
+    <button class="qm-btn" data-action="nvl-toggle" title="ADV-Modus">📄</button>
+    <button class="qm-btn" data-action="hide" title="UI ausblenden">👁</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERLAY: SCHEDULE
+     ═══════════════════════════════════════════════ -->
+<section id="screen-schedule" class="screen overlay-screen hidden">
+  <div class="overlay-box">
+    <div class="overlay-header">
+      <h2>Planung</h2>
+      <span id="schedule-day" class="overlay-subtitle">Tag 1 · Morgen</span>
+    </div>
+    <div id="calendar-bar" class="calendar-bar"></div>
+    <div id="schedule-guide" class="schedule-guide"></div>
+    <div id="schedule-grid" class="schedule-grid"></div>
+    <div class="schedule-meta">
+      <span>Fatigue: <strong id="schedule-fatigue">0</strong> / 150</span>
+      <span>Budget: <strong id="schedule-currency">20</strong> Schraubmarken</span>
+    </div>
+    <div id="neglect-warning" class="neglect-warning hidden"></div>
+    <button class="close-overlay" data-close>Schliessen</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERLAY: DATE
+     ═══════════════════════════════════════════════ -->
+<section id="screen-date" class="screen overlay-screen hidden">
+  <div class="overlay-box">
+    <div class="overlay-header">
+      <h2>Rendezvous planen</h2>
+    </div>
+    <div id="date-guide" class="date-guide"></div>
+    <div class="date-route-select" id="date-route-select">
+      <button class="route-pill active" data-route="aurora" style="--route-color:#ffbf46">Aurora</button>
+      <button class="route-pill" data-route="brummbert" style="--route-color:#f36d3d">Brummbert</button>
+      <button class="route-pill" data-route="mira" style="--route-color:#9b7cff">Mira</button>
+    </div>
+    <div class="date-form">
+      <label>Ort <select id="date-location"></select></label>
+      <p id="location-tags" class="location-tags"></p>
+      <p id="location-fit-display" class="location-fit-text"></p>
+      <p id="date-social-risk" class="social-risk-text"></p>
+      <label>Geschenk <select id="gift-item-select"></select></label>
+      <p id="gift-fit-display" class="gift-fit-text"></p>
+      <button id="date-start" class="overlay-action-btn">Rendezvous beginnen</button>
+      <button id="date-invite" class="overlay-action-btn" type="button">Für später verabreden</button>
+    </div>
+    <button class="close-overlay" data-close>Abbrechen</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERLAY: STATUS
+     ═══════════════════════════════════════════════ -->
+<section id="screen-status" class="screen overlay-screen hidden">
+  <div class="overlay-box wide">
+    <div class="overlay-header">
+      <h2>Status</h2>
+      <span id="status-route-name" class="overlay-subtitle">Mondketten-Route</span>
+    </div>
+    <div id="status-route-select" class="date-route-select">
+      <button class="route-pill active" data-route="aurora" style="--route-color:#ffbf46">Aurora</button>
+      <button class="route-pill" data-route="brummbert" style="--route-color:#f36d3d">Brummbert</button>
+      <button class="route-pill" data-route="mira" style="--route-color:#9b7cff">Mira</button>
+    </div>
+    <div class="status-grid">
+      <div class="status-route-guide">
+        <h3>Nächstes Ziel</h3>
+        <p id="s-next-goal"></p>
+        <p id="s-advice"></p>
+        <p id="s-avoid"></p>
+        <div id="s-warnings" class="status-warnings"></div>
+      </div>
+      <div class="status-relation">
+        <h3>Beziehung</h3>
+        <div class="stat-bar"><span>Bindung</span><strong id="s-bond">0%</strong><div class="bar"><i id="s-bond-bar"></i></div></div>
+        <div class="stat-row"><span>Vertrauen</span><strong id="s-trust">0</strong></div>
+        <div class="stat-row"><span>Wärme</span><strong id="s-warmth">0</strong></div>
+        <div class="stat-row"><span>Tiefe</span><strong id="s-depth">0</strong></div>
+        <div class="stat-row"><span>Mut</span><strong id="s-courage">0</strong></div>
+        <div class="stat-row"><span>Dates</span><strong id="s-dates">0</strong></div>
+        <div class="stat-row"><span>Commitment</span><strong id="s-commitment">0</strong></div>
+      </div>
+      <div class="status-protagonist">
+        <h3>Protagonist</h3>
+        <div id="s-player-stats"></div>
+        <p class="wallet">Budget: <strong id="s-currency">20</strong> Schraubmarken</p>
+      </div>
+      <div class="status-route-map">
+        <h3>Routen-Karte</h3>
+        <div id="route-map" class="route-map"></div>
+        <h3 class="pressure-title">Druck</h3>
+        <div id="s-pressure" class="pressure-grid"></div>
+      </div>
+      <div class="status-social">
+        <h3>Netz</h3>
+        <div id="s-reputation"></div>
+        <h4>NPCs</h4>
+        <div id="s-social-links"></div>
+        <h4>Gerüchte</h4>
+        <div id="s-rumors"></div>
+        <h4>Bekannte Vorlieben</h4>
+        <div id="s-known-prefs"></div>
+      </div>
+      <div class="status-memories">
+        <h3>Erinnerungen</h3>
+        <ul id="s-memories"></ul>
+        <div id="s-promises" class="mini-promises"></div>
+      </div>
+    </div>
+    <button class="close-overlay" data-close>Schliessen</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERLAY: SETTINGS
+     ═══════════════════════════════════════════════ -->
+<section id="screen-settings" class="screen overlay-screen hidden">
+  <div class="overlay-box">
+    <div class="overlay-header"><h2>Einstellungen</h2></div>
+    <div class="settings-form">
+      <label>Textgeschwindigkeit <input type="range" id="set-text-speed" min="10" max="80" value="35"><span id="set-text-label">mittel</span></label>
+      <label>Auto-Play Geschw. <input type="range" id="set-auto-speed" min="1500" max="6000" value="3000" step="500"><span id="set-auto-label">3s</span></label>
+      <label>NVL-Modus
+        <select id="set-nvl-mode"><option value="auto">Automatisch</option><option value="adv">Immer ADV</option><option value="nvl">Immer NVL</option></select>
+      </label>
+      <label>Freitext anzeigen <input type="checkbox" id="set-freetext" checked></label>
+    </div>
+    <button class="close-overlay" data-close>Zurück</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERLAY: SAVE/LOAD
+     ═══════════════════════════════════════════════ -->
+<section id="screen-save" class="screen overlay-screen hidden">
+  <div class="overlay-box wide">
+    <div class="overlay-header"><h2>Speichern / Laden</h2></div>
+    <div class="save-grid" id="save-grid"></div>
+    <div class="save-server">
+      <span>Server-Token: <strong id="save-token-display">—</strong></span>
+      <button id="save-server-btn">Am Server speichern</button>
+      <button id="save-screenshot-btn">Vollbild öffnen</button>
+    </div>
+    <button class="close-overlay" data-close>Zurück</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     OVERLAY: GALLERY
+     ═══════════════════════════════════════════════ -->
+<section id="screen-gallery" class="screen overlay-screen hidden">
+  <div class="overlay-box wide">
+    <div class="overlay-header"><h2>Galerie</h2></div>
+    <div class="gallery-tabs">
+      <button class="gtab active" data-tab="endings">Endings</button>
+      <button class="gtab" data-tab="memories">Erinnerungen</button>
+      <button class="gtab" data-tab="music">Musikzimmer</button>
+    </div>
+    <div id="gallery-content" class="gallery-content"></div>
+    <button class="close-overlay" data-close>Zurück</button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN: ENDING
+     ═══════════════════════════════════════════════ -->
+<section id="screen-ending" class="screen fullscreen-screen hidden">
+  <div id="ending-bg" class="ending-bg"></div>
+  <div class="ending-content">
+    <div class="ending-header">
+      <span id="ending-route-name" class="ending-route-label"></span>
+      <h2 id="ending-title"></h2>
+    </div>
+    <div id="ending-prose" class="ending-prose"></div>
+    <div id="ending-stats" class="ending-stats hidden"></div>
+    <div id="ending-unlock" class="ending-unlock hidden"></div>
+    <div class="ending-actions">
+      <button id="ending-to-menu" class="menu-btn">Zum Titel</button>
+      <button id="ending-to-gallery" class="menu-btn">Galerie</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     DIALOG: BACKLOG
+     ═══════════════════════════════════════════════ -->
+<dialog id="backlog-dialog" class="backlog-dialog">
+  <div class="backlog-header">
+    <h2>Backlog</h2>
+    <label>Route <select id="backlog-filter"><option value="all">Alle</option></select></label>
+    <form method="dialog"><button class="close-button">Schliessen</button></form>
+  </div>
+  <div id="backlog-list" class="backlog-list"></div>
+</dialog>
+
+<!-- ═══════════════════════════════════════════════
+     TRANSITIONS
+     ═══════════════════════════════════════════════ -->
+<div id="scene-transition" class="scene-transition hidden"></div>
+<div id="location-title-card" class="location-title-card hidden">
+  <div><h2 id="loc-card-title"></h2><p id="loc-card-sub"></p></div>
+</div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>
