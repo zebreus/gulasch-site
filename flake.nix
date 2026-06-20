@@ -36,6 +36,7 @@
               cp -R sites/angular "$out/angular"
               cp -R sites/n50camp "$out/n50camp"
               cp -R sites/bagger "$out/bagger"
+              cp -R sites/analytics "$out/analytics"
               runHook postInstall
             '';
           };

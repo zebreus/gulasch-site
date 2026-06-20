@@ -1,0 +1,1140 @@
+{
+  "generated_at": "2026-06-20T19:18:31.705374",
+  "total_sessions": 76,
+  "total_messages": 1523,
+  "total_tool_calls": 5404,
+  "total_llm_calls": 4370,
+  "providers": {
+    "opencode": 27,
+    "openai": 46,
+    "Unknown": 3
+  },
+  "models": {
+    "big-pickle": 642,
+    "deepseek-v4-flash-free": 644,
+    "gpt-5.1": 2,
+    "gpt-5.1-codex": 2,
+    "gpt-5.1-codex-max": 1,
+    "gpt-5.1-codex-medium": 2,
+    "gpt-5.2": 1,
+    "gpt-5.2-codex": 1,
+    "gpt-5.3-chat-latest": 4,
+    "gpt-5.3-codex": 1,
+    "gpt-5.3-codex-spark": 1,
+    "gpt-5.4-mini": 1,
+    "gpt-5.5": 2484,
+    "minimax-m3-free": 287,
+    "north-mini-code-free": 61
+  },
+  "tools": {
+    "apply_patch": 479,
+    "bash": 2489,
+    "edit": 308,
+    "gemini-api-docs-mcp_search_documentation": 14,
+    "glob": 235,
+    "grep": 276,
+    "invalid": 5,
+    "question": 2,
+    "read": 1046,
+    "skill": 2,
+    "task": 9,
+    "todowrite": 380,
+    "webfetch": 108,
+    "websearch": 12,
+    "write": 40
+  },
+  "sessions": [
+    {
+      "id": "ses_1198e0f06ffe3Zypyr5WKhgkCt",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "deepseek-v4-flash-free",
+      "messages": 23,
+      "tools": [
+        "bash"
+      ],
+      "tool_calls": 28,
+      "llm_calls": 22
+    },
+    {
+      "id": "ses_11992ed75ffeNJ626EPIZYQuWY",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "deepseek-v4-flash-free",
+      "messages": 14,
+      "tools": [
+        "bash"
+      ],
+      "tool_calls": 68,
+      "llm_calls": 13
+    },
+    {
+      "id": "ses_1199ee418ffe35eg81dUFqqSPb",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "deepseek-v4-flash-free",
+      "messages": 14,
+      "tools": [
+        "bash",
+        "glob",
+        "read"
+      ],
+      "tool_calls": 59,
+      "llm_calls": 13
+    },
+    {
+      "id": "ses_119d93547ffe78osSoJQ8j4934",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "deepseek-v4-flash-free",
+      "messages": 50,
+      "tools": [
+        "bash",
+        "edit",
+        "glob",
+        "grep",
+        "invalid",
+        "read",
+        "task",
+        "todowrite",
+        "webfetch",
+        "write"
+      ],
+      "tool_calls": 446,
+      "llm_calls": 402
+    },
+    {
+      "id": "ses_12ffd744affe1G8J0ItAXG5qeR",
+      "slug": "?",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 59,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 95,
+      "llm_calls": 82
+    },
+    {
+      "id": "ses_130d665f8ffe8itvcnQz6KacR0",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "deepseek-v4-flash-free",
+      "messages": 168,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "edit",
+        "glob",
+        "grep",
+        "invalid",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 236,
+      "llm_calls": 227
+    },
+    {
+      "id": "ses_1321c81a7ffelnG02TcBsNNJur",
+      "slug": "?",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 50,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 104,
+      "llm_calls": 84
+    },
+    {
+      "id": "ses_137481ccdffevtoC6RT5G8NFUR",
+      "slug": "?",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 5,
+      "tools": [
+        "bash",
+        "read"
+      ],
+      "tool_calls": 4,
+      "llm_calls": 4
+    },
+    {
+      "id": "ses_1375e063affe9I45LPJdMbYLHR",
+      "slug": "?",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 9,
+      "tools": [
+        "bash",
+        "read"
+      ],
+      "tool_calls": 7,
+      "llm_calls": 8
+    },
+    {
+      "id": "ses_1375e6bdfffeZe0lLuHMXR5lCS",
+      "slug": "?",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 46,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "task",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 184,
+      "llm_calls": 130
+    },
+    {
+      "id": "ses_137f3d715ffeOxHSqHomjzij1Z",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 5,
+      "tools": [
+        "read"
+      ],
+      "tool_calls": 8,
+      "llm_calls": 4
+    },
+    {
+      "id": "ses_137fa1852ffezJWVitDMslqqwM",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 4,
+      "tools": [
+        "glob",
+        "read"
+      ],
+      "tool_calls": 6,
+      "llm_calls": 3
+    },
+    {
+      "id": "ses_138149e29ffe857wEzeWMrpw1T",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 7,
+      "tools": [
+        "bash",
+        "glob",
+        "grep",
+        "read"
+      ],
+      "tool_calls": 32,
+      "llm_calls": 6
+    },
+    {
+      "id": "ses_13817a6f7ffeVoaUh05byXz9m5",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 77,
+      "tools": [
+        "bash",
+        "edit",
+        "glob",
+        "grep",
+        "invalid",
+        "read",
+        "task",
+        "todowrite",
+        "websearch",
+        "write"
+      ],
+      "tool_calls": 200,
+      "llm_calls": 195
+    },
+    {
+      "id": "ses_138331552ffePSzItaoLYFkXMu",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 6,
+      "tools": [
+        "glob",
+        "read"
+      ],
+      "tool_calls": 17,
+      "llm_calls": 5
+    },
+    {
+      "id": "ses_138417163ffeRyOWaC0XvRJ0rk",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 87,
+      "tools": [
+        "bash",
+        "edit",
+        "grep",
+        "question",
+        "read",
+        "todowrite",
+        "webfetch",
+        "write"
+      ],
+      "tool_calls": 223,
+      "llm_calls": 181
+    },
+    {
+      "id": "ses_13872456effeWjNDQ9oD72jshM",
+      "slug": "?",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 36,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 85,
+      "llm_calls": 45
+    },
+    {
+      "id": "ses_1398d1bb4ffeolxoevdHWKXGxW",
+      "slug": "?",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 54,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "edit",
+        "glob",
+        "grep",
+        "read",
+        "task",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 321,
+      "llm_calls": 263
+    },
+    {
+      "id": "ses_13c7f346affeElAfrW4KCccnBh",
+      "slug": "misty-mountain",
+      "provider": "opencode",
+      "model": "deepseek-v4-flash-free",
+      "messages": 26,
+      "tools": [
+        "bash",
+        "read"
+      ],
+      "tool_calls": 42,
+      "llm_calls": 36
+    },
+    {
+      "id": "ses_13c9e8642ffeegsR1saOVrb3Jd",
+      "slug": "misty-tiger",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 38,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 355,
+      "llm_calls": 329
+    },
+    {
+      "id": "ses_13e55372dffeWX0klxYKTRtkZp",
+      "slug": "brave-orchid",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 2
+    },
+    {
+      "id": "ses_13e57c6a9ffeuHD3AOgXorGf9F",
+      "slug": "quick-rocket",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 27,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "edit",
+        "glob",
+        "grep",
+        "read",
+        "skill",
+        "todowrite"
+      ],
+      "tool_calls": 293,
+      "llm_calls": 170
+    },
+    {
+      "id": "ses_14cf2d3baffeceiJjWcwvAKHD1",
+      "slug": "gentle-cactus",
+      "provider": "opencode",
+      "model": "deepseek-v4-flash-free",
+      "messages": 3,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 6
+    },
+    {
+      "id": "ses_14d06bc30ffe4v1OlWEo0oDXFe",
+      "slug": "proud-panda",
+      "provider": "opencode",
+      "model": "deepseek-v4-flash-free",
+      "messages": 11,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "read"
+      ],
+      "tool_calls": 13,
+      "llm_calls": 38
+    },
+    {
+      "id": "ses_14d072788ffe43KCC9r9xQuMQ4",
+      "slug": "nimble-lagoon",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 37,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "grep",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 107,
+      "llm_calls": 111
+    },
+    {
+      "id": "ses_14d1cd672ffevbRSByJ1g70BU4",
+      "slug": "cosmic-sailor",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 9,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "read"
+      ],
+      "tool_calls": 9,
+      "llm_calls": 9
+    },
+    {
+      "id": "ses_14d20f887ffeueuzpBGybtv3Ky",
+      "slug": "cosmic-rocket",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 1,
+      "tools": [
+        "glob",
+        "grep"
+      ],
+      "tool_calls": 3,
+      "llm_calls": 2
+    },
+    {
+      "id": "ses_14fb48b5cffedTucIcP7Gwy9m1",
+      "slug": "stellar-planet",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 6,
+      "tools": [
+        "bash",
+        "glob",
+        "read"
+      ],
+      "tool_calls": 16,
+      "llm_calls": 8
+    },
+    {
+      "id": "ses_1523d6731ffeT4INun7zfYuQJb",
+      "slug": "stellar-forest",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 34,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 128,
+      "llm_calls": 103
+    },
+    {
+      "id": "ses_154649d8bffeYmwkIyx7QEG50W",
+      "slug": "quick-forest",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 17,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "todowrite"
+      ],
+      "tool_calls": 34,
+      "llm_calls": 23
+    },
+    {
+      "id": "ses_156ce29a4ffexhDeOy4dxcdEUG",
+      "slug": "stellar-engine",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 21,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "todowrite"
+      ],
+      "tool_calls": 126,
+      "llm_calls": 72
+    },
+    {
+      "id": "ses_15c10c421ffeIDIC51YTM89OpY",
+      "slug": "brave-garden",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 16,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "grep",
+        "read",
+        "todowrite"
+      ],
+      "tool_calls": 66,
+      "llm_calls": 43
+    },
+    {
+      "id": "ses_160d963d5ffesFfy4cgyC1mhH1",
+      "slug": "swift-meadow",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 15,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "read"
+      ],
+      "tool_calls": 22,
+      "llm_calls": 14
+    },
+    {
+      "id": "ses_160e0243bffePl2J19LTUEZHYe",
+      "slug": "tidy-wizard",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 25,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "edit",
+        "glob",
+        "grep",
+        "read",
+        "todowrite",
+        "write"
+      ],
+      "tool_calls": 127,
+      "llm_calls": 130
+    },
+    {
+      "id": "ses_160ef07d4ffe6orCJ6bMofQaHx",
+      "slug": "cosmic-rocket",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 23,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "read",
+        "todowrite"
+      ],
+      "tool_calls": 46,
+      "llm_calls": 35
+    },
+    {
+      "id": "ses_1615b0bf2ffeonrBh0XMPcRE6q",
+      "slug": "clever-orchid",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 5
+    },
+    {
+      "id": "ses_16177a4a1ffeLUP0LxYj3HzMtb",
+      "slug": "swift-falcon",
+      "provider": null,
+      "model": null,
+      "messages": 0,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 0
+    },
+    {
+      "id": "ses_1618b3568ffeozXwqkscnNTwlS",
+      "slug": "nimble-falcon",
+      "provider": "opencode",
+      "model": "minimax-m3-free",
+      "messages": 18,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "edit",
+        "glob",
+        "grep",
+        "invalid",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 127,
+      "llm_calls": 101
+    },
+    {
+      "id": "ses_161a8d794ffel6ELNAcdIHHdPl",
+      "slug": "cosmic-wolf",
+      "provider": null,
+      "model": null,
+      "messages": 0,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 0
+    },
+    {
+      "id": "ses_161b762caffe3Zwq7Ypo1y9CNB",
+      "slug": "kind-orchid",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 39,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "todowrite"
+      ],
+      "tool_calls": 62,
+      "llm_calls": 50
+    },
+    {
+      "id": "ses_161bb05f8ffehlerAO1Gbn2gNN",
+      "slug": "eager-engine",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 16,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "todowrite"
+      ],
+      "tool_calls": 111,
+      "llm_calls": 79
+    },
+    {
+      "id": "ses_161ce83c6ffeAiRHdjCRjvyiLu",
+      "slug": "stellar-tiger",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 18,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read"
+      ],
+      "tool_calls": 121,
+      "llm_calls": 106
+    },
+    {
+      "id": "ses_161e69f75ffemwRfFEKFQgxfa4",
+      "slug": "cosmic-circuit",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 24,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "question",
+        "read",
+        "todowrite"
+      ],
+      "tool_calls": 93,
+      "llm_calls": 57
+    },
+    {
+      "id": "ses_161e82701ffe6TesQ8i7xNtrc5",
+      "slug": "clever-harbor",
+      "provider": null,
+      "model": null,
+      "messages": 0,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 0
+    },
+    {
+      "id": "ses_161f65eb4ffeWOqHPzf2cLrI3A",
+      "slug": "misty-otter",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 24,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read"
+      ],
+      "tool_calls": 61,
+      "llm_calls": 30
+    },
+    {
+      "id": "ses_161ffd025ffe6wtZPBrc4UULL1",
+      "slug": "crisp-planet",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 8,
+      "tools": [
+        "bash",
+        "webfetch"
+      ],
+      "tool_calls": 11,
+      "llm_calls": 14
+    },
+    {
+      "id": "ses_1620f606fffenPVBebkaXYNBNw",
+      "slug": "misty-canyon",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 10,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read"
+      ],
+      "tool_calls": 12,
+      "llm_calls": 10
+    },
+    {
+      "id": "ses_162222edcffeyI682mf9w4Rvjs",
+      "slug": "lucky-forest",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 16,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 34,
+      "llm_calls": 33
+    },
+    {
+      "id": "ses_162247b78ffeQADpG3TNZ1I2mN",
+      "slug": "clever-wizard",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 3,
+      "tools": [
+        "bash"
+      ],
+      "tool_calls": 1,
+      "llm_calls": 3
+    },
+    {
+      "id": "ses_1622a6b1affehTYIk6aoRO67uZ",
+      "slug": "cosmic-eagle",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 3,
+      "tools": [
+        "bash",
+        "read"
+      ],
+      "tool_calls": 4,
+      "llm_calls": 4
+    },
+    {
+      "id": "ses_1622d779bffelimJfSkeEtVl1c",
+      "slug": "shiny-mountain",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_16239e0c9ffe3I5YqCoSnWXdef",
+      "slug": "nimble-engine",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 2
+    },
+    {
+      "id": "ses_1626d0c17ffe1HoKukxQ967w8v",
+      "slug": "happy-star",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 5,
+      "tools": [
+        "bash",
+        "read"
+      ],
+      "tool_calls": 13,
+      "llm_calls": 7
+    },
+    {
+      "id": "ses_16296ad1affeBrPYPAJBvxlJ43",
+      "slug": "curious-comet",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_162a9576effepBia2wLjBLSdBc",
+      "slug": "calm-canyon",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_162aee047ffesO5oYbcy5OcBWB",
+      "slug": "swift-tiger",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 2
+    },
+    {
+      "id": "ses_162d4ba0bffe2Zcopygpj1u01X",
+      "slug": "hidden-engine",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_162d5af57ffebaYv5N4E10T1a1",
+      "slug": "jolly-harbor",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_162e1c77dffea4rqHN00J1vE9L",
+      "slug": "neon-star",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_162e91629ffeVEiW2x7SJMs1c4",
+      "slug": "quick-lagoon",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 15,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "read"
+      ],
+      "tool_calls": 25,
+      "llm_calls": 15
+    },
+    {
+      "id": "ses_162eef9d2ffeGYfxAGSTVcbhI2",
+      "slug": "tidy-planet",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_162f0fef1ffeYHO1ZW6N6Ra4pJ",
+      "slug": "crisp-garden",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 3
+    },
+    {
+      "id": "ses_166dd73f1ffeiJ8i3YX6UjlzaK",
+      "slug": "calm-moon",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_166e23ff1ffetIk5LG7yf4lGvj",
+      "slug": "crisp-canyon",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_166f49790ffegWew7p9x6pi9ap",
+      "slug": "jolly-knight",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_167007a18ffee4ia14fKhJDOmf",
+      "slug": "quick-rocket",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_16700c166ffetRFObjsPnflYnL",
+      "slug": "curious-comet",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_1670586c8ffeYYKGElUCIFBaPN",
+      "slug": "cosmic-river",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 1
+    },
+    {
+      "id": "ses_16750b419ffeSE97BEcpjPcLXi",
+      "slug": "neon-lagoon",
+      "provider": "opencode",
+      "model": "minimax-m3-free",
+      "messages": 35,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "edit",
+        "glob",
+        "grep",
+        "invalid",
+        "read",
+        "todowrite",
+        "webfetch",
+        "write"
+      ],
+      "tool_calls": 91,
+      "llm_calls": 73
+    },
+    {
+      "id": "ses_167a250edffeC3j2u6xYSojkmT",
+      "slug": "crisp-garden",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 36,
+      "tools": [
+        "bash",
+        "edit",
+        "read",
+        "todowrite",
+        "webfetch",
+        "websearch",
+        "write"
+      ],
+      "tool_calls": 49,
+      "llm_calls": 36
+    },
+    {
+      "id": "ses_167b5b5baffed3h16DagxVC9Og",
+      "slug": "neon-forest",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 21,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "glob",
+        "grep",
+        "read",
+        "todowrite"
+      ],
+      "tool_calls": 172,
+      "llm_calls": 163
+    },
+    {
+      "id": "ses_168e78686ffe3hCmsJ0mqJKeY1",
+      "slug": "misty-cabin",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 87,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "edit",
+        "gemini-api-docs-mcp_search_documentation",
+        "glob",
+        "grep",
+        "read",
+        "todowrite",
+        "webfetch",
+        "write"
+      ],
+      "tool_calls": 563,
+      "llm_calls": 454
+    },
+    {
+      "id": "ses_168fd4f39ffeU9vfE02t1ijVeU",
+      "slug": "swift-sailor",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 15,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "edit",
+        "glob",
+        "grep",
+        "read",
+        "skill",
+        "todowrite",
+        "webfetch",
+        "websearch"
+      ],
+      "tool_calls": 110,
+      "llm_calls": 73
+    },
+    {
+      "id": "ses_16b089481ffeI7RWMRLfyvuvP4",
+      "slug": "eager-island",
+      "provider": "opencode",
+      "model": "big-pickle",
+      "messages": 23,
+      "tools": [
+        "bash",
+        "todowrite"
+      ],
+      "tool_calls": 31,
+      "llm_calls": 39
+    },
+    {
+      "id": "ses_16b3a0d10ffehsHNlI25ggLNcD",
+      "slug": "hidden-garden",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 2,
+      "tools": [],
+      "tool_calls": 0,
+      "llm_calls": 2
+    },
+    {
+      "id": "ses_16b490313ffeDqQ6MLUS5JCUEh",
+      "slug": "?",
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "messages": 46,
+      "tools": [
+        "apply_patch",
+        "bash",
+        "grep",
+        "read",
+        "todowrite",
+        "webfetch"
+      ],
+      "tool_calls": 203,
+      "llm_calls": 178
+    }
+  ]
+}

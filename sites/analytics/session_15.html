@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Session 15 — ses_138331552ffePSzItaoLY</title><style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background:#0A0E14;
+  color:#C5CDD9;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  min-height:100vh;
+  line-height:1.5;
+}
+
+::selection { background:#00D4FF33; color:#fff; }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#0A0E14; }
+::-webkit-scrollbar-thumb { background:#2A3040; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#3D4760; }
+
+.container { max-width:1440px; margin:0 auto; padding:16px; }
+
+/* ── Top bar ── */
+.top-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 20px; margin-bottom:20px;
+  background:#131720; border:1px solid #2A3040; border-radius:10px;
+}
+.top-bar-left { display:flex; align-items:center; gap:14px; }
+.top-bar-logo {
+  font-family:'JetBrains Mono',monospace; font-size:0.8em; color:#00D4FF;
+  white-space:pre; line-height:1.2;
+}
+.top-bar-title { font-size:1.1em; font-weight:600; color:#C5CDD9; }
+.top-bar-badge {
+  font-size:0.7em; background:#00D4FF; color:#0A0E14; padding:2px 10px;
+  border-radius:4px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;
+}
+.top-bar-right { display:flex; align-items:center; gap:12px; font-size:0.8em; color:#6A7894; font-family:'JetBrains Mono',monospace; }
+.top-bar-dot { width:8px; height:8px; border-radius:50%; background:#00FF88; display:inline-block; }
+
+/* ── Terminal window ── */
+.term {
+  background:#131720; border:1px solid #2A3040; border-radius:10px;
+  overflow:hidden;
+}
+.term-stack { display:flex; flex-direction:column; gap:18px; }
+.term-bar {
+  display:flex; align-items:center; gap:8px;
+  padding:10px 16px; background:#1A1F2B; border-bottom:1px solid #2A3040;
+  font-family:'JetBrains Mono',monospace; font-size:0.75em; color:#6A7894;
+  text-transform:uppercase; letter-spacing:0.5px;
+}
+.term-dot { width:10px; height:10px; border-radius:50%; }
+.term-dot.r { background:#FF5575; }
+.term-dot.y { background:#FFB347; }
+.term-dot.g { background:#00FF88; }
+.term-title { flex:1; }
+.term-body { padding:18px; }
+
+/* ── Stats grid ── */
+.stats-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-bottom:18px; }
+.stat-card {
+  background:#1A1F2B; border:1px solid #2A3040; border-radius:8px;
+  padding:16px; text-align:center; position:relative; overflow:hidden;
+  transition:border-color 0.2s, transform 0.2s;
+}
+.stat-card:hover { border-color:#00D4FF; transform:translateY(-2px); }
+.stat-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,#00D4FF44,transparent);
+}
+.stat-value { font-family:'JetBrains Mono',monospace; font-size:2em; font-weight:700; color:#00D4FF; }
+.stat-label { font-size:0.75em; color:#6A7894; margin-top:4px; text-transform:uppercase; letter-spacing:0.5px; }
+
+/* ── Grid content layout ── */
+.content-grid { display:grid; grid-template-columns:1fr 320px; gap:18px; }
+.content-main { min-width:0; }
+
+/* ── Providers, Models, Tools ── */
+.badge-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.badge {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; background:#1A1F2B; border:1px solid #2A3040;
+  border-radius:6px; font-size:0.82em;
+}
+.badge .name { color:#C5CDD9; }
+.badge .count { color:#6A7894; font-family:'JetBrains Mono',monospace; font-size:0.85em; }
+.badge.provider-0 { border-color:#00D4FF44; }
+.badge.provider-1 { border-color:#B388FF44; }
+
+/* ── Models section ── */
+.model-row {
+  display:flex; align-items:center; gap:12px; padding:8px 0;
+  border-bottom:1px solid #1A1F2B;
+}
+.model-row:last-child { border-bottom:none; }
+.model-link { display:contents; color:inherit; text-decoration:none; }
+.model-link:hover .model-name { color:#00D4FF; }
+.model-name { flex:1; font-size:0.9em; }
+.model-count { font-family:'JetBrains Mono',monospace; font-size:0.8em; color:#00D4FF; min-width:30px; text-align:right; }
+.model-bar { width:100px; height:6px; background:#1A1F2B; border-radius:3px; overflow:hidden; }
+.model-bar-fill { height:100%; background:linear-gradient(90deg,#00D4FF,#00FF88); border-radius:3px; transition:width 0.6s; }
+
+/* ── Session table ── */
+.sessions-table { width:100%; border-collapse:collapse; }
+.sessions-table th {
+  text-align:left; padding:8px 12px; font-size:0.72em; color:#6A7894;
+  text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid #2A3040;
+  font-weight:500;
+}
+.sessions-table td { padding:8px 12px; border-bottom:1px solid #1A1F2B; font-size:0.85em; }
+.sessions-table tr:hover td { background:#1A1F2B66; }
+.sessions-table .col-num { width:32px; text-align:right; color:#6A7894; font-family:'JetBrains Mono',monospace; font-size:0.8em; }
+.sessions-table .col-name { font-weight:500; cursor:pointer; }
+.sessions-table .col-name a { color:#C5CDD9; text-decoration:none; }
+.sessions-table .col-name a:hover { color:#00D4FF; }
+.sessions-table .col-provider { color:#6A7894; font-size:0.8em; }
+.sessions-table .col-model { color:#6A7894; font-size:0.8em; }
+.sessions-table .col-msgs { font-family:'JetBrains Mono',monospace; color:#00FF88; font-size:0.85em; text-align:right; }
+.sessions-table .col-tools { font-family:'JetBrains Mono',monospace; color:#B388FF; font-size:0.85em; text-align:right; }
+.sessions-table .col-calls { font-family:'JetBrains Mono',monospace; color:#00D4FF; font-size:0.85em; text-align:right; }
+.sessions-table .col-view { text-align:right; }
+.sessions-table .col-view a {
+  display:inline-block; padding:4px 14px; border:1px solid #2A3040;
+  border-radius:4px; font-size:0.75em; color:#6A7894; text-decoration:none;
+  transition:all 0.2s;
+}
+.sessions-table .col-view a:hover { border-color:#00D4FF; color:#00D4FF; background:#00D4FF11; }
+
+/* ── Side panel (tools leaderboard) ── */
+.side-panel { display:flex; flex-direction:column; gap:18px; }
+.tool-rank {
+  display:flex; align-items:center; gap:10px; padding:6px 0;
+  border-bottom:1px solid #1A1F2B; font-size:0.85em;
+}
+.tool-rank:last-child { border-bottom:none; }
+.tool-rank-link { color:inherit; text-decoration:none; display:block; }
+.tool-rank-link:hover .tool-rank-name { color:#00D4FF; }
+.tool-rank-num { color:#6A7894; font-family:'JetBrains Mono',monospace; font-size:0.8em; min-width:16px; }
+.tool-rank-name { flex:1; }
+.tool-rank-count { font-family:'JetBrains Mono',monospace; color:#B388FF; }
+
+/* ── Status bar ── */
+.status-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px; background:#131720; border:1px solid #2A3040;
+  border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:0.75em; color:#6A7894; margin-top:4px;
+}
+.status-left { display:flex; gap:16px; align-items:center; }
+.status-right { display:flex; gap:16px; align-items:center; }
+.status-item { display:flex; align-items:center; gap:6px; }
+.status-dot { width:6px; height:6px; border-radius:50%; }
+.status-dot.cyan { background:#00D4FF; }
+.status-dot.green { background:#00FF88; }
+.status-dot.purple { background:#B388FF; }
+
+/* ── Session page specific ── */
+.session-info-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
+.session-info-card {
+  background:#1A1F2B; border:1px solid #2A3040; border-radius:6px;
+  padding:12px; text-align:center;
+}
+.session-info-card .label { font-size:0.65em; color:#6A7894; text-transform:uppercase; letter-spacing:0.5px; }
+.session-info-card .value { font-family:'JetBrains Mono',monospace; font-size:1.4em; font-weight:700; margin-top:4px; }
+.session-info-card .value.cyan { color:#00D4FF; }
+.session-info-card .value.green { color:#00FF88; }
+.session-info-card .value.purple { color:#B388FF; }
+.session-info-card .value.orange { color:#FF8A50; }
+
+/* Chat */
+.chat { margin-top:6px; }
+.chat-msg { display:flex; gap:10px; margin-bottom:14px; }
+.chat-avatar {
+  width:28px; height:28px; border-radius:6px; display:flex;
+  align-items:center; justify-content:center; font-weight:700;
+  font-size:0.75em; flex-shrink:0; font-family:'JetBrains Mono',monospace;
+}
+.chat-user .chat-avatar { background:#00FF8833; color:#00FF88; border:1px solid #00FF8844; }
+.chat-assistant .chat-avatar { background:#00D4FF33; color:#00D4FF; border:1px solid #00D4FF44; }
+.chat-bubble { flex:1; background:#1A1F2B; border-radius:8px; padding:12px; border:1px solid #2A3040; }
+.chat-user .chat-bubble { border-color:#00FF8844; }
+.chat-role { font-weight:600; font-size:0.82em; color:#C5CDD9; margin-bottom:2px; }
+.chat-meta { font-size:0.72em; color:#6A7894; margin-bottom:6px; font-family:'JetBrains Mono',monospace; }
+.chat-text { white-space:pre-wrap; line-height:1.7; font-size:0.9em; }
+
+/* Reasoning */
+.reasoning { cursor:pointer; color:#6A7894; font-size:0.82em; padding:4px 0; user-select:none; font-family:'JetBrains Mono',monospace; }
+.reasoning:hover { color:#B388FF; }
+.reasoning-body pre { background:#0A0E14; padding:10px; border-radius:6px; font-size:0.8em; color:#8A9BB0; white-space:pre-wrap; margin:6px 0; border:1px solid #2A3040; }
+
+/* Tool call */
+.tool-call { border:1px solid #2A3040; border-radius:6px; margin:6px 0; overflow:hidden; }
+.tool-header {
+  display:flex; align-items:center; gap:8px; padding:6px 10px;
+  background:#0A0E14; cursor:pointer; user-select:none; font-size:0.82em;
+}
+.tool-header:hover { background:#131720; }
+.tool-name { font-weight:600; color:#00D4FF; font-family:'JetBrains Mono',monospace; }
+.tool-status { color:#6A7894; font-size:0.85em; }
+.tool-title { color:#6A7894; font-size:0.85em; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.tool-toggle { font-size:0.7em; color:#6A7894; }
+.tool-body { padding:8px; background:#131720; }
+.tool-section { margin:4px 0; }
+.tool-section-title { font-size:0.7em; color:#6A7894; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+.tool-body pre { background:#0A0E14; color:#8A9BB0; padding:8px; border-radius:4px; font-size:0.78em; overflow-x:auto; white-space:pre-wrap; word-break:break-all; max-height:180px; overflow-y:auto; border:1px solid #2A3040; }
+
+/* Timeline log */
+.log { background:#0A0E14; border-radius:6px; padding:14px; max-height:380px; overflow-y:auto; font-family:'JetBrains Mono',monospace; font-size:0.72em; line-height:1.6; border:1px solid #2A3040; }
+.log-line { padding:2px 0; border-bottom:1px solid #131720; word-break:break-all; color:#5A6880; }
+.log-line:nth-child(even) { background:#0D1117; }
+
+/* Animations */
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes scanline {
+  0%{transform:translateY(-100%)}
+  100%{transform:translateY(100vh)}
+}
+.scanline {
+  position:fixed; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,#00D4FF11,transparent);
+  animation:scanline 8s linear infinite; pointer-events:none; z-index:9999;
+}
+
+/* Project cards */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:12px}
+.proj-link{text-decoration:none;color:inherit;display:block}
+.proj-card{background:#131720;border:1px solid #2A3040;border-radius:8px;transition:border-color .2s}
+.proj-card:hover{border-color:#00D4FF55}
+.proj-card-header{display:flex;align-items:center;gap:8px;padding:10px 12px 6px;border-bottom:1px solid #1A1F2B}
+.proj-icon{font-size:1.2em;width:24px;text-align:center}
+.proj-name{font-weight:600;font-size:0.88em;color:#E0E6F0}
+.proj-card-body{padding:8px 12px 10px}
+.proj-desc{font-size:0.78em;color:#6A7894;line-height:1.4}
+.proj-meta{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.proj-tech{font-size:0.72em;color:#B388FF;font-family:'JetBrains Mono',monospace}
+.proj-sessions{font-size:0.72em;color:#00FF88;font-family:'JetBrains Mono',monospace}
+
+/* Timeline */
+.timeline{padding:12px 16px 12px 20px}
+.tl-day{display:flex;align-items:center;gap:10px;margin:10px 0 6px}
+.tl-day-label{font-size:0.78em;font-weight:600;color:#00D4FF;font-family:'JetBrains Mono',monospace;min-width:60px}
+.tl-day-line{flex:1;height:1px;background:linear-gradient(90deg,#2A3040,transparent)}
+.tl-event{display:flex;align-items:center;gap:8px;padding:3px 0 3px 10px;border-left:1px solid #2A3040;margin-left:30px;position:relative}
+.tl-dot{position:absolute;left:-4px;width:7px;height:7px;border-radius:50%;background:#B388FF;border:2px solid #0A0E14}
+.tl-icon{font-size:1em;width:20px;text-align:center;flex-shrink:0}
+.tl-label{font-size:0.82em;color:#C5CDD9;text-decoration:none}
+.tl-label:hover{color:#00D4FF}
+.tl-project{font-size:0.72em;color:#6A7894;font-family:'JetBrains Mono',monospace}
+
+/* Table project column */
+.col-project{color:#B388FF;font-size:0.82em}
+
+/* Responsive */
+@media(max-width:900px){ .content-grid{grid-template-columns:1fr} .stats-grid,.session-info-grid{grid-template-columns:repeat(3,1fr)} .proj-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))} }
+@media(max-width:600px){ .stats-grid,.session-info-grid{grid-template-columns:repeat(2,1fr)} .proj-grid{grid-template-columns:1fr} }
+</style></head>
+<body><div class="scanline"></div>
+<div class="container">
+
+<div class="top-bar">
+<div class="top-bar-left"><div class="top-bar-logo">             _                _           _ _       
+            | |              | |         (_) |      
+  __ _ _   _| | __ _ ___  ___| |__    ___ _| |_ ___ 
+ / _` | | | | |/ _` / __|/ __| '_ \  / __| | __/ _ \
+| (_| | |_| | | (_| \__ \ (__| | | |_\__ \ | ||  __/
+ \__, |\__,_|_|\__,_|___/\___|_| |_(_)___/_|\__\___|
+  __/ |                                             
+ |___/                                              </div><span class="top-bar-title">Session Logs</span><span class="top-bar-badge">Session #15</span></div>
+<div class="top-bar-right"><span class="top-bar-dot"></span> live &middot; 2026-06-20 19:18</div>
+</div>
+
+<div class="term-stack">
+
+<div class="term">
+<div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">info — ses_138331552ffePSzItaoLY</span><span>ses_138331552ffePSzI…</span></div>
+<div class="term-body">
+<div class="session-info-grid">
+<div class="session-info-card"><div class="label">Provider</div><div class="value cyan">opencode</div></div>
+<div class="session-info-card"><div class="label">Model</div><div class="value cyan">big-pickle</div></div>
+<div class="session-info-card"><div class="label">Messages</div><div class="value green">6</div></div>
+<div class="session-info-card"><div class="label">Tools</div><div class="value purple">2</div></div>
+<div class="session-info-card"><div class="label">Tool Calls</div><div class="value orange">17</div></div>
+<div class="session-info-card"><div class="label">LLM Calls</div><div class="value cyan">5</div></div>
+</div>
+</div></div>
+
+<div class="term">
+<div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">tools</span><span>2 unique</span></div>
+<div class="term-body"><div class="badge-grid"><span class="badge"><span class="name">glob</span></span>
+<span class="badge"><span class="name">read</span></span></div></div></div>
+
+<div class="term">
+<div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">conversation</span><span>6 messages</span></div>
+<div class="term-body"><div class="chat"><div class="chat-msg chat-user"><div class="chat-avatar">U</div><div class="chat-bubble"><div class="chat-role">User</div><div class="chat-text">Read /plan.md and compare each requirement/implementation detail against the actual codebase in /opt/bagger-api/ (game_data.py, game_engine.py, app.py), /var/www/bagger.gulasch.site/ (script.js, index.html, styles.css), and /opt/bagger-api/tools/simulate.py. 
+
+For each of the 17 sections, check every bullet point that has [x]. Report:
+1. Which requirements have NO corresponding code (missing features)
+2. Which requirements are only partially implemented
+3. Where the implementation differs meaningfully from the plan
+
+Focus on FUNCTIONAL gaps (features missing or broken), not cosmetic differences. Return a concise, itemized list of gaps with the specific location (file:line) where the gap exists or where the fix should go.</div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">big-pickle | agent=explore | finish=tool-calls</div><div class="reasoning" onclick="tt('r_msg_ec7cceace001UihuDlvdxP65vL')">&#9654; Reasoning</div><div class="reasoning-body" id="r_msg_ec7cceace001UihuDlvdxP65vL"><pre>Let me start by reading the plan.md file and all the relevant source files to understand what&#x27;s expected and what&#x27;s actually implemented.</pre></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cceace001UihuDlvdxP65vL_read_14098388')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">plan.md</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cceace001UihuDlvdxP65vL_read_14098388" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/plan.md&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/plan.md&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: # Bagger Hearts Production Plan
+2: 
+3: The game should become a deterministic-plus-Gemini dating sim. The authored engine owns route structure, calendars, available scenes, known flags, inventory, endings, persistence integrity, and debug tooling. Gemini owns expressive scene writing and meaningful emotional interpretation: stat deltas, suggested flags, route pressure, memories, tone, and moment-to-moment nuance.
+4: 
+5: The shared state model ...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cceace001UihuDlvdxP65vL_read_2860161')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cceace001UihuDlvdxP65vL_read_2860161" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api&lt;/path&gt;
+&lt;type&gt;directory&lt;/type&gt;
+&lt;entries&gt;
+__pycache__/
+app.py
+app.py.bak
+data/
+game_data.py
+game_data.py.bak
+game_engine.py
+game_engine.py.bak
+tools/
+
+(9 entries)
+&lt;/entries&gt;</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cceace001UihuDlvdxP65vL_read_7966263')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">var/www/bagger.gulasch.site</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cceace001UihuDlvdxP65vL_read_7966263" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/var/www/bagger.gulasch.site&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/var/www/bagger.gulasch.site&lt;/path&gt;
+&lt;type&gt;directory&lt;/type&gt;
+&lt;entries&gt;
+index.html
+script.js
+script.js.bak
+styles.css
+
+(4 entries)
+&lt;/entries&gt;</pre></div></div></div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">big-pickle | agent=explore | finish=tool-calls</div><div class="reasoning" onclick="tt('r_msg_ec7ccf386001c1GcyTbmHOALHI')">&#9654; Reasoning</div><div class="reasoning-body" id="r_msg_ec7ccf386001c1GcyTbmHOALHI"><pre>Let me read all the source files now.</pre></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7ccf386001c1GcyTbmHOALHI_read_10570233')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/game_data.py</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7ccf386001c1GcyTbmHOALHI_read_10570233" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api/game_data.py&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api/game_data.py&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: STYLE_BIBLE = {
+2:     &quot;global&quot;: {
+3:         &quot;target&quot;: &quot;sincere Japanese visual novel localized into English, rendered in German-facing UI&quot;,
+4:         &quot;rules&quot;: [
+5:             &quot;ADV textbox style: compact paragraphs, direct emotional pressure, no markdown.&quot;,
+6:             &quot;Show feeling through machine behavior, weather, objects, pauses, and repeated motifs.&quot;,
+7:             &quot;Never mention stats, meters, route pressure, f...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7ccf386001c1GcyTbmHOALHI_read_10110942')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/game_engine.py</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7ccf386001c1GcyTbmHOALHI_read_10110942" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api/game_engine.py&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api/game_engine.py&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: import json
+2: import os
+3: import re
+4: import secrets
+5: import time
+6: import urllib.error
+7: import urllib.request
+8: from pathlib import Path
+9: 
+10: from game_data import (
+11:     BAGGERS,
+12:     CALENDAR,
+13:     ENDINGS,
+14:     FLAG_REGISTRY,
+15:     GIFT_PREFERENCES,
+16:     ITEMS,
+17:     LOCATIONS,
+18:     PLAYER_STYLES,
+19:     ROUTE_PRESSURES,
+20:     ROUTES,
+21:     SCHEDULE_ACTIONS,
+22:     STYLE_BIBLE,
+...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7ccf386001c1GcyTbmHOALHI_read_5328199')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/app.py</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7ccf386001c1GcyTbmHOALHI_read_5328199" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api/app.py&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api/app.py&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: #!/usr/bin/env python3
+2: from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+3: from urllib.parse import urlparse
+4: import json
+5: import os
+6: import sys
+7: import urllib.error
+8: 
+9: sys.path.insert(0, os.path.dirname(__file__))
+10: 
+11: from game_engine import (  # noqa: E402
+12:     default_state,
+13:     game_data,
+14:     gemini_model,
+15:     load_save,
+16:     resolve_ending,
+17:     resolve_interaction,...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7ccf386001c1GcyTbmHOALHI_read_13412904')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">var/www/bagger.gulasch.site/script.js</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7ccf386001c1GcyTbmHOALHI_read_13412904" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/var/www/bagger.gulasch.site/script.js&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/var/www/bagger.gulasch.site/script.js&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: import * as THREE from &#x27;https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js&#x27;;
+2: 
+3: const periods = [&#x27;Morgen&#x27;, &#x27;Nachmittag&#x27;, &#x27;Abend&#x27;, &#x27;Nacht&#x27;];
+4: const kana = { aurora: &#x27;月&#x27;, brummbert: &#x27;剛&#x27;, mira: &#x27;詩&#x27; };
+5: const stateKey = &#x27;baggerDatingSim.v2&#x27;;
+6: const tokenKey = &#x27;baggerDatingSim.saveToken&#x27;;
+7: 
+8: let data;
+9: let state;
+10: let lastReply = &#x27;Der Bauhof ist still. Drei besondere Bagger warten darau...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7ccf386001c1GcyTbmHOALHI_read_6363976')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">var/www/bagger.gulasch.site/index.html</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7ccf386001c1GcyTbmHOALHI_read_6363976" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/var/www/bagger.gulasch.site/index.html&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/var/www/bagger.gulasch.site/index.html&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: &lt;!doctype html&gt;
+2: &lt;html lang=&quot;de&quot;&gt;
+3: &lt;head&gt;
+4:   &lt;meta charset=&quot;utf-8&quot;&gt;
+5:   &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+6:   &lt;title&gt;Bagger Hearts: Hydraulik Rendezvous&lt;/title&gt;
+7:   &lt;meta name=&quot;description&quot; content=&quot;Eine Gemini-gestuetzte Bagger-Dating-Sim mit 3D-Baggern, Routen, Kalender, Gifts, Endings und echten Erinnerungen.&quot;&gt;
+8:   &lt;link rel=&quot;stylesheet&quot; href=&quot;styles.css&quot;&gt;
+9: &lt;/head...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7ccf386001c1GcyTbmHOALHI_read_1446747')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">var/www/bagger.gulasch.site/styles.css</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7ccf386001c1GcyTbmHOALHI_read_1446747" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/var/www/bagger.gulasch.site/styles.css&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/var/www/bagger.gulasch.site/styles.css&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: :root {
+2:   color-scheme: dark;
+3:   --bg: #0d0b12;
+4:   --panel: rgba(22, 18, 27, .88);
+5:   --panel-strong: rgba(34, 27, 39, .96);
+6:   --line: rgba(255, 239, 209, .15);
+7:   --text: #fff4df;
+8:   --muted: #cdbb9c;
+9:   --gold: #ffbf46;
+10:   --rose: #ff6f91;
+11:   --blue: #84d2ff;
+12:   --green: #91e6a7;
+13:   --danger: #ff8a70;
+14:   --shadow: rgba(0, 0, 0, .4);
+15: }
+16: 
+17: * { box-sizing: border-box; }
+1...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7ccf386001c1GcyTbmHOALHI_read_15406213')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/tools/simulate.py</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7ccf386001c1GcyTbmHOALHI_read_15406213" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api/tools/simulate.py&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api/tools/simulate.py&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: #!/usr/bin/env python3
+2: import argparse
+3: import json
+4: import os
+5: import sys
+6: 
+7: ROOT = os.path.dirname(os.path.dirname(__file__))
+8: sys.path.insert(0, ROOT)
+9: os.environ.setdefault(&quot;BAGGER_MOCK_GEMINI&quot;, &quot;1&quot;)
+10: 
+11: from game_data import ROUTES, public_game_data  # noqa: E402
+12: from game_engine import default_state, load_save, resolve_ending, select_scene, simulate, validate_routes  # noqa: E402
+13: 
+14...</pre></div></div></div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">big-pickle | agent=explore | finish=tool-calls</div><div class="reasoning" onclick="tt('r_msg_ec7cd00e30016IpKzfzCXR28oG')">&#9654; Reasoning</div><div class="reasoning-body" id="r_msg_ec7cd00e30016IpKzfzCXR28oG"><pre>Let me now read the backup files to see if there&#x27;s any additional context, and also check if there&#x27;s a `data/` directory with saves.
+
+Actually, let me also check the data directory and see if there are any other files I might be missing.</pre></div><div class="chat-text">Let me check for additional files in relevant directories.</div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cd00e30016IpKzfzCXR28oG_read_11016004')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/data</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cd00e30016IpKzfzCXR28oG_read_11016004" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api/data&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api/data&lt;/path&gt;
+&lt;type&gt;directory&lt;/type&gt;
+&lt;entries&gt;
+saves/
+traces/
+
+(2 entries)
+&lt;/entries&gt;</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cd00e30016IpKzfzCXR28oG_read_1483085')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/data/saves</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cd00e30016IpKzfzCXR28oG_read_1483085" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api/data/saves&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api/data/saves&lt;/path&gt;
+&lt;type&gt;directory&lt;/type&gt;
+&lt;entries&gt;
+[REDACTED].json
+
+(1 entries)
+&lt;/entries&gt;</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cd00e30016IpKzfzCXR28oG_glob_16495945')"><span class="tool-name">glob</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cd00e30016IpKzfzCXR28oG_glob_16495945" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;pattern&quot;: &quot;**/*.py&quot;,
+  &quot;path&quot;: &quot;/opt/bagger-api&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>/opt/bagger-api/game_engine.py
+/opt/bagger-api/app.py
+/opt/bagger-api/game_data.py
+/opt/bagger-api/tools/simulate.py</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cd00e30016IpKzfzCXR28oG_glob_15067339')"><span class="tool-name">glob</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/tools</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cd00e30016IpKzfzCXR28oG_glob_15067339" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;pattern&quot;: &quot;**/*&quot;,
+  &quot;path&quot;: &quot;/opt/bagger-api/tools&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>/opt/bagger-api/tools/simulate.py.bak
+/opt/bagger-api/tools/simulate.py
+/opt/bagger-api/tools/__pycache__/simulate.cpython-314.pyc</pre></div></div></div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">big-pickle | agent=explore | finish=tool-calls</div><div class="reasoning" onclick="tt('r_msg_ec7cd11cd0016356JypU2RmIsG')">&#9654; Reasoning</div><div class="reasoning-body" id="r_msg_ec7cd11cd0016356JypU2RmIsG"><pre>Let me also check the backup files for any additional features that are planned but not implemented in the main files.</pre></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cd11cd0016356JypU2RmIsG_read_2209254')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/game_engine.py.bak</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cd11cd0016356JypU2RmIsG_read_2209254" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api/game_engine.py.bak&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api/game_engine.py.bak&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: import json
+2: import os
+3: import re
+4: import secrets
+5: import time
+6: import urllib.error
+7: import urllib.request
+8: from pathlib import Path
+9: 
+10: from game_data import (
+11:     BAGGERS,
+12:     CALENDAR,
+13:     ENDINGS,
+14:     FLAG_REGISTRY,
+15:     GIFT_PREFERENCES,
+16:     ITEMS,
+17:     LOCATIONS,
+18:     PLAYER_STYLES,
+19:     ROUTE_PRESSURES,
+20:     ROUTES,
+21:     SCHEDULE_ACTIONS,
+22:     STYLE_BIB...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cd11cd0016356JypU2RmIsG_read_16711754')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/app.py.bak</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cd11cd0016356JypU2RmIsG_read_16711754" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api/app.py.bak&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api/app.py.bak&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: #!/usr/bin/env python3
+2: from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+3: from urllib.parse import urlparse
+4: import json
+5: import os
+6: import sys
+7: import urllib.error
+8: 
+9: sys.path.insert(0, os.path.dirname(__file__))
+10: 
+11: from game_engine import (  # noqa: E402
+12:     default_state,
+13:     game_data,
+14:     gemini_model,
+15:     load_save,
+16:     resolve_ending,
+17:     resolve_interact...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_ec7cd11cd0016356JypU2RmIsG_read_7472484')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">opt/bagger-api/tools/simulate.py.bak</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_ec7cd11cd0016356JypU2RmIsG_read_7472484" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/opt/bagger-api/tools/simulate.py.bak&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/opt/bagger-api/tools/simulate.py.bak&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: #!/usr/bin/env python3
+2: import argparse
+3: import json
+4: import os
+5: import sys
+6: 
+7: ROOT = os.path.dirname(os.path.dirname(__file__))
+8: sys.path.insert(0, ROOT)
+9: os.environ.setdefault(&quot;BAGGER_MOCK_GEMINI&quot;, &quot;1&quot;)
+10: 
+11: from game_data import ROUTES, public_game_data  # noqa: E402
+12: from game_engine import default_state, load_save, resolve_ending, select_scene, simulate, validate_routes  # noqa: E402
+13:...</pre></div></div></div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">big-pickle | agent=explore | finish=stop</div><div class="reasoning" onclick="tt('r_msg_ec7cd1cb4001JuMFYL6KO1qNEl')">&#9654; Reasoning</div><div class="reasoning-body" id="r_msg_ec7cd1cb4001JuMFYL6KO1qNEl"><pre>Now I have all the files. Let me compare the plan against the actual codebase systematically, section by section.
+
+## Section 1: Style Bible
+
+Plan requirements:
+- [x] **Requirements:** Style bible defined (game_data.py:1-45) 
+- [x] **Requirements:** Writing style guidelines - present
+- [x] **Requirements:** Should define global tone rules, route-specific motifs, diction rules, etc.
+- [x] **Implementation:** Create styleBible object - present (STYLE_BIBLE in game_data.py)
+- [x] **Implementation:** Define scene rhythm - present
+- [x] **Implementation:** Route-specific style motifs - present
+- [x] **Implementation:** Bad-phrase list - present
+- [x] **Quality Gates:** Three sample scene outputs per Bagger - NOT IMPLEMENTED. No sample scene outputs exist in the codebase.
+- [x] **Quality Gates:** Every authored scene node should include at least one motif hint and one tone note - Partially. Nodes have motifs but no explicit &quot;tone note&quot; field.
+- [x] **Quality Gates:** Final QA writing checklist - NOT IMPLEMENTED. No checklist mechanism.
+
+Gaps for Section 1:
+1. No sample scene outputs per Bagger (early route, crisis, near-confession) - the plan says &quot;Create at least three sample scene outputs per Bagger&quot; as a quality gate before route implementation
+2. Scene nodes have motifs but no explicit &quot;tone note&quot; field (plan says &quot;every authored scene node should include at least one motif hint and one tone note&quot;)
+3. No writing checklist for QA
+
+## Section 2: Authored Branching Route Structure
+
+Plan:
+- [x] **Requirements:** Each Bagger needs detailed route graph - Present (ROUTE_SPECS in game_data.py)
+- [x] **Requirements:** Branch breadth matters - Present
+- [x] **Implementation:** Route definitions as structured data - Present
+- [x] **Implementation:** Each route should have node categories - Present
+- [x] **Quality Gates:** Each Bagger should ship with at least 20 scene nodes - 20 per Bagger but let me count:
+
+Aurora: aurora_intro_puddle, aurora_daily_lamp, aurora_quiet_promise, aurora_star_map_date, aurora_silent_shift, aurora_left_behind, aurora_apology_lens, aurora_telescope_repair, aurora_festival_distance, aurora_bucket_confession_hint, aurora_friend_path_lamp, aurora_rain_return, aurora_glass_charm, aurora_map_fold, aurora_secret_crater, aurora_route_lock, aurora_normal_finale, aurora_true_finale, aurora_friend_finale, aurora_missed_end_seed, aurora_secret_finale = 21 scenes
+
+Brummbert: brummbert_intro_lamp, brummbert_daily_gauge, brummbert_oil_compliment, brummbert_tunnel_walk, brummbert_friend_shift, brummbert_storm_trigger, brummbert_after_storm, brummbert_badge_gift, brummbert_pressure_gauge, brummbert_festival_guard, brummbert_soft_request, brummbert_friend_finale_seed, brummbert_lamp_bulb, brummbert_no_mockery, brummbert_secret_song, brummbert_route_lock, brummbert_normal_finale, brummbert_true_finale, brummbert_friend_finale, brummbert_missed_seed, brummbert_secret_finale = 21 scenes
+
+Mira: mira_intro_stone, mira_daily_margin, mira_first_map, mira_river_stone_date, mira_map_friend, mira_misread_clay, mira_repair_sediment, mira_forgotten_map, mira_clay_poem, mira_festival_edges, mira_exact_listening, mira_friend_finale_seed, mira_folded_map_gift, mira_depth_measure, mira_secret_spring, mira_route_lock, mira_normal_finale, mira_true_finale, mira_friend_finale, mira_missed_seed, mira_secret_finale = 21 scenes
+
+So each has &gt;= 20 nodes. Let me check the breakdown against what&#x27;s required:
+&quot;8 main romance scenes, 4 friendship scenes, 4 crisis/recovery scenes, 3 optional date scenes, and 1 secret scene&quot;
+
+Aurora: romance: aurora_bucket_confession_hint, aurora_route_lock (2) - these are &quot;romance&quot; category.
+Actually the plan says &quot;8 main romance scenes&quot; but the categories used are intro, daily, date, threshold, crisis, repair, friendship, romance, finale, secret. The &quot;romance&quot; category only has 2 scenes per route typically (the &quot;almost_confessed&quot; and &quot;route_lock&quot; scenes). The main romance content seems distributed across date, threshold, and romance categories. This might be a naming/structuring issue.
+
+Wait, let me re-read the plan: &quot;Each Bagger should ship with at least 20 scene nodes: 8 main romance scenes, 4 friendship scenes, 4 crisis/recovery scenes, 3 optional date scenes, and 1 secret scene.&quot;
+
+Let me count categories:
+Aurora:
+- intro: 1 (intro)
+- daily: 3 (daily_lamp, festival_distance, miss_end_seed, rain_return) - 4
+- date: 3 (star_map_date, telescope_repair, glass_charm)
+- threshold: 2 (quiet_promise, map_fold)
+- crisis: 1 (left_behind)
+- repair: 1 (apology_lens)
+- friendship: 2 (silent_shift, friend_path_lamp)
+- romance: 2 (bucket_confession_hint, route_lock)
+- finale: 5 (normal, true, friend, secret, + miss?)
+- secret: 1 (secret_crater)
+
+So &quot;romance&quot; category has only 2 scenes, not 8. The plan said &quot;8 main romance scenes, 4 friendship scenes, 4 crisis/recovery scenes, 3 optional date scenes, and 1 secret scene&quot;. But actually looking more carefully, &quot;main romance&quot; might be distributed across categories like date, threshold, romance, etc. This seems like a structural difference but not strictly a gap.
+
+Let me check nextCandidates - nodes have `&quot;nextCandidates&quot;: []` at game_data.py:259. The plan says &quot;nextCandidates&quot; should be populated, but they&#x27;re all empty lists. This means the scene selection doesn&#x27;t use a graph structure - it&#x27;s purely based on gates and categories. The plan says: &quot;Each scene node should include ... nextCandidates&quot;. These are empty in all nodes.
+
+Also I don&#x27;t see explicit &quot;nextCandidates&quot; being populated in the make_node function. Let me check... Yes, at game_data.py:259: `&quot;nextCandidates&quot;: []`. This field is present but always empty. The plan intended this to link scenes in a graph structure, but it&#x27;s not used.
+
+Gaps for Section 2:
+1. `nextCandidates` is always empty - no actual graph linking between scene nodes
+2. The scene resolver doesn&#x27;t use nextCandidates at all - uses category-based priority instead
+3. Route breadth: only 2 &quot;romance&quot; category nodes per route vs 8 &quot;main romance&quot; suggested
+4. No explicit &quot;tone note&quot; field per scene node
+
+## Section 3: Multiple Endings
+
+Plan:
+- [x] **Requirements:** Each Bagger needs bad end, missed-route end, friendship end, normal romance end, true romance end, and secret ending - Present (ENDINGS dict in game_data.py:285-294)
+- [x] **Requirements:** Endings should depend on various factors - resolve_ending implements this
+- [x] **Implementation:** Add endingResolver - Present (resolve_ending at game_engine.py:480-503)
+- [x] **Implementation:** Gemini writes ending prose from resolved type - NOT IMPLEMENTED. The ending resolution does not call Gemini for ending prose. It just returns the ending type/label.
+- [x] **Quality Gates:** Every ending must have documented conditions and at least one test fixture
+  - Documented conditions: No formal documentation of ending conditions
+  - Test fixtures: ending-fixture command in simulate.py exists but it&#x27;s bare-minimum
+- [x] **Quality Gates:** Secret endings should require specific route behavior - Present (checks for specific flags)
+- [x] **Quality Gates:** Ending prose reviewed for motif payoff - No ending prose at all
+
+Actually, looking more carefully at the code: when an ending is resolved, the engine just sets `state[&quot;endingState&quot;] = ending` (game_engine.py:474) which is `{&quot;route&quot;: route, &quot;kind&quot;: kind, &quot;label&quot;: ENDINGS[route][kind][&quot;label&quot;], &quot;resolvedAt&quot;: int(time.time())}`. There&#x27;s no call to Gemini to write the ending prose. The plan says &quot;Gemini writes the ending prose from a resolved ending type.&quot;
+
+In script.js line 285: `if (result.ending) lastReply += `\n\n${result.ending.label}`;` - so the ending is just tacked onto the last reply as a label. No actual ending prose.
+
+Gaps for Section 3:
+1. No Gemini-based ending prose generation - ending is just a label
+2. No documented conditions for each ending
+3. Test fixtures are minimal (ending-fixture just sets high stats and checks resolution)
+
+## Section 4: Event Calendar
+
+Plan:
+- [x] **Requirements:** Add fixed calendar events - Present (CALENDAR in game_data.py:139-148)
+- [x] **Requirements:** Calendar events should create anticipation and missed opportunities - Partially
+- [x] **Implementation:** Add calendarRegistry - Present
+- [x] **Implementation:** Missed calendar events should set flags - NOT IMPLEMENTED. No known &quot;missed_*&quot; flags for calendar events in the flag registry or anywhere in the code. The plan specifically mentions `missed_festival_aurora` or `missed_storm_rescue_brummbert`. The FLAG_REGISTRY has `missed_festival_{route}` and `missed_route_{route}` generated but they&#x27;re never actually set.
+- [x] **Quality Gates:** Fixed events must trigger exactly once - Implemented (eventsSeen check)
+- [x] **Quality Gates:** Missing important events should have visible later consequences - NOT IMPLEMENTED. No code checks for missed calendar events.
+- [x] **Quality Gates:** Calendar conflict behavior must be documented - NOT IMPLEMENTED
+
+Looking at the calendar, some events have `&quot;route&quot;: &quot;aurora&quot;` etc. but the `candidate_calendar_event` function at line 172-179 only checks `event.get(&quot;route&quot;, route) == route`. So route-specific events only show for the matching route. But what if the player is on a different route when a calendar event for a different Bagger occurs? There&#x27;s no mechanism to flag that as &quot;missed&quot;.
+
+Also, the `missed_festival_{route}` and `missed_route_{route}` flags are defined in FLAG_REGISTRY at game_data.py:281-282, but they&#x27;re never actually set by any code path.
+
+Gaps for Section 4:
+1. Calendar events that are skipped/missed don&#x27;t set any `missed_*` flags
+2. No consequence mechanism for missed calendar events
+3. Calendar conflict behavior not documented
+
+## Section 5: Scheduling And Stat Training
+
+Plan:
+- [x] **Requirements:** Player chooses how to spend each time period - Present
+- [x] **Requirements:** Add player stats - Present (6 stats defined)
+- [x] **Implementation:** Scheduling actions affect stats deterministically - Present (apply_schedule)
+- [x] **Implementation:** Fatigue should affect scene outcomes - Present (fatigue_penalty in apply_scene_result at game_engine.py:439)
+- [x] **Quality Gates:** Player should not be able to max all stats - Present (limited actions per day, only 30 days)
+- [x] **Quality Gates:** At least three important events per route should require protagonist stats - Let me check...
+
+Looking at route nodes with playerStat requirements:
+Aurora: aurora_apology_lens (patience&gt;=12), aurora_telescope_repair (mechanics&gt;=14) - only 2
+Brummbert: brummbert_tunnel_walk (courage&gt;=8), brummbert_after_storm (courage&gt;=22), brummbert_pressure_gauge (mechanics&gt;=12) - 3
+Mira: mira_repair_sediment (focus&gt;=14), mira_clay_poem (focus&gt;=12) - only 2
+
+So Aurora and Mira only have 2 events requiring player stats, not 3.
+- [x] **Quality Gates:** Normal endings achievable without optimization - Debatable, but the gate system seems reasonably balanced
+
+Gaps for Section 5:
+1. Aurora and Mira have only 2 stat-gated events instead of the required 3
+
+## Section 6: Affection And Stat Gates
+
+Plan:
+- [x] **Requirements:** Important route events need meaningful thresholds - Present
+- [x] **Requirements:** Gates should feel emotionally logical - Present
+- [x] **Implementation:** Reusable condition objects - Present (cond function)
+- [x] **Implementation:** Locked events can be hidden, teased - NOT IMPLEMENTED. The select_scene function just skips locked nodes silently. There&#x27;s no mechanism to show them as &quot;locked&quot; or tease upcoming content.
+- [x] **Quality Gates:** Boundary tests - NOT IMPLEMENTED. No test fixtures for exact thresholds.
+- [x] **Quality Gates:** Gates should never deadlock - Present (always has daily fallback)
+- [x] **Quality Gates:** Debug tooling should explain why scene is locked - Partially. lock_reasons function exists but debug endpoints don&#x27;t consistently expose it through the API. The `explain-scene` debug command does show rejected reasons.
+
+Gaps for Section 6:
+1. Locked events can&#x27;t be shown as &quot;teased&quot; or &quot;unavailable but visible&quot; - they&#x27;re simply skipped
+2. No boundary test fixtures for threshold verification
+
+## Section 7: Route Lock-In
+
+Plan:
+- [x] **Requirements:** Early exploration possible, eventual lock - Partially
+- [x] **Requirements:** Lock-in must feel intentional - Partially
+- [x] **Implementation:** lockedRoute and commitmentScore - Partially. lockedRoute is present but there&#x27;s no per-Bagger &quot;commitmentScore&quot; field. Route pressure &quot;toward_lockin&quot; serves a similar purpose.
+- [x] **Implementation:** Show a clear route-commitment scene before lock - Partially. The &quot;route_lock&quot; category scenes exist but there&#x27;s no special UI treatment or explicit announcement.
+- [x] **Quality Gates:** One casual interaction must not lock in - The lock-in requires toward_lockin &gt;= 5 AND route_lock_ready flag, so this is protected
+- [x] **Quality Gates:** Finale scenes only for locked route - select_scene&#x27;s preferred_categories adds &quot;finale&quot; only when lockedRoute matches
+- [x] **Quality Gates:** Post-lock non-route Bagger scenes should still feel respectful - No special handling for this
+
+Looking at the lock-in mechanism at game_engine.py:461:
+```python
+if state[&quot;routePressure&quot;][route].get(&quot;toward_lockin&quot;, 0) &gt;= 5 and not state.get(&quot;lockedRoute&quot;) and has_flag(state, f&quot;route_lock_ready_{route}&quot;):
+```
+
+This requires both `toward_lockin &gt;= 5` and the `route_lock_ready` flag. The `route_lock_ready` flags are set by route_lock scenes (e.g., aurora_route_lock). The &quot;toward_lockin&quot; pressure comes from node routePressureEffects and Gemini. This seems reasonable, but there&#x27;s no explicit &quot;commitmentScene&quot; shown before lock - the lock happens silently during apply_scene_result.
+
+Gaps for Section 7:
+1. No per-Bagger `commitmentScore` field (uses route pressure instead - workable but differs from plan)
+2. No explicit route-commitment scene UI/announcement - lock happens as a side effect
+3. Post-lock non-route Bagger scenes have no special respectful handling
+
+## Section 8: Date-Location System
+
+Plan:
+- [x] **Requirements:** Dates involve selecting Bagger, location, optionally gift - Present
+- [x] **Requirements:** Locations should be authored and memorable - Present
+- [x] **Implementation:** Locations - Present (LOCATIONS in game_data.py:77-88)
+- [x] **Implementation:** Location tags and Bagger preferences - Present
+- [x] **Quality Gates:** Each Bagger needs preferred, neutral, disliked locations - Present (preferredTags/dislikedTags in BAGGERS)
+- [x] **Quality Gates:** Good, neutral, poor dates produce visibly different outcomes - location_fit function exists but the result is NOT passed to Gemini in any meaningful way. Let me check...
+
+In compose_prompt (game_engine.py), the gift fit is included as `Geschenk: {gift.get(&#x27;fit&#x27;)} {gift.get(&#x27;itemId&#x27;) or &#x27;&#x27;}` but there&#x27;s no equivalent for location fit. The location tags are included in the prompt (line 314: `Ort: {location[&#x27;name&#x27;]} ({&#x27;, &#x27;.join(location[&#x27;tags&#x27;])})`), so Gemini can infer quality from the prompt, but the engine doesn&#x27;t explicitly tell Gemini whether this is a good/neutral/poor date location.
+
+The `location_fit` function (game_engine.py:286-296) exists and calculates fit, but it&#x27;s never called in `resolve_interaction`. It&#x27;s defined but unused.
+
+In apply_scene_result, there&#x27;s no special handling for date location fit either.
+
+- [x] **Quality Gates:** Poor dates should create awkward or repair content - Not really enforced by code
+
+Gaps for Section 8:
+1. `location_fit` function is defined but never called/used anywhere
+2. No explicit location fit feedback to Gemini or stat effects based on location quality
+3. Date locations don&#x27;t have special outcome differentiation beyond what Gemini infers from tags
+
+## Section 9: Gift Economy And Inventory
+
+Plan:
+- [x] **Requirements:** Add inventory, currency, gift shopping - Present
+- [x] **Requirements:** Gifts should carry story meaning - Present (liked/disliked/critical)
+- [x] **Implementation:** Items (game_data.py:90-101) - Present
+- [x] **Implementation:** Gift resolution combines deterministic rules with Gemini - Partially. Gift fit is passed to Gemini in the prompt. Apply_gift does deterministic effects in apply_scene_result.
+- [x] **Quality Gates:** Gifts must be consumed correctly and persist - Present (inventory decremented, state saved)
+- [x] **Quality Gates:** Each Bagger should have at least 5 liked gifts, 2 disliked gifts, and 1 route-critical gift - Let me count...
+
+Aurora: liked=5 (star_map, glass_charm, kiesel, warm_oil, folded_map), disliked=2 (loud_horn, cheap_flower), critical=1 (star_map) - OK
+Brummbert: liked=5 (rescue_badge, lamp_bulb, warm_oil, kiesel, glass_charm), disliked=2 (loud_horn, cheap_flower), critical=1 (rescue_badge) - OK
+Mira: liked=5 (river_stone, folded_map, kiesel, glass_charm, star_map), disliked=2 (loud_horn, cheap_flower), critical=1 (river_stone) - OK
+- [x] **Quality Gates:** Normal endings not impossible because of one missed shop item - Present (critical gifts are obtainable)
+
+Gaps for Section 9: None significant.
+
+## Section 10: Hidden Flags And Promise System
+
+Plan:
+- [x] **Requirements:** Track promises made/kept/broken, etc. - Partially
+- [x] **Requirements:** Promises should be an emotional core - Not really implemented
+- [x] **Implementation:** Add typed flags - Partially. The plan specifically mentions structured promise flags with `route`, `createdDay`, `dueDay`, `duePeriod`, `kept`, `broken`, `sceneId`. The current code uses simple string flags instead.
+- [x] **Implementation:** Promise flags should include structured data - NOT IMPLEMENTED. Promises are just simple string flags (e.g., &quot;aurora_quiet_promise&quot;), not structured objects with due dates etc.
+- [x] **Quality Gates:** Every major route event should set or clear a meaningful flag - Present
+- [x] **Quality Gates:** Broken promises must affect later dialogue or endings - NOT IMPLEMENTED. The `broken_promise_{route}` flags exist in the registry but are never actually set by any code.
+- [x] **Quality Gates:** Gemini-suggested flags must be known IDs - Present (validate_ai checks against FLAG_REGISTRY)
+
+Gaps for Section 10:
+1. Promise flags are simple strings, not structured objects with dueDay, duePeriod, etc.
+2. `broken_promise` flags are never set - no mechanism to break promises
+3. `jealousy`, `boundary` flag types not implemented
+4. No promise tracking with due dates - promises like &quot;I&#x27;ll return&quot; have no enforcement mechanism
+
+## Section 11: Backlog And Dialogue History
+
+Plan:
+- [x] **Requirements:** Add VN-style backlog - Present
+- [x] **Requirements:** Backlog is literal transcript, memories are summarized - Present
+- [x] **Implementation:** state.backlog entries - Present
+- [x] **Implementation:** Backlog panel with route filtering and cap - Present (300 entries cap, filter in UI)
+- [x] **Quality Gates:** Backlog must persist across reloads - Present (saved in state, persisted)
+- [x] **Quality Gates:** Backlog must not include API keys - Present (only game content)
+- [x] **Quality Gates:** Every visible dialogue should appear in backlog - Present
+
+Gaps for Section 11: None significant.
+
+## Section 12: Presentation Polish
+
+Plan:
+- [x] **Requirements:** Route title cards, fades, dramatic pauses, choice reveal animations - NOT IMPLEMENTED (no title cards, fades, dramatic pauses)
+- [x] **Requirements:** Presentation should support emotional pacing - Not really
+- [x] **Implementation:** Scene presentation layer with showNarration, showDialogue, etc. - NOT IMPLEMENTED. No presentation layer object.
+- [x] **Implementation:** 3D model poses - Partially (7 poses defined in Gemini schema but only 2-3 actually animate in Three.js)
+- [x] **Quality Gates:** Animations must respect reduced-motion settings - Present (CSS media query)
+- [x] **Quality Gates:** WebGL failure should still leave game playable - Present (initThreeSafe try/catch)
+- [x] **Quality Gates:** Effects must not cause double submissions or broken state - Present (loading state in interact function)
+
+The script.js has very basic pose animation. The `animateModel` function sets a `visual` property but the `tick` function only has special animation for `digging`, `confession`, `crisis` poses. Other poses (listening, shy, proud, guarded) don&#x27;t have any visual differentiation - they all use the same idle animation.
+
+Gaps for Section 12:
+1. No route title cards, scene transitions, fade effects, dramatic pauses
+2. No presentation layer (showNarration, showDialogue, showChoices, transitionToLocation, showStatChange, applyPose)
+3. 3D model poses are partially implemented - only 3 out of 7 poses have distinct animations
+4. No choice reveal animations
+5. No stat change feedback animation
+
+## Section 13: Failure Pressure And Missed Opportunities
+
+Plan:
+- [x] **Requirements:** Ignoring Baggers, missing dates, etc. should have consequences - Partially
+- [x] **Requirements:** Failure should create drama, not punishment - Partially
+- [x] **Implementation:** Track neglect, missedPromises, fatigue, routeDeadlineMisses, unresolvedCrisis - Partially. Neglect is tracked. `missedPromises` not tracked (no promise mechanism). `routeDeadlineMisses` not tracked. `unresolvedCrisis` is indirectly tracked via crisis_active flags.
+- [x] **Implementation:** Add warning scenes before severe consequences - NOT IMPLEMENTED
+- [x] **Quality Gates:** Neglectful playthrough should produce missed-route/friendship endings - resolve_ending checks neglect &gt;= 4 for bad ending
+- [x] **Quality Gates:** One bad choice should not destroy strong route - Present (gates are gradual)
+- [x] **Quality Gates:** Repair branches should exist after some mistakes - Present (repair category nodes exist)
+
+Gaps for Section 13:
+1. `missedPromises`, `routeDeadlineMisses`, `unresolvedCrisis` counters not implemented
+2. No warning scenes before severe consequences
+3. No rescue/repair mechanism for neglect other than the repair category scenes
+
+## Section 14: Protagonist Setup
+
+Plan:
+- [x] **Requirements:** New game start with name, address, personality - Present
+- [x] **Requirements:** Protagonist should feel present but flexible - Present
+- [x] **Implementation:** Start screen - Present
+- [x] **Implementation:** Personality affects starting stats and Gemini tone - Present (stats bonus, style in prompt)
+- [x] **Quality Gates:** Names must be sanitized and length-limited - Present (maxlength=&quot;32&quot; in HTML)
+- [x] **Quality Gates:** Gemini must not overwrite profile data - Present (profile not sent back)
+- [x] **Quality Gates:** Profile setup once per new game - Present (localStorage check)
+
+Gaps for Section 14:
+1. No server-side name sanitization beyond clean_text (but that&#x27;s reasonable since names are just stored)
+
+## Section 15: Server-Side Persistence
+
+Plan:
+- [x] **Requirements:** Durable server-side persistence, anonymous save token - Present
+- [x] **Requirements:** Saves include all state - Present
+- [x] **Implementation:** POST /api/save, GET /api/save/:token, POST /api/restore - Present
+- [x] **Implementation:** Store JSON saves under /opt/bagger-api/data/saves - Present
+- [x] **Quality Gates:** Saves atomic, size-limited, schema-versioned - Present (tmp+replace, 600KB limit, schemaVersion)
+- [x] **Quality Gates:** Invalid tokens fail safely - Present (regex check, FileNotFoundError)
+- [x] **Quality Gates:** No API key stored - Present
+
+The GET /api/save/:token endpoint at app.py:71-73 loads save by token. This is a GET but the plan said `GET /api/save/:token` and `POST /api/restore`. Both are present.
+
+Gaps for Section 15: None significant.
+
+## Section 16: Gemini-Guided Progression
+
+Plan:
+- [x] **Requirements:** Gemini influences progression meaningfully - Present
+- [x] **Requirements:** No custom safety gates beyond Gemini - Present
+- [x] **Implementation:** /api/interact returns structured data - Present
+- [x] **Implementation:** Engine clamps deltas, accepts known flags - Present (validate_ai)
+- [x] **Implementation:** Route pressure categories - Present (ROUTE_PRESSURES)
+- [x] **Quality Gates:** Same menu choice with different text should produce different outcomes - Present (text is sent in prompt)
+- [x] **Quality Gates:** Gemini-suggested flags must be from known registry - Present
+- [x] **Quality Gates:** If Gemini fails, preserve state or use neutral fallback - Present (fallback to mock_gemini in except block)
+
+Gaps for Section 16: None significant.
+
+## Section 17: Debug Tooling And Route Simulation
+
+Plan:
+- [x] **Requirements:** Developer-facing debug tooling - Present (CLI tool + API endpoints)
+- [x] **Requirements:** Tooling should answer practical questions - Partially
+- [x] **Implementation:** CLI tool with commands - Present (simulate.py)
+- [x] **Implementation:** Private API endpoints - Present (BAGGER_DEBUG=1 + localhost check)
+- [x] **Implementation:** Debug traces - Present (write_trace)
+- [x] **Quality Gates:** validate-routes should fail on various issues - Present
+- [x] **Quality Gates:** Simulations cover romance, friendship, balanced, neglect, gift-heavy, training-heavy - Present (6 strategies)
+- [x] **Quality Gates:** Debug endpoints must not expose API keys - Present
+
+Let me check the CLI commands against the plan:
+Plan says: `list-routes`, `show-route aurora`, `validate-routes`, `simulate --route aurora --strategy romance`, `simulate --route mira --strategy neglect`, `ending-fixture true_aurora`, `explain-scene --save token --scene aurora_observatory_2`
+
+CLI has: list-routes, show-route, validate-routes, simulate, ending-fixture, explain-scene, dump-data
+
+Does it have `explain-scene --save token --scene aurora_observatory_2`?
+The CLI&#x27;s explain-scene takes --save, --route, --intent, but NOT --scene. You can&#x27;t specify a particular scene to explain; it just shows what scene would be selected next.
+
+The plan had `explain-scene --save token --scene aurora_observatory_2` which suggests being able to explain a specific scene node. That&#x27;s not supported.
+
+Also looking at the `app.py.bak` vs the current `app.py`:
+The bak file doesn&#x27;t have `/api/debug/explain-scene` endpoint, but the current app.py does. So explain-scene was added between versions.
+
+But looking at the trace - the debug trace includes rejected scenes with reasons, which partially covers the &quot;explain&quot; functionality.
+
+Also:
+- The `dump-data` command is in the CLI but not in the plan.
+- `ending-fixture` exists but the plan also wanted `validate-routes` to check for &quot;unreachable endings&quot; and &quot;missing next nodes&quot; - validate_routes currently doesn&#x27;t check these.
+
+Let me check validate_routes more carefully (game_engine.py:593-610):
+```python
+def validate_routes():
+    errors = []
+    for route, nodes in ROUTES.items():
+        if len(nodes) &lt; 20:
+            errors.append(f&quot;{route}: fewer than 20 nodes&quot;)
+        seen = set()
+        for node in nodes:
+            if node[&quot;id&quot;] in seen:
+                errors.append(f&quot;{route}: duplicate node {node[&#x27;id&#x27;]}&quot;)
+            seen.add(node[&quot;id&quot;])
+            if node[&quot;location&quot;] not in LOCATIONS:
+                errors.append(f&quot;{node[&#x27;id&#x27;]}: unknown location {node[&#x27;location&#x27;]}&quot;)
+            if not node.get(&quot;motifs&quot;):
+                errors.append(f&quot;{node[&#x27;id&#x27;]}: missing motifs&quot;)
+            for flag in node.get(&quot;setsFlags&quot;, []):
+                if flag not in FLAG_REGISTRY:
+                    errors.append(f&quot;{node[&#x27;id&#x27;]}: unknown set flag {flag}&quot;)
+    return errors
+```
+
+The plan says validate-routes should fail if scenes reference:
+- unknown flags - Present (setsFlags check)
+- impossible gates - NOT IMPLEMENTED (doesn&#x27;t check if gate conditions reference valid stats/flags)
+- missing next nodes - NOT IMPLEMENTED (nextCandidates is always empty)
+- missing style notes - NOT IMPLEMENTED (doesn&#x27;t check translationStyleNotes)
+- missing motifs - Present (checks motifs)
+- unknown locations - Present
+- unreachable endings - NOT IMPLEMENTED (doesn&#x27;t check if ending conditions can ever be met)
+
+Gaps for Section 17:
+1. `explain-scene` CLI doesn&#x27;t support specifying a particular scene by ID
+2. `validate-routes` doesn&#x27;t check for impossible gates, missing next nodes, missing style notes, or unreachable endings
+3. No `GET /api/debug/state/:token` endpoint (plan mentions it but it&#x27;s not in either app.py version)
+4. Missing `--scene` parameter in explain-scene CLI
+
+Wait, let me look more carefully at the plan:
+&quot;Add private API endpoints bound to localhost or protected by BAGGER_DEBUG=1: GET /api/debug/state/:token, POST /api/debug/explain-scene, GET /api/debug/routes, POST /api/debug/simulate, and POST /api/debug/resolve-ending.&quot;
+
+Current app.py has:
+- POST /api/debug/simulate (line 111-112)
+- POST /api/debug/resolve-ending (line 114-117)
+- GET /api/debug/routes (line 79-80)
+- POST /api/debug/explain-scene (line 119-124) - NOTE: this is a POST but the plan says POST, so OK
+
+Missing: GET /api/debug/state/:token
+
+Let me also look for the GET /api/debug/state/:token handler... It&#x27;s not in app.py. The GET handler at line 75 checks `if path.startswith(&quot;/api/debug/&quot;)` and then only handles `/api/debug/routes`. It doesn&#x27;t have `/api/debug/state/:token`.
+
+Now let me compile the complete gap list.
+
+Actually, let me also check a few more subtle things:
+
+1. In `select_scene`, the `preferred_categories` starts as empty list in the bak, but as `[&quot;intro&quot;]` in the main version. Let me check if the main version has been updated.
+
+The main game_engine.py line 189: `preferred_categories = [&quot;intro&quot;]` vs the bak line 189: `preferred_categories = []`. So the main version always prefers intro scenes first. This seems intentional.
+
+2. Route lock-in in the main version at game_engine.py:461:
+```python
+if state[&quot;routePressure&quot;][route].get(&quot;toward_lockin&quot;, 0) &gt;= 5 and not state.get(&quot;lockedRoute&quot;) and has_flag(state, f&quot;route_lock_ready_{route}&quot;):
+```
+vs the bak version at game_engine.py.bak:455:
+```python
+if state[&quot;routePressure&quot;][route].get(&quot;toward_lockin&quot;, 0) &gt;= 5 and not state.get(&quot;lockedRoute&quot;):
+```
+The main version adds the `has_flag(state, f&quot;route_lock_ready_{route}&quot;)` check, requiring the lock readiness flag. This is an improvement.
+
+3. The bak doesn&#x27;t have the `dump-data` CLI command but the main does.
+
+OK, I think I have a comprehensive picture now. Let me compile the final report.
+
+Actually, one more thing to check - the plan mentions &quot;At least three important events per route should require protagonist stats&quot; (Section 5 quality gate). Let me verify again:
+
+Aurora stat-gated scenes:
+- aurora_apology_lens: playerStat=patience &gt;= 12
+- aurora_telescope_repair: playerStat=mechanics &gt;= 14
+That&#x27;s only 2.
+
+Brummbert stat-gated scenes:
+- brummbert_tunnel_walk: playerStat=courage &gt;= 8
+- brummbert_after_storm: playerStat=courage &gt;= 22
+- brummbert_pressure_gauge: playerStat=mechanics &gt;= 12
+That&#x27;s 3.
+
+Mira stat-gated scenes:
+- mira_repair_sediment: playerStat=focus &gt;= 14
+- mira_clay_poem: playerStat=focus &gt;= 12
+That&#x27;s only 2.
+
+So Aurora and Mira fall short.
+
+Now let me also check if there&#x27;s a `commitmentScore` field. The plan says &quot;Add lockedRoute and per-Bagger commitmentScore.&quot; Looking at the state, there&#x27;s no commitmentScore field in relationships or anywhere. Route pressure `toward_lockin` serves the same purpose conceptually.
+
+One more thing: &quot;Add warning scenes before severe consequences&quot; - not implemented.
+
+Also: &quot;Calendar conflict behavior must be documented and testable&quot; - not documented.
+
+Let me now assemble the final comprehensive report.</pre></div><div class="chat-text">Now I have all the files. Let me compile a thorough comparison.
+
+---
+
+## Plan vs. Codebase: Systematic Gap Analysis
+
+Below is a section-by-section comparison of every `[x]` bullet point in `/plan.md` against the actual code. Only **functional** gaps with specific file:line locations are listed.
+
+---
+
+### Section 1: Style Bible
+
+| # | Gap | Location |
+|---|-----|----------|
+| 1 | **Missing: Sample scene outputs per Bagger** — the plan requires &quot;at least three sample scene outputs per Bagger (early route, crisis, near-confession)&quot; before route implementation. No such samples exist anywhere in the repo. | No file – needs creation |
+| 2 | **Missing: `toneNote` field on scene nodes** — plan says &quot;every authored scene node should include at least one motif hint and one tone note.&quot; Nodes have `motifs` but no `toneNote` field. | `game_data.py:244-263` (`make_node`) |
+| 3 | **Missing: QA writing checklist mechanism** — plan says &quot;Final QA should include a writing checklist&quot; with 7 items. No such checklist tool exists. | No file – needs creation |
+
+---
+
+### Section 2: Authored Branching Route Structure
+
+| # | Gap | Location |
+|---|-----|----------|
+| 4 | **`nextCandidates` always empty** — plan says each node should have `nextCandidates` to link scenes into a graph. The field exists but is always `[]` (`make_node` line 259). The scene resolver never uses it; it relies on a flat category-priority fallback instead. | `game_data.py:259` |
+| 5 | **`romance` category only has 2 nodes per route, not &quot;8 main romance scenes&quot;** — the plan says &quot;8 main romance scenes&quot; per Bagger; the code only has `*_bucket_confession_hint` and `*_route_lock` in the `romance` category. The other romance content is spread across `date`/`threshold` categories (which is workable but diverges from the letter of the plan). | `game_data.py:168-169, 174-176` (Aurora) and parallels |
+
+---
+
+### Section 3: Multiple Endings
+
+| # | Gap | Location |
+|---|-----|----------|
+| 6 | **Missing: Gemini-authored ending prose** — plan: &quot;Gemini writes the ending prose from a resolved ending type.&quot; The engine never calls Gemini for endings; `resolve_ending` returns only `{route, kind, label, resolvedAt}` (line 503). The frontend appends just the label string to the last reply (`script.js:285`). No ending prose is ever generated. | `game_engine.py:473-474, 503`; `script.js:285` |
+| 7 | **Missing: Documented ending conditions** — plan says &quot;Every ending must have documented conditions and at least one test fixture.&quot; No formal documentation of conditions exists. The `ending-fixture` CLI command exists but it only injects maximum stats, not varied scenarios. | `tools/simulate.py:37-49` |
+
+---
+
+### Section 4: Event Calendar
+
+| # | Gap | Location |
+|---|-----|----------|
+| 8 | **Missing: `missed_*` flags never set** — plan: &quot;Missed calendar events should set flags like `missed_festival_aurora` or `missed_storm_rescue_brummbert`.&quot; The flags exist in `FLAG_REGISTRY` (line 280-283) but no code path ever sets them. `candidate_calendar_event` (line 172-179) only checks if an event matches current time — if it doesn&#x27;t match (wrong route, already seen, etc.), the event is silently skipped with no missed-flag. | `game_engine.py:172-179` |
+| 9 | **Missing: Consequences for missed calendar events** — plan: &quot;Missing important events should have visible later consequences.&quot; No code checks missed flags or adjusts anything based on them. | Nowhere |
+| 10 | **Missing: Calendar conflict documentation** — plan: &quot;Calendar conflict behavior must be documented and testable.&quot; No documentation exists. | Nowhere |
+
+---
+
+### Section 5: Scheduling and Stat Training
+
+| # | Gap | Location |
+|---|-----|----------|
+| 11 | **Partial: Only 2 stat-gated events for Aurora and Mira (need 3)** — plan: &quot;At least three important events per route should require protagonist stats.&quot; Aurora has 2 (`patience&gt;=12`, `mechanics&gt;=14`), Mira has 2 (`focus&gt;=14`, `focus&gt;=12`). Brummbert has 3. | `game_data.py:165-166` (Aurora), `game_data.py:211,213` (Mira) |
+
+---
+
+### Section 6: Affection and Stat Gates
+
+| # | Gap | Location |
+|---|-----|----------|
+| 12 | **Missing: &quot;Hidden&quot; or &quot;teased&quot; locked events** — plan: &quot;Locked events can be hidden, teased, or shown as unavailable.&quot; The resolver (`select_scene`) silently skips locked nodes with no UI signal that a scene *could* be available if conditions were met. | `game_engine.py:210-218` |
+| 13 | **Missing: Boundary tests for exact thresholds** — plan: &quot;Boundary tests should verify exact thresholds.&quot; No test fixtures exist for this. | Nowhere |
+
+---
+
+### Section 7: Route Lock-In
+
+| # | Gap | Location |
+|---|-----|----------|
+| 14 | **Missing: `commitmentScore` per Bagger** — plan describes a per-Bagger `commitmentScore`. It doesn&#x27;t exist in state. Route pressure `toward_lockin` approximates it, but the named field is absent. | `game_engine.py:57-88` (`default_state`) |
+| 15 | **Missing: Explicit route-commitment scene before lock** — plan: &quot;Before irreversible lock-in, show a clear route-commitment scene.&quot; The lock happens silently as a side effect inside `apply_scene_result` (line 461-463). No special UI scene/announcement interrupts the flow. | `game_engine.py:461-463` |
+| 16 | **Missing: Post-lock non-route Bagger respect handling** — plan: &quot;Post-lock non-route Bagger scenes should still feel respectful and complete.&quot; No special flag, prompt note, or relationship cap exists for post-lock interactions with non-locked Baggers. | Nowhere |
+
+---
+
+### Section 8: Date-Location System
+
+| # | Gap | Location |
+|---|-----|----------|
+| 17 | **`location_fit` is defined but never called** — the function computes good/neutral/poor location matches (line 286-296), but it is never invoked by `resolve_interaction` or `apply_scene_result`. Location quality has no deterministic game-mechanical effect. | `game_engine.py:286-296` (defined, unused) |
+| 18 | **Missing: Location fit feedback to Gemini** — the Gemini prompt receives location tags but NOT the computed `good`/`neutral`/`poor` fit. The plan expects visibly different outcomes based on location, but there&#x27;s no stat delta or prompt signal tied to location fit. | `game_engine.py:298-342` (`compose_prompt`) |
+
+---
+
+### Section 9: Gift Economy and Inventory
+
+No functional gaps identified. All requirements are met.
+
+---
+
+### Section 10: Hidden Flags and Promise System
+
+| # | Gap | Location |
+|---|-----|----------|
+| 19 | **Missing: Structured promise flags** — plan: &quot;Promise flags should include `route`, `createdDay`, `dueDay`, `duePeriod`, `kept`, `broken`, and `sceneId`.&quot; Promises are implemented as bare string flags (e.g., `&quot;aurora_quiet_promise&quot;`) with no structured data, no due date, no tracking of kept/broken state. | `game_data.py:268-283` (`FLAG_REGISTRY` is flat strings); `game_engine.py:140-142` |
+| 20 | **`broken_promise_*` flags are never set** — plan says broken promises must affect later dialogue/endings. The flags exist in the registry but no code path ever sets them. There is no &quot;break promise&quot; mechanic at all. | `game_engine.py:140-142` (only `add_flag` for normal flags) |
+| 21 | **Missing: `jealousy`, `boundary`, `memory` typed flags** — plan lists these as typed flag categories. Only `promise`, `keptPromise`, `brokenPromise`, `mistake`, `route`, `secret`, `crisis` are derivable from the code&#x27;s flat flag strings. No explicit typed system exists. | `game_data.py:268-283` |
+
+---
+
+### Section 11: Backlog and Dialogue History
+
+No functional gaps identified.
+
+---
+
+### Section 12: Presentation Polish
+
+| # | Gap | Location |
+|---|-----|----------|
+| 22 | **Missing: Scene presentation layer** — plan: &quot;Create a scene presentation layer with `showNarration`, `showDialogue`, `showChoices`, `transitionToLocation`, `showStatChange`, and `applyPose`.&quot; None of these functions exist in `script.js` or on the server. All rendering is done imperatively in `render()`. | `script.js:151-182` |
+| 23 | **Missing: Route title cards, fades, dramatic pauses, choice reveal animations** — plan says: &quot;Add route title cards, fades, dramatic pauses, choice reveal animations, affection-change feedback, scene transition text.&quot; None of these are implemented. | `script.js` / `styles.css` |
+| 24 | **Partial: 3D model poses — only 3 of 7 poses animate distinctly** — 7 pose values are defined (`listening, shy, proud, guarded, digging, crisis, confession`) but `tick()` (line 446-459) only differentiates `digging`, `confession`, `crisis` with boom/arm/bucket movement. The other 4 poses produce identical idle behavior. | `script.js:446-459` |
+| 25 | **Missing: `showStatChange` affection-change feedback UI** — the plan expects visible +/- feedback when stats change. No such UI element exists. | `script.js` |
+
+---
+
+### Section 13: Failure Pressure and Missed Opportunities
+
+| # | Gap | Location |
+|---|-----|----------|
+| 26 | **Missing: `missedPromises`, `routeDeadlineMisses`, `unresolvedCrisis` counters** — plan says to track these. Only `neglect` is tracked. | `game_engine.py:57-88` (`default_state`); `game_engine.py:427-433` (`apply_scene_result`) |
+| 27 | **Missing: Warning scenes before severe consequences** — plan: &quot;Add warning scenes before severe consequences.&quot; No such scenes exist. | Nowhere |
+
+---
+
+### Section 14: Protagonist Setup
+
+No functional gaps identified.
+
+---
+
+### Section 15: Server-Side Persistence
+
+| # | Gap | Location |
+|---|-----|----------|
+| 28 | **Missing: `GET /api/debug/state/:token` endpoint** — plan lists this as a required debug endpoint. The GET handler in `app.py` handles `GET /api/debug/routes` but NOT `GET /api/debug/state/:token`. | `app.py:75-81` |
+
+---
+
+### Section 16: Gemini-Guided Progression
+
+No functional gaps identified.
+
+---
+
+### Section 17: Debug Tooling and Route Simulation
+
+| # | Gap | Location |
+|---|-----|----------|
+| 29 | **`validate-routes` doesn&#x27;t check for impossible gates, missing style notes, missing next nodes, unreachable endings** — plan says: &quot;`validate-routes` should fail if scenes reference unknown flags, impossible gates, missing next nodes, missing style notes, missing motifs, unknown locations, or unreachable endings.&quot; Currently it only checks unknown flags, missing motifs, unknown locations, and duplicate IDs. | `game_engine.py:593-610` |
+| 30 | **`explain-scene` CLI doesn&#x27;t support `--scene` parameter** — plan: `explain-scene --save token --scene aurora_observatory_2`. The CLI only accepts `--save`, `--route`, `--intent`. You cannot specify a particular scene ID to explain; it only shows the *next* selected scene. | `tools/simulate.py:87-91` |
+
+---
+
+## Summary: Critical Functional Gaps (Top Priority)
+
+1. **No ending prose from Gemini** (item 6) — endings are just labels, breaking a core narrative promise.
+2. **No promise-tracking infrastructure** (items 19-20) — one of the plan&#x27;s &quot;emotional core&quot; features is absent.
+3. **`location_fit` is dead code** (item 17) — date-location choice has no mechanical impact.
+4. **Missed calendar events have zero consequences** (items 8-9) — the planned missed-event system exists only as dead flags.
+5. **No route commitment scene / `commitmentScore`** (items 14-15) — route lock-in happens as a silent side effect.
+6. **`nextCandidates` always empty** (item 4) — the scene graph is flat, not a branching graph as designed.
+7. **`validate-routes` incomplete** (item 29) — misses 4 of the 7 planned validation checks.
+8. **Missing presentation layer** (items 22-25) — no scene transitions, stat-change feedback, or varied 3D poses.</div></div></div></div></div></div>
+
+<div class="term">
+<div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">timeline</span><span>30 events</span></div>
+<div class="term-body"><div class="log"><div class="log-line">message=stream providerID=opencode modelID=big-pickle session.id=ses_138331552ffePSzItaoLYFkXMu small=false agent=explore mode=subagent</div>
+<div class="log-line">message=evaluated permission=read pattern=plan.md action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=read pattern=opt/bagger-api action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=read pattern=var/www/bagger.gulasch.site action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=loop session.id=ses_138331552ffePSzItaoLYFkXMu step=1</div>
+<div class="log-line">message=process session.id=ses_138331552ffePSzItaoLYFkXMu messageID=msg_ec7ccf386001c1GcyTbmHOALHI</div>
+<div class="log-line">message=stream providerID=opencode modelID=big-pickle session.id=ses_138331552ffePSzItaoLYFkXMu small=false agent=explore mode=subagent</div>
+<div class="log-line">message=evaluated permission=read pattern=opt/bagger-api/game_data.py action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=read pattern=opt/bagger-api/game_engine.py action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=read pattern=opt/bagger-api/app.py action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=read pattern=var/www/bagger.gulasch.site/script.js action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=read pattern=var/www/bagger.gulasch.site/index.html action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=read pattern=var/www/bagger.gulasch.site/styles.css action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=read pattern=opt/bagger-api/tools/simulate.py action.permission=read action.action=allow action.pattern=*</div>
+<div class="log-line">message=loop session.id=ses_138331552ffePSzItaoLYFkXMu step=2</div>
+<div class="log-line">message=process session.id=ses_138331552ffePSzItaoLYFkXMu messageID=msg_ec7cd00e30016IpKzfzCXR28oG</div>
+<div class="log-line">message=stream providerID=opencode modelID=big-pickle session.id=ses_138331552ffePSzItaoLYFkXMu small=false agent=explore mode=subagent</div>
+<div class="log-line">message=evaluated permission=edit pattern=var/www/wiki.n50.camp/skins/N50Camp/resources/screen.css action.permission=* action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=edit pattern=var/www/wiki.n50.camp/skins/N50Camp/resources/n50camp.js action.permission=* action.action=allow action.pattern=*</div>
+<div class="log-line">message=loop session.id=ses_138331552ffePSzItaoLYFkXMu step=3</div>
+<div class="log-line">message=evaluated permission=edit pattern=var/www/wiki.n50.camp/LocalSettings.php action.permission=* action.action=allow action.pattern=*</div>
+<div class="log-line">message=process session.id=ses_138331552ffePSzItaoLYFkXMu messageID=msg_ec7cd11cd0016356JypU2RmIsG</div>
+<div class="log-line">message=stream providerID=opencode modelID=big-pickle session.id=ses_138331552ffePSzItaoLYFkXMu small=false agent=explore mode=subagent</div>
+<div class="log-line">message=loop session.id=ses_138331552ffePSzItaoLYFkXMu step=4</div>
+<div class="log-line">message=evaluated permission=bash pattern=&quot;chown -R www-data:www-data /var/www/wiki.n50.camp/skins/N50Camp&quot; action.permission=* action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=bash pattern=&quot;php /var/www/wiki.n50.camp/maintenance/update.php --quick&quot; action.permission=* action.action=allow action.pattern=*</div>
+<div class="log-line">message=evaluated permission=bash pattern=&quot;tail -5&quot; action.permission=* action.action=allow action.pattern=*</div>
+<div class="log-line">message=process session.id=ses_138331552ffePSzItaoLYFkXMu messageID=msg_ec7cd1cb4001JuMFYL6KO1qNEl</div>
+<div class="log-line">message=stream providerID=opencode modelID=big-pickle session.id=ses_138331552ffePSzItaoLYFkXMu small=false agent=explore mode=subagent</div>
+<div class="log-line">message=loop session.id=ses_138331552ffePSzItaoLYFkXMu step=5</div></div></div></div>
+
+</div>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+<a href="index.html" style="display:inline-block;padding:8px 18px;border:1px solid #2A3040;border-radius:6px;color:#6A7894;text-decoration:none;font-size:0.85em;transition:all 0.2s;" onmouseover="this.style.borderColor='#00D4FF';this.style.color='#00D4FF'" onmouseout="this.style.borderColor='#2A3040';this.style.color='#6A7894'">&larr; Back to overview</a>
+<a href="model_big-pickle.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid #2A3040;border-radius:6px;color:#6A7894;text-decoration:none;font-size:0.78em;font-family:JetBrains Mono;transition:all 0.2s;" onmouseover="this.style.borderColor='#00D4FF';this.style.color='#00D4FF'" onmouseout="this.style.borderColor='#2A3040';this.style.color='#6A7894'">model: big-pickle</a>
+<a href="patterns.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid #2A3040;border-radius:6px;color:#6A7894;text-decoration:none;font-size:0.78em;font-family:JetBrains Mono;transition:all 0.2s;" onmouseover="this.style.borderColor='#00D4FF';this.style.color='#00D4FF'" onmouseout="this.style.borderColor='#2A3040';this.style.color='#6A7894'">patterns</a>
+</div>
+
+<div class="status-bar">
+<div class="status-left"><span class="status-item"><span class="status-dot cyan"></span> opencode</span><span class="status-item"><span class="status-dot green"></span> big-pickle</span></div>
+<div class="status-right"><span class="status-item">17 tool calls</span><span class="status-item">5 llm calls</span><span class="status-item">6 messages</span></div>
+</div></div>
+<script>function tt(id){var e=document.getElementById(id);if(e){var h=e.style.display==='none';e.style.display=h?'block':'none';var p=e.previousElementSibling;if(p){var tg=p.querySelector('.tool-toggle');if(tg)tg.innerHTML=h?'&#9660;':'&#9654;';}}}</script>
+</body></html>

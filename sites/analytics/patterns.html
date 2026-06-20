@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Patterns & Clusters</title><style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background:#0A0E14;
+  color:#C5CDD9;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  min-height:100vh;
+  line-height:1.5;
+}
+
+::selection { background:#00D4FF33; color:#fff; }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#0A0E14; }
+::-webkit-scrollbar-thumb { background:#2A3040; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#3D4760; }
+
+.container { max-width:1440px; margin:0 auto; padding:16px; }
+
+/* ── Top bar ── */
+.top-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 20px; margin-bottom:20px;
+  background:#131720; border:1px solid #2A3040; border-radius:10px;
+}
+.top-bar-left { display:flex; align-items:center; gap:14px; }
+.top-bar-logo {
+  font-family:'JetBrains Mono',monospace; font-size:0.8em; color:#00D4FF;
+  white-space:pre; line-height:1.2;
+}
+.top-bar-title { font-size:1.1em; font-weight:600; color:#C5CDD9; }
+.top-bar-badge {
+  font-size:0.7em; background:#00D4FF; color:#0A0E14; padding:2px 10px;
+  border-radius:4px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;
+}
+.top-bar-right { display:flex; align-items:center; gap:12px; font-size:0.8em; color:#6A7894; font-family:'JetBrains Mono',monospace; }
+.top-bar-dot { width:8px; height:8px; border-radius:50%; background:#00FF88; display:inline-block; }
+
+/* ── Terminal window ── */
+.term {
+  background:#131720; border:1px solid #2A3040; border-radius:10px;
+  overflow:hidden;
+}
+.term-stack { display:flex; flex-direction:column; gap:18px; }
+.term-bar {
+  display:flex; align-items:center; gap:8px;
+  padding:10px 16px; background:#1A1F2B; border-bottom:1px solid #2A3040;
+  font-family:'JetBrains Mono',monospace; font-size:0.75em; color:#6A7894;
+  text-transform:uppercase; letter-spacing:0.5px;
+}
+.term-dot { width:10px; height:10px; border-radius:50%; }
+.term-dot.r { background:#FF5575; }
+.term-dot.y { background:#FFB347; }
+.term-dot.g { background:#00FF88; }
+.term-title { flex:1; }
+.term-body { padding:18px; }
+
+/* ── Stats grid ── */
+.stats-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-bottom:18px; }
+.stat-card {
+  background:#1A1F2B; border:1px solid #2A3040; border-radius:8px;
+  padding:16px; text-align:center; position:relative; overflow:hidden;
+  transition:border-color 0.2s, transform 0.2s;
+}
+.stat-card:hover { border-color:#00D4FF; transform:translateY(-2px); }
+.stat-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,#00D4FF44,transparent);
+}
+.stat-value { font-family:'JetBrains Mono',monospace; font-size:2em; font-weight:700; color:#00D4FF; }
+.stat-label { font-size:0.75em; color:#6A7894; margin-top:4px; text-transform:uppercase; letter-spacing:0.5px; }
+
+/* ── Grid content layout ── */
+.content-grid { display:grid; grid-template-columns:1fr 320px; gap:18px; }
+.content-main { min-width:0; }
+
+/* ── Providers, Models, Tools ── */
+.badge-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.badge {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; background:#1A1F2B; border:1px solid #2A3040;
+  border-radius:6px; font-size:0.82em;
+}
+.badge .name { color:#C5CDD9; }
+.badge .count { color:#6A7894; font-family:'JetBrains Mono',monospace; font-size:0.85em; }
+.badge.provider-0 { border-color:#00D4FF44; }
+.badge.provider-1 { border-color:#B388FF44; }
+
+/* ── Models section ── */
+.model-row {
+  display:flex; align-items:center; gap:12px; padding:8px 0;
+  border-bottom:1px solid #1A1F2B;
+}
+.model-row:last-child { border-bottom:none; }
+.model-link { display:contents; color:inherit; text-decoration:none; }
+.model-link:hover .model-name { color:#00D4FF; }
+.model-name { flex:1; font-size:0.9em; }
+.model-count { font-family:'JetBrains Mono',monospace; font-size:0.8em; color:#00D4FF; min-width:30px; text-align:right; }
+.model-bar { width:100px; height:6px; background:#1A1F2B; border-radius:3px; overflow:hidden; }
+.model-bar-fill { height:100%; background:linear-gradient(90deg,#00D4FF,#00FF88); border-radius:3px; transition:width 0.6s; }
+
+/* ── Session table ── */
+.sessions-table { width:100%; border-collapse:collapse; }
+.sessions-table th {
+  text-align:left; padding:8px 12px; font-size:0.72em; color:#6A7894;
+  text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid #2A3040;
+  font-weight:500;
+}
+.sessions-table td { padding:8px 12px; border-bottom:1px solid #1A1F2B; font-size:0.85em; }
+.sessions-table tr:hover td { background:#1A1F2B66; }
+.sessions-table .col-num { width:32px; text-align:right; color:#6A7894; font-family:'JetBrains Mono',monospace; font-size:0.8em; }
+.sessions-table .col-name { font-weight:500; cursor:pointer; }
+.sessions-table .col-name a { color:#C5CDD9; text-decoration:none; }
+.sessions-table .col-name a:hover { color:#00D4FF; }
+.sessions-table .col-provider { color:#6A7894; font-size:0.8em; }
+.sessions-table .col-model { color:#6A7894; font-size:0.8em; }
+.sessions-table .col-msgs { font-family:'JetBrains Mono',monospace; color:#00FF88; font-size:0.85em; text-align:right; }
+.sessions-table .col-tools { font-family:'JetBrains Mono',monospace; color:#B388FF; font-size:0.85em; text-align:right; }
+.sessions-table .col-calls { font-family:'JetBrains Mono',monospace; color:#00D4FF; font-size:0.85em; text-align:right; }
+.sessions-table .col-view { text-align:right; }
+.sessions-table .col-view a {
+  display:inline-block; padding:4px 14px; border:1px solid #2A3040;
+  border-radius:4px; font-size:0.75em; color:#6A7894; text-decoration:none;
+  transition:all 0.2s;
+}
+.sessions-table .col-view a:hover { border-color:#00D4FF; color:#00D4FF; background:#00D4FF11; }
+
+/* ── Side panel (tools leaderboard) ── */
+.side-panel { display:flex; flex-direction:column; gap:18px; }
+.tool-rank {
+  display:flex; align-items:center; gap:10px; padding:6px 0;
+  border-bottom:1px solid #1A1F2B; font-size:0.85em;
+}
+.tool-rank:last-child { border-bottom:none; }
+.tool-rank-link { color:inherit; text-decoration:none; display:block; }
+.tool-rank-link:hover .tool-rank-name { color:#00D4FF; }
+.tool-rank-num { color:#6A7894; font-family:'JetBrains Mono',monospace; font-size:0.8em; min-width:16px; }
+.tool-rank-name { flex:1; }
+.tool-rank-count { font-family:'JetBrains Mono',monospace; color:#B388FF; }
+
+/* ── Status bar ── */
+.status-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px; background:#131720; border:1px solid #2A3040;
+  border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:0.75em; color:#6A7894; margin-top:4px;
+}
+.status-left { display:flex; gap:16px; align-items:center; }
+.status-right { display:flex; gap:16px; align-items:center; }
+.status-item { display:flex; align-items:center; gap:6px; }
+.status-dot { width:6px; height:6px; border-radius:50%; }
+.status-dot.cyan { background:#00D4FF; }
+.status-dot.green { background:#00FF88; }
+.status-dot.purple { background:#B388FF; }
+
+/* ── Session page specific ── */
+.session-info-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
+.session-info-card {
+  background:#1A1F2B; border:1px solid #2A3040; border-radius:6px;
+  padding:12px; text-align:center;
+}
+.session-info-card .label { font-size:0.65em; color:#6A7894; text-transform:uppercase; letter-spacing:0.5px; }
+.session-info-card .value { font-family:'JetBrains Mono',monospace; font-size:1.4em; font-weight:700; margin-top:4px; }
+.session-info-card .value.cyan { color:#00D4FF; }
+.session-info-card .value.green { color:#00FF88; }
+.session-info-card .value.purple { color:#B388FF; }
+.session-info-card .value.orange { color:#FF8A50; }
+
+/* Chat */
+.chat { margin-top:6px; }
+.chat-msg { display:flex; gap:10px; margin-bottom:14px; }
+.chat-avatar {
+  width:28px; height:28px; border-radius:6px; display:flex;
+  align-items:center; justify-content:center; font-weight:700;
+  font-size:0.75em; flex-shrink:0; font-family:'JetBrains Mono',monospace;
+}
+.chat-user .chat-avatar { background:#00FF8833; color:#00FF88; border:1px solid #00FF8844; }
+.chat-assistant .chat-avatar { background:#00D4FF33; color:#00D4FF; border:1px solid #00D4FF44; }
+.chat-bubble { flex:1; background:#1A1F2B; border-radius:8px; padding:12px; border:1px solid #2A3040; }
+.chat-user .chat-bubble { border-color:#00FF8844; }
+.chat-role { font-weight:600; font-size:0.82em; color:#C5CDD9; margin-bottom:2px; }
+.chat-meta { font-size:0.72em; color:#6A7894; margin-bottom:6px; font-family:'JetBrains Mono',monospace; }
+.chat-text { white-space:pre-wrap; line-height:1.7; font-size:0.9em; }
+
+/* Reasoning */
+.reasoning { cursor:pointer; color:#6A7894; font-size:0.82em; padding:4px 0; user-select:none; font-family:'JetBrains Mono',monospace; }
+.reasoning:hover { color:#B388FF; }
+.reasoning-body pre { background:#0A0E14; padding:10px; border-radius:6px; font-size:0.8em; color:#8A9BB0; white-space:pre-wrap; margin:6px 0; border:1px solid #2A3040; }
+
+/* Tool call */
+.tool-call { border:1px solid #2A3040; border-radius:6px; margin:6px 0; overflow:hidden; }
+.tool-header {
+  display:flex; align-items:center; gap:8px; padding:6px 10px;
+  background:#0A0E14; cursor:pointer; user-select:none; font-size:0.82em;
+}
+.tool-header:hover { background:#131720; }
+.tool-name { font-weight:600; color:#00D4FF; font-family:'JetBrains Mono',monospace; }
+.tool-status { color:#6A7894; font-size:0.85em; }
+.tool-title { color:#6A7894; font-size:0.85em; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.tool-toggle { font-size:0.7em; color:#6A7894; }
+.tool-body { padding:8px; background:#131720; }
+.tool-section { margin:4px 0; }
+.tool-section-title { font-size:0.7em; color:#6A7894; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+.tool-body pre { background:#0A0E14; color:#8A9BB0; padding:8px; border-radius:4px; font-size:0.78em; overflow-x:auto; white-space:pre-wrap; word-break:break-all; max-height:180px; overflow-y:auto; border:1px solid #2A3040; }
+
+/* Timeline log */
+.log { background:#0A0E14; border-radius:6px; padding:14px; max-height:380px; overflow-y:auto; font-family:'JetBrains Mono',monospace; font-size:0.72em; line-height:1.6; border:1px solid #2A3040; }
+.log-line { padding:2px 0; border-bottom:1px solid #131720; word-break:break-all; color:#5A6880; }
+.log-line:nth-child(even) { background:#0D1117; }
+
+/* Animations */
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes scanline {
+  0%{transform:translateY(-100%)}
+  100%{transform:translateY(100vh)}
+}
+.scanline {
+  position:fixed; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,#00D4FF11,transparent);
+  animation:scanline 8s linear infinite; pointer-events:none; z-index:9999;
+}
+
+/* Project cards */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:12px}
+.proj-link{text-decoration:none;color:inherit;display:block}
+.proj-card{background:#131720;border:1px solid #2A3040;border-radius:8px;transition:border-color .2s}
+.proj-card:hover{border-color:#00D4FF55}
+.proj-card-header{display:flex;align-items:center;gap:8px;padding:10px 12px 6px;border-bottom:1px solid #1A1F2B}
+.proj-icon{font-size:1.2em;width:24px;text-align:center}
+.proj-name{font-weight:600;font-size:0.88em;color:#E0E6F0}
+.proj-card-body{padding:8px 12px 10px}
+.proj-desc{font-size:0.78em;color:#6A7894;line-height:1.4}
+.proj-meta{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.proj-tech{font-size:0.72em;color:#B388FF;font-family:'JetBrains Mono',monospace}
+.proj-sessions{font-size:0.72em;color:#00FF88;font-family:'JetBrains Mono',monospace}
+
+/* Timeline */
+.timeline{padding:12px 16px 12px 20px}
+.tl-day{display:flex;align-items:center;gap:10px;margin:10px 0 6px}
+.tl-day-label{font-size:0.78em;font-weight:600;color:#00D4FF;font-family:'JetBrains Mono',monospace;min-width:60px}
+.tl-day-line{flex:1;height:1px;background:linear-gradient(90deg,#2A3040,transparent)}
+.tl-event{display:flex;align-items:center;gap:8px;padding:3px 0 3px 10px;border-left:1px solid #2A3040;margin-left:30px;position:relative}
+.tl-dot{position:absolute;left:-4px;width:7px;height:7px;border-radius:50%;background:#B388FF;border:2px solid #0A0E14}
+.tl-icon{font-size:1em;width:20px;text-align:center;flex-shrink:0}
+.tl-label{font-size:0.82em;color:#C5CDD9;text-decoration:none}
+.tl-label:hover{color:#00D4FF}
+.tl-project{font-size:0.72em;color:#6A7894;font-family:'JetBrains Mono',monospace}
+
+/* Table project column */
+.col-project{color:#B388FF;font-size:0.82em}
+
+/* Responsive */
+@media(max-width:900px){ .content-grid{grid-template-columns:1fr} .stats-grid,.session-info-grid{grid-template-columns:repeat(3,1fr)} .proj-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))} }
+@media(max-width:600px){ .stats-grid,.session-info-grid{grid-template-columns:repeat(2,1fr)} .proj-grid{grid-template-columns:1fr} }
+
+.cooc-table { border-collapse:collapse; font-size:0.72em; font-family:JetBrains Mono; }
+.cooc-table td, .cooc-table th { padding:3px 6px; border:1px solid #2A3040; text-align:center; min-width:20px; }
+.cooc-table .cooc-h { writing-mode:vertical-lr; text-orientation:mixed; height:60px; font-weight:400; color:#6A7894; }
+.cooc-table .cooc-label { text-align:right; color:#6A7894; font-weight:500; }
+.cooc-cell { color:#C5CDD9; }
+.mc0 { background:rgba(0,212,255,1.00); }
+.mc0 { background:rgba(0,212,255,0.27); }
+.mc0 { background:rgba(0,212,255,0.93); }
+.mc0 { background:rgba(0,212,255,0.83); }
+.mc0 { background:rgba(0,212,255,1.00); }
+.mc0 { background:rgba(0,212,255,0.83); }
+.mc0 { background:rgba(0,212,255,0.50); }
+.mc1 { background:rgba(0,212,255,0.40); }
+.mc1 { background:rgba(0,212,255,1.00); }
+.mc1 { background:rgba(0,212,255,0.97); }
+.mc1 { background:rgba(0,212,255,1.00); }
+.mc1 { background:rgba(0,212,255,1.00); }
+.mc1 { background:rgba(0,212,255,0.63); }
+.mc1 { background:rgba(0,212,255,0.23); }
+.mc2 { background:rgba(0,212,255,0.33); }
+.mc2 { background:rgba(0,212,255,0.37); }
+.mc2 { background:rgba(0,212,255,0.40); }
+.mc2 { background:rgba(0,212,255,0.40); }
+.mc2 { background:rgba(0,212,255,0.30); }
+.mc2 { background:rgba(0,212,255,0.23); }
+.mc3 { background:rgba(0,212,255,0.87); }
+.mc3 { background:rgba(0,212,255,1.00); }
+.mc3 { background:rgba(0,212,255,0.77); }
+.mc3 { background:rgba(0,212,255,0.43); }
+.mc4 { background:rgba(0,212,255,0.97); }
+.mc4 { background:rgba(0,212,255,0.83); }
+.mc4 { background:rgba(0,212,255,0.50); }
+.mc5 { background:rgba(0,212,255,0.97); }
+.mc5 { background:rgba(0,212,255,0.60); }
+.mc6 { background:rgba(0,212,255,0.60); }
+.insight-card { background:#1A1F2B; border:1px solid #2A3040; border-radius:8px; padding:16px; margin-bottom:12px; }
+.insight-card .ic-title { font-weight:600; font-size:0.85em; color:#C5CDD9; margin-bottom:4px; }
+.insight-card .ic-body { font-size:0.82em; color:#6A7894; line-height:1.6; }
+</style></head>
+<body><div class="scanline"></div>
+<div class="container">
+<div class="top-bar"><div class="top-bar-left"><div class="top-bar-logo">             _                _           _ _       
+            | |              | |         (_) |      
+  __ _ _   _| | __ _ ___  ___| |__    ___ _| |_ ___ 
+ / _` | | | | |/ _` / __|/ __| '_ \  / __| | __/ _ \
+| (_| | |_| | | (_| \__ \ (__| | | |_\__ \ | ||  __/
+ \__, |\__,_|_|\__,_|___/\___|_| |_(_)___/_|\__\___|
+  __/ |                                             
+ |___/                                              </div><span class="top-bar-title">patterns &amp; clusters</span></div>
+<div class="top-bar-right"><a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid #2A3040;border-radius:6px;color:#6A7894;text-decoration:none;font-size:0.78em;font-family:JetBrains Mono;transition:all 0.2s;" onmouseover="this.style.borderColor='#00D4FF';this.style.color='#00D4FF'" onmouseout="this.style.borderColor='#2A3040';this.style.color='#6A7894'">&larr; index</a></div></div>
+<div class="content-grid">
+<div class="content-main">
+<div class="term"><div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">tool co-occurrence matrix</span><span>9 tools</span></div>
+<div class="term-body" style="overflow-x:auto"><table class="cooc-table"><tr><th></th><th class="cooc-h">apply_</th><th class="cooc-h">bash</th><th class="cooc-h">edit</th><th class="cooc-h">glob</th><th class="cooc-h">grep</th><th class="cooc-h">read</th><th class="cooc-h">todowr</th><th class="cooc-h">webfet</th><th class="cooc-h">write</th></tr><tr><td class="cooc-label">apply_pa</td><td class="cooc-cell"></td><td class="cooc-cell mc0" title="bash: 32">32</td><td class="cooc-cell mc0" title="edit: 8">8</td><td class="cooc-cell mc0" title="glob: 28">28</td><td class="cooc-cell mc0" title="grep: 25">25</td><td class="cooc-cell mc0" title="read: 32">32</td><td class="cooc-cell mc0" title="todowrite: 25">25</td><td class="cooc-cell mc0" title="webfetch: 15">15</td><td class="cooc-cell"></td></tr><tr><td class="cooc-label">bash</td><td class="cooc-cell mc1" title="apply_patch: 32">32</td><td class="cooc-cell"></td><td class="cooc-cell mc1" title="edit: 12">12</td><td class="cooc-cell mc1" title="glob: 33">33</td><td class="cooc-cell mc1" title="grep: 29">29</td><td class="cooc-cell mc1" title="read: 44">44</td><td class="cooc-cell mc1" title="todowrite: 30">30</td><td class="cooc-cell mc1" title="webfetch: 19">19</td><td class="cooc-cell mc1" title="write: 7">7</td></tr><tr><td class="cooc-label">edit</td><td class="cooc-cell mc2" title="apply_patch: 8">8</td><td class="cooc-cell mc2" title="bash: 12">12</td><td class="cooc-cell"></td><td class="cooc-cell mc2" title="glob: 10">10</td><td class="cooc-cell mc2" title="grep: 11">11</td><td class="cooc-cell mc2" title="read: 12">12</td><td class="cooc-cell mc2" title="todowrite: 12">12</td><td class="cooc-cell mc2" title="webfetch: 9">9</td><td class="cooc-cell mc2" title="write: 7">7</td></tr><tr><td class="cooc-label">glob</td><td class="cooc-cell mc3" title="apply_patch: 28">28</td><td class="cooc-cell mc3" title="bash: 33">33</td><td class="cooc-cell mc3" title="edit: 10">10</td><td class="cooc-cell"></td><td class="cooc-cell mc3" title="grep: 26">26</td><td class="cooc-cell mc3" title="read: 35">35</td><td class="cooc-cell mc3" title="todowrite: 23">23</td><td class="cooc-cell mc3" title="webfetch: 13">13</td><td class="cooc-cell"></td></tr><tr><td class="cooc-label">grep</td><td class="cooc-cell mc4" title="apply_patch: 25">25</td><td class="cooc-cell mc4" title="bash: 29">29</td><td class="cooc-cell mc4" title="edit: 11">11</td><td class="cooc-cell mc4" title="glob: 26">26</td><td class="cooc-cell"></td><td class="cooc-cell mc4" title="read: 29">29</td><td class="cooc-cell mc4" title="todowrite: 25">25</td><td class="cooc-cell mc4" title="webfetch: 15">15</td><td class="cooc-cell"></td></tr><tr><td class="cooc-label">read</td><td class="cooc-cell mc5" title="apply_patch: 32">32</td><td class="cooc-cell mc5" title="bash: 44">44</td><td class="cooc-cell mc5" title="edit: 12">12</td><td class="cooc-cell mc5" title="glob: 35">35</td><td class="cooc-cell mc5" title="grep: 29">29</td><td class="cooc-cell"></td><td class="cooc-cell mc5" title="todowrite: 29">29</td><td class="cooc-cell mc5" title="webfetch: 18">18</td><td class="cooc-cell"></td></tr><tr><td class="cooc-label">todowrit</td><td class="cooc-cell mc6" title="apply_patch: 25">25</td><td class="cooc-cell mc6" title="bash: 30">30</td><td class="cooc-cell mc6" title="edit: 12">12</td><td class="cooc-cell mc6" title="glob: 23">23</td><td class="cooc-cell mc6" title="grep: 25">25</td><td class="cooc-cell mc6" title="read: 29">29</td><td class="cooc-cell"></td><td class="cooc-cell mc6" title="webfetch: 18">18</td><td class="cooc-cell"></td></tr><tr><td class="cooc-label">webfetch</td><td class="cooc-cell mc7" title="apply_patch: 15">15</td><td class="cooc-cell mc7" title="bash: 19">19</td><td class="cooc-cell mc7" title="edit: 9">9</td><td class="cooc-cell mc7" title="glob: 13">13</td><td class="cooc-cell mc7" title="grep: 15">15</td><td class="cooc-cell mc7" title="read: 18">18</td><td class="cooc-cell mc7" title="todowrite: 18">18</td><td class="cooc-cell"></td><td class="cooc-cell"></td></tr><tr><td class="cooc-label">write</td><td class="cooc-cell"></td><td class="cooc-cell mc8" title="bash: 7">7</td><td class="cooc-cell mc8" title="edit: 7">7</td><td class="cooc-cell"></td><td class="cooc-cell"></td><td class="cooc-cell"></td><td class="cooc-cell"></td><td class="cooc-cell"></td><td class="cooc-cell"></td></tr></div></div>
+<div class="term"><div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">top co-occurring pairs</span></div>
+<div class="term-body" style="padding:0"><table class="sessions-table"><thead><tr><th>Tool A</th><th>Tool B</th><th>Sessions</th></tr></thead><tbody><tr><td class="col-name">bash</td><td class="col-name">read</td><td class="col-calls">44</td></tr>
+<tr><td class="col-name">glob</td><td class="col-name">read</td><td class="col-calls">35</td></tr>
+<tr><td class="col-name">bash</td><td class="col-name">glob</td><td class="col-calls">33</td></tr>
+<tr><td class="col-name">apply_patch</td><td class="col-name">bash</td><td class="col-calls">32</td></tr>
+<tr><td class="col-name">apply_patch</td><td class="col-name">read</td><td class="col-calls">32</td></tr>
+<tr><td class="col-name">bash</td><td class="col-name">todowrite</td><td class="col-calls">30</td></tr>
+<tr><td class="col-name">bash</td><td class="col-name">grep</td><td class="col-calls">29</td></tr>
+<tr><td class="col-name">grep</td><td class="col-name">read</td><td class="col-calls">29</td></tr>
+<tr><td class="col-name">read</td><td class="col-name">todowrite</td><td class="col-calls">29</td></tr>
+<tr><td class="col-name">apply_patch</td><td class="col-name">glob</td><td class="col-calls">28</td></tr>
+<tr><td class="col-name">glob</td><td class="col-name">grep</td><td class="col-calls">26</td></tr>
+<tr><td class="col-name">apply_patch</td><td class="col-name">grep</td><td class="col-calls">25</td></tr>
+<tr><td class="col-name">apply_patch</td><td class="col-name">todowrite</td><td class="col-calls">25</td></tr>
+<tr><td class="col-name">grep</td><td class="col-name">todowrite</td><td class="col-calls">25</td></tr>
+<tr><td class="col-name">glob</td><td class="col-name">todowrite</td><td class="col-calls">23</td></tr>
+<tr><td class="col-name">bash</td><td class="col-name">webfetch</td><td class="col-calls">19</td></tr>
+<tr><td class="col-name">read</td><td class="col-name">webfetch</td><td class="col-calls">18</td></tr>
+<tr><td class="col-name">todowrite</td><td class="col-name">webfetch</td><td class="col-calls">18</td></tr>
+<tr><td class="col-name">apply_patch</td><td class="col-name">webfetch</td><td class="col-calls">15</td></tr>
+<tr><td class="col-name">grep</td><td class="col-name">webfetch</td><td class="col-calls">15</td></tr>
+<tr><td class="col-name">glob</td><td class="col-name">webfetch</td><td class="col-calls">13</td></tr>
+<tr><td class="col-name">bash</td><td class="col-name">edit</td><td class="col-calls">12</td></tr>
+<tr><td class="col-name">edit</td><td class="col-name">read</td><td class="col-calls">12</td></tr>
+<tr><td class="col-name">edit</td><td class="col-name">todowrite</td><td class="col-calls">12</td></tr>
+<tr><td class="col-name">edit</td><td class="col-name">grep</td><td class="col-calls">11</td></tr>
+<tr><td class="col-name">edit</td><td class="col-name">glob</td><td class="col-calls">10</td></tr>
+<tr><td class="col-name">edit</td><td class="col-name">webfetch</td><td class="col-calls">9</td></tr>
+<tr><td class="col-name">apply_patch</td><td class="col-name">edit</td><td class="col-calls">8</td></tr>
+<tr><td class="col-name">bash</td><td class="col-name">write</td><td class="col-calls">7</td></tr>
+<tr><td class="col-name">edit</td><td class="col-name">write</td><td class="col-calls">7</td></tr></tbody></table></div></div>
+</div>
+<div class="side-panel">
+<div class="term"><div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">sessions by agent</span></div>
+<div class="term-body"><div class="tool-rank"><span class="tool-rank-name">?</span><span class="tool-rank-count">76 sessions</span></div></div></div>
+<div class="insight-card"><div class="ic-title">Key Insights</div>
+<div class="ic-body">• 9 tools form a co-occurrence network<br>
+• Most sessions use 2-4 tools together<br>
+• bash + read co-occur in 44 sessions<br>
+• Primary agent: ?<br>
+• 76 total sessions analyzed</div></div>
+</div></div>
+<div class="status-bar"><div class="status-left"><span class="status-item"><span class="status-dot purple"></span> 9 tools in matrix</span></div>
+<div class="status-right"><span class="status-item">generated 19:18</span></div></div>
+</div></body></html>

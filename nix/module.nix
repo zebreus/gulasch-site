@@ -58,6 +58,7 @@ in
       (mkHost "angular" "${sitePackage}/angular")
       (mkHost "n50camp" "${sitePackage}/n50camp")
       (mkHost "bagger" "${sitePackage}/bagger")
+      (mkHost "analytics" "${sitePackage}/analytics")
     ];
   };
 }

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Session 28 — stellar-planet</title><style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background:#0A0E14;
+  color:#C5CDD9;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  min-height:100vh;
+  line-height:1.5;
+}
+
+::selection { background:#00D4FF33; color:#fff; }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#0A0E14; }
+::-webkit-scrollbar-thumb { background:#2A3040; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#3D4760; }
+
+.container { max-width:1440px; margin:0 auto; padding:16px; }
+
+/* ── Top bar ── */
+.top-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 20px; margin-bottom:20px;
+  background:#131720; border:1px solid #2A3040; border-radius:10px;
+}
+.top-bar-left { display:flex; align-items:center; gap:14px; }
+.top-bar-logo {
+  font-family:'JetBrains Mono',monospace; font-size:0.8em; color:#00D4FF;
+  white-space:pre; line-height:1.2;
+}
+.top-bar-title { font-size:1.1em; font-weight:600; color:#C5CDD9; }
+.top-bar-badge {
+  font-size:0.7em; background:#00D4FF; color:#0A0E14; padding:2px 10px;
+  border-radius:4px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;
+}
+.top-bar-right { display:flex; align-items:center; gap:12px; font-size:0.8em; color:#6A7894; font-family:'JetBrains Mono',monospace; }
+.top-bar-dot { width:8px; height:8px; border-radius:50%; background:#00FF88; display:inline-block; }
+
+/* ── Terminal window ── */
+.term {
+  background:#131720; border:1px solid #2A3040; border-radius:10px;
+  overflow:hidden;
+}
+.term-stack { display:flex; flex-direction:column; gap:18px; }
+.term-bar {
+  display:flex; align-items:center; gap:8px;
+  padding:10px 16px; background:#1A1F2B; border-bottom:1px solid #2A3040;
+  font-family:'JetBrains Mono',monospace; font-size:0.75em; color:#6A7894;
+  text-transform:uppercase; letter-spacing:0.5px;
+}
+.term-dot { width:10px; height:10px; border-radius:50%; }
+.term-dot.r { background:#FF5575; }
+.term-dot.y { background:#FFB347; }
+.term-dot.g { background:#00FF88; }
+.term-title { flex:1; }
+.term-body { padding:18px; }
+
+/* ── Stats grid ── */
+.stats-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-bottom:18px; }
+.stat-card {
+  background:#1A1F2B; border:1px solid #2A3040; border-radius:8px;
+  padding:16px; text-align:center; position:relative; overflow:hidden;
+  transition:border-color 0.2s, transform 0.2s;
+}
+.stat-card:hover { border-color:#00D4FF; transform:translateY(-2px); }
+.stat-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,#00D4FF44,transparent);
+}
+.stat-value { font-family:'JetBrains Mono',monospace; font-size:2em; font-weight:700; color:#00D4FF; }
+.stat-label { font-size:0.75em; color:#6A7894; margin-top:4px; text-transform:uppercase; letter-spacing:0.5px; }
+
+/* ── Grid content layout ── */
+.content-grid { display:grid; grid-template-columns:1fr 320px; gap:18px; }
+.content-main { min-width:0; }
+
+/* ── Providers, Models, Tools ── */
+.badge-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.badge {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; background:#1A1F2B; border:1px solid #2A3040;
+  border-radius:6px; font-size:0.82em;
+}
+.badge .name { color:#C5CDD9; }
+.badge .count { color:#6A7894; font-family:'JetBrains Mono',monospace; font-size:0.85em; }
+.badge.provider-0 { border-color:#00D4FF44; }
+.badge.provider-1 { border-color:#B388FF44; }
+
+/* ── Models section ── */
+.model-row {
+  display:flex; align-items:center; gap:12px; padding:8px 0;
+  border-bottom:1px solid #1A1F2B;
+}
+.model-row:last-child { border-bottom:none; }
+.model-link { display:contents; color:inherit; text-decoration:none; }
+.model-link:hover .model-name { color:#00D4FF; }
+.model-name { flex:1; font-size:0.9em; }
+.model-count { font-family:'JetBrains Mono',monospace; font-size:0.8em; color:#00D4FF; min-width:30px; text-align:right; }
+.model-bar { width:100px; height:6px; background:#1A1F2B; border-radius:3px; overflow:hidden; }
+.model-bar-fill { height:100%; background:linear-gradient(90deg,#00D4FF,#00FF88); border-radius:3px; transition:width 0.6s; }
+
+/* ── Session table ── */
+.sessions-table { width:100%; border-collapse:collapse; }
+.sessions-table th {
+  text-align:left; padding:8px 12px; font-size:0.72em; color:#6A7894;
+  text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid #2A3040;
+  font-weight:500;
+}
+.sessions-table td { padding:8px 12px; border-bottom:1px solid #1A1F2B; font-size:0.85em; }
+.sessions-table tr:hover td { background:#1A1F2B66; }
+.sessions-table .col-num { width:32px; text-align:right; color:#6A7894; font-family:'JetBrains Mono',monospace; font-size:0.8em; }
+.sessions-table .col-name { font-weight:500; cursor:pointer; }
+.sessions-table .col-name a { color:#C5CDD9; text-decoration:none; }
+.sessions-table .col-name a:hover { color:#00D4FF; }
+.sessions-table .col-provider { color:#6A7894; font-size:0.8em; }
+.sessions-table .col-model { color:#6A7894; font-size:0.8em; }
+.sessions-table .col-msgs { font-family:'JetBrains Mono',monospace; color:#00FF88; font-size:0.85em; text-align:right; }
+.sessions-table .col-tools { font-family:'JetBrains Mono',monospace; color:#B388FF; font-size:0.85em; text-align:right; }
+.sessions-table .col-calls { font-family:'JetBrains Mono',monospace; color:#00D4FF; font-size:0.85em; text-align:right; }
+.sessions-table .col-view { text-align:right; }
+.sessions-table .col-view a {
+  display:inline-block; padding:4px 14px; border:1px solid #2A3040;
+  border-radius:4px; font-size:0.75em; color:#6A7894; text-decoration:none;
+  transition:all 0.2s;
+}
+.sessions-table .col-view a:hover { border-color:#00D4FF; color:#00D4FF; background:#00D4FF11; }
+
+/* ── Side panel (tools leaderboard) ── */
+.side-panel { display:flex; flex-direction:column; gap:18px; }
+.tool-rank {
+  display:flex; align-items:center; gap:10px; padding:6px 0;
+  border-bottom:1px solid #1A1F2B; font-size:0.85em;
+}
+.tool-rank:last-child { border-bottom:none; }
+.tool-rank-link { color:inherit; text-decoration:none; display:block; }
+.tool-rank-link:hover .tool-rank-name { color:#00D4FF; }
+.tool-rank-num { color:#6A7894; font-family:'JetBrains Mono',monospace; font-size:0.8em; min-width:16px; }
+.tool-rank-name { flex:1; }
+.tool-rank-count { font-family:'JetBrains Mono',monospace; color:#B388FF; }
+
+/* ── Status bar ── */
+.status-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 16px; background:#131720; border:1px solid #2A3040;
+  border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:0.75em; color:#6A7894; margin-top:4px;
+}
+.status-left { display:flex; gap:16px; align-items:center; }
+.status-right { display:flex; gap:16px; align-items:center; }
+.status-item { display:flex; align-items:center; gap:6px; }
+.status-dot { width:6px; height:6px; border-radius:50%; }
+.status-dot.cyan { background:#00D4FF; }
+.status-dot.green { background:#00FF88; }
+.status-dot.purple { background:#B388FF; }
+
+/* ── Session page specific ── */
+.session-info-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
+.session-info-card {
+  background:#1A1F2B; border:1px solid #2A3040; border-radius:6px;
+  padding:12px; text-align:center;
+}
+.session-info-card .label { font-size:0.65em; color:#6A7894; text-transform:uppercase; letter-spacing:0.5px; }
+.session-info-card .value { font-family:'JetBrains Mono',monospace; font-size:1.4em; font-weight:700; margin-top:4px; }
+.session-info-card .value.cyan { color:#00D4FF; }
+.session-info-card .value.green { color:#00FF88; }
+.session-info-card .value.purple { color:#B388FF; }
+.session-info-card .value.orange { color:#FF8A50; }
+
+/* Chat */
+.chat { margin-top:6px; }
+.chat-msg { display:flex; gap:10px; margin-bottom:14px; }
+.chat-avatar {
+  width:28px; height:28px; border-radius:6px; display:flex;
+  align-items:center; justify-content:center; font-weight:700;
+  font-size:0.75em; flex-shrink:0; font-family:'JetBrains Mono',monospace;
+}
+.chat-user .chat-avatar { background:#00FF8833; color:#00FF88; border:1px solid #00FF8844; }
+.chat-assistant .chat-avatar { background:#00D4FF33; color:#00D4FF; border:1px solid #00D4FF44; }
+.chat-bubble { flex:1; background:#1A1F2B; border-radius:8px; padding:12px; border:1px solid #2A3040; }
+.chat-user .chat-bubble { border-color:#00FF8844; }
+.chat-role { font-weight:600; font-size:0.82em; color:#C5CDD9; margin-bottom:2px; }
+.chat-meta { font-size:0.72em; color:#6A7894; margin-bottom:6px; font-family:'JetBrains Mono',monospace; }
+.chat-text { white-space:pre-wrap; line-height:1.7; font-size:0.9em; }
+
+/* Reasoning */
+.reasoning { cursor:pointer; color:#6A7894; font-size:0.82em; padding:4px 0; user-select:none; font-family:'JetBrains Mono',monospace; }
+.reasoning:hover { color:#B388FF; }
+.reasoning-body pre { background:#0A0E14; padding:10px; border-radius:6px; font-size:0.8em; color:#8A9BB0; white-space:pre-wrap; margin:6px 0; border:1px solid #2A3040; }
+
+/* Tool call */
+.tool-call { border:1px solid #2A3040; border-radius:6px; margin:6px 0; overflow:hidden; }
+.tool-header {
+  display:flex; align-items:center; gap:8px; padding:6px 10px;
+  background:#0A0E14; cursor:pointer; user-select:none; font-size:0.82em;
+}
+.tool-header:hover { background:#131720; }
+.tool-name { font-weight:600; color:#00D4FF; font-family:'JetBrains Mono',monospace; }
+.tool-status { color:#6A7894; font-size:0.85em; }
+.tool-title { color:#6A7894; font-size:0.85em; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.tool-toggle { font-size:0.7em; color:#6A7894; }
+.tool-body { padding:8px; background:#131720; }
+.tool-section { margin:4px 0; }
+.tool-section-title { font-size:0.7em; color:#6A7894; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+.tool-body pre { background:#0A0E14; color:#8A9BB0; padding:8px; border-radius:4px; font-size:0.78em; overflow-x:auto; white-space:pre-wrap; word-break:break-all; max-height:180px; overflow-y:auto; border:1px solid #2A3040; }
+
+/* Timeline log */
+.log { background:#0A0E14; border-radius:6px; padding:14px; max-height:380px; overflow-y:auto; font-family:'JetBrains Mono',monospace; font-size:0.72em; line-height:1.6; border:1px solid #2A3040; }
+.log-line { padding:2px 0; border-bottom:1px solid #131720; word-break:break-all; color:#5A6880; }
+.log-line:nth-child(even) { background:#0D1117; }
+
+/* Animations */
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+@keyframes scanline {
+  0%{transform:translateY(-100%)}
+  100%{transform:translateY(100vh)}
+}
+.scanline {
+  position:fixed; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,#00D4FF11,transparent);
+  animation:scanline 8s linear infinite; pointer-events:none; z-index:9999;
+}
+
+/* Project cards */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;padding:12px}
+.proj-link{text-decoration:none;color:inherit;display:block}
+.proj-card{background:#131720;border:1px solid #2A3040;border-radius:8px;transition:border-color .2s}
+.proj-card:hover{border-color:#00D4FF55}
+.proj-card-header{display:flex;align-items:center;gap:8px;padding:10px 12px 6px;border-bottom:1px solid #1A1F2B}
+.proj-icon{font-size:1.2em;width:24px;text-align:center}
+.proj-name{font-weight:600;font-size:0.88em;color:#E0E6F0}
+.proj-card-body{padding:8px 12px 10px}
+.proj-desc{font-size:0.78em;color:#6A7894;line-height:1.4}
+.proj-meta{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.proj-tech{font-size:0.72em;color:#B388FF;font-family:'JetBrains Mono',monospace}
+.proj-sessions{font-size:0.72em;color:#00FF88;font-family:'JetBrains Mono',monospace}
+
+/* Timeline */
+.timeline{padding:12px 16px 12px 20px}
+.tl-day{display:flex;align-items:center;gap:10px;margin:10px 0 6px}
+.tl-day-label{font-size:0.78em;font-weight:600;color:#00D4FF;font-family:'JetBrains Mono',monospace;min-width:60px}
+.tl-day-line{flex:1;height:1px;background:linear-gradient(90deg,#2A3040,transparent)}
+.tl-event{display:flex;align-items:center;gap:8px;padding:3px 0 3px 10px;border-left:1px solid #2A3040;margin-left:30px;position:relative}
+.tl-dot{position:absolute;left:-4px;width:7px;height:7px;border-radius:50%;background:#B388FF;border:2px solid #0A0E14}
+.tl-icon{font-size:1em;width:20px;text-align:center;flex-shrink:0}
+.tl-label{font-size:0.82em;color:#C5CDD9;text-decoration:none}
+.tl-label:hover{color:#00D4FF}
+.tl-project{font-size:0.72em;color:#6A7894;font-family:'JetBrains Mono',monospace}
+
+/* Table project column */
+.col-project{color:#B388FF;font-size:0.82em}
+
+/* Responsive */
+@media(max-width:900px){ .content-grid{grid-template-columns:1fr} .stats-grid,.session-info-grid{grid-template-columns:repeat(3,1fr)} .proj-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))} }
+@media(max-width:600px){ .stats-grid,.session-info-grid{grid-template-columns:repeat(2,1fr)} .proj-grid{grid-template-columns:1fr} }
+</style></head>
+<body><div class="scanline"></div>
+<div class="container">
+
+<div class="top-bar">
+<div class="top-bar-left"><div class="top-bar-logo">             _                _           _ _       
+            | |              | |         (_) |      
+  __ _ _   _| | __ _ ___  ___| |__    ___ _| |_ ___ 
+ / _` | | | | |/ _` / __|/ __| '_ \  / __| | __/ _ \
+| (_| | |_| | | (_| \__ \ (__| | | |_\__ \ | ||  __/
+ \__, |\__,_|_|\__,_|___/\___|_| |_(_)___/_|\__\___|
+  __/ |                                             
+ |___/                                              </div><span class="top-bar-title">Session Logs</span><span class="top-bar-badge">Session #28</span></div>
+<div class="top-bar-right"><span class="top-bar-dot"></span> live &middot; 2026-06-20 19:18</div>
+</div>
+
+<div class="term-stack">
+
+<div class="term">
+<div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">info — stellar-planet</span><span>ses_14fb48b5cffedTuc…</span></div>
+<div class="term-body">
+<div class="session-info-grid">
+<div class="session-info-card"><div class="label">Provider</div><div class="value cyan">openai</div></div>
+<div class="session-info-card"><div class="label">Model</div><div class="value cyan">gpt-5.5</div></div>
+<div class="session-info-card"><div class="label">Messages</div><div class="value green">6</div></div>
+<div class="session-info-card"><div class="label">Tools</div><div class="value purple">3</div></div>
+<div class="session-info-card"><div class="label">Tool Calls</div><div class="value orange">16</div></div>
+<div class="session-info-card"><div class="label">LLM Calls</div><div class="value cyan">8</div></div>
+</div>
+</div></div>
+
+<div class="term">
+<div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">tools</span><span>3 unique</span></div>
+<div class="term-body"><div class="badge-grid"><span class="badge"><span class="name">bash</span></span>
+<span class="badge"><span class="name">glob</span></span>
+<span class="badge"><span class="name">read</span></span></div></div></div>
+
+<div class="term">
+<div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">conversation</span><span>6 messages</span></div>
+<div class="term-body"><div class="chat"><div class="chat-msg chat-user"><div class="chat-avatar">U</div><div class="chat-bubble"><div class="chat-role">User</div><div class="chat-text">Which websites are hosted here?</div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">gpt-5.5 | agent=build | finish=tool-calls</div><div class="chat-text">I’ll inspect common web server, vhost, and app deployment locations to identify configured hostnames/sites rather than guessing from directory names.</div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04b7544001JwvtFdErv5soCf_read_15165225')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">etc/nginx/sites-enabled</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04b7544001JwvtFdErv5soCf_read_15165225" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/etc/nginx/sites-enabled&quot;,
+  &quot;offset&quot;: 1,
+  &quot;limit&quot;: 200
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/etc/nginx/sites-enabled&lt;/path&gt;
+&lt;type&gt;directory&lt;/type&gt;
+&lt;entries&gt;
+default
+
+(1 entries)
+&lt;/entries&gt;</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04b7544001JwvtFdErv5soCf_read_14362766')"><span class="tool-name">read</span><span class="tool-status">error</span><span class="tool-title"></span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04b7544001JwvtFdErv5soCf_read_14362766" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/etc/apache2/sites-enabled&quot;,
+  &quot;offset&quot;: 1,
+  &quot;limit&quot;: 200
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre></pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04b7544001JwvtFdErv5soCf_read_4915307')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">var/www</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04b7544001JwvtFdErv5soCf_read_4915307" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/var/www&quot;,
+  &quot;offset&quot;: 1,
+  &quot;limit&quot;: 200
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/var/www&lt;/path&gt;
+&lt;type&gt;directory&lt;/type&gt;
+&lt;entries&gt;
+3d.gulasch.site.backup_20260609_195932/
+3d.gulasch.site/
+aisaas.gulasch.site/
+angular.gulasch.site/
+c3cock.gulasch.site/
+chat.gulasch.site/
+html/
+n50.camp/
+ocpncord.gulasch.site/
+pokemon.gulasch.site/
+testwebseite.gulasch.site/
+testwebseite2.gulasch.site/
+
+(12 entries)
+&lt;/entries&gt;</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04b7544001JwvtFdErv5soCf_glob_2571110')"><span class="tool-name">glob</span><span class="tool-status">completed</span><span class="tool-title"></span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04b7544001JwvtFdErv5soCf_glob_2571110" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;pattern&quot;: &quot;**/docker-compose*.yml&quot;,
+  &quot;path&quot;: &quot;/&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>No files found</pre></div></div></div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">gpt-5.5 | agent=build | finish=tool-calls</div><div class="reasoning" onclick="tt('r_msg_eb04bad910017CRDGus7qF5ltt')">&#9654; Reasoning</div><div class="reasoning-body" id="r_msg_eb04bad910017CRDGus7qF5ltt"><pre>**Inspecting nginx configuration**
+
+I need to check the nginx configuration files. I&#x27;ll start with the file in `/etc/nginx/sites-enabled/default` and possibly look into `/etc/nginx/conf.d` too. It&#x27;s important to read through these files, including the main configuration file located at `/etc/nginx/nginx.conf`. By reviewing these settings, I can ensure everything is set up correctly and functioning as intended. Let’s get this sorted out!</pre></div><div class="chat-text">Nginx is present and `/var/www` contains multiple site-named directories. I’m checking the active Nginx config now to separate live hostnames from backups or unused folders.</div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04bad910017CRDGus7qF5ltt_read_2540386')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">etc/nginx/sites-enabled/default</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04bad910017CRDGus7qF5ltt_read_2540386" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/etc/nginx/sites-enabled/default&quot;,
+  &quot;offset&quot;: 1,
+  &quot;limit&quot;: 400
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/etc/nginx/sites-enabled/default&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: ##
+2: # You should look at the following URL&#x27;s in order to grasp a solid understanding
+3: # of Nginx configuration files in order to fully unleash the power of Nginx.
+4: # https://www.nginx.com/resources/wiki/start/
+5: # https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+6: # https://wiki.debian.org/Nginx/DirectoryStructure
+7: #
+8: # In most cases, administrators will remove this file from site...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04bad910017CRDGus7qF5ltt_read_2093182')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">etc/nginx/conf.d</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04bad910017CRDGus7qF5ltt_read_2093182" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/etc/nginx/conf.d&quot;,
+  &quot;offset&quot;: 1,
+  &quot;limit&quot;: 200
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/etc/nginx/conf.d&lt;/path&gt;
+&lt;type&gt;directory&lt;/type&gt;
+&lt;entries&gt;
+
+
+(0 entries)
+&lt;/entries&gt;</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04bad910017CRDGus7qF5ltt_read_11026617')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">etc/nginx/nginx.conf</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04bad910017CRDGus7qF5ltt_read_11026617" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/etc/nginx/nginx.conf&quot;,
+  &quot;offset&quot;: 1,
+  &quot;limit&quot;: 300
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/etc/nginx/nginx.conf&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: user www-data;
+2: worker_processes auto;
+3: worker_cpu_affinity auto;
+4: pid /run/nginx.pid;
+5: error_log /var/log/nginx/error.log;
+6: include /etc/nginx/modules-enabled/*.conf;
+7: 
+8: events {
+9: 	worker_connections 768;
+10: 	# multi_accept on;
+11: }
+12: 
+13: http {
+14: 
+15: 	##
+16: 	# Basic Settings
+17: 	##
+18: 
+19: 	sendfile on;
+20: 	tcp_nopush on;
+21: 	types_hash_max_size 2048;
+22: 	server_tokens build; # Recommended practice ...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04bad910017CRDGus7qF5ltt_glob_3492208')"><span class="tool-name">glob</span><span class="tool-status">completed</span><span class="tool-title">etc/nginx/conf.d</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04bad910017CRDGus7qF5ltt_glob_3492208" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;pattern&quot;: &quot;*.conf&quot;,
+  &quot;path&quot;: &quot;/etc/nginx/conf.d&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>No files found</pre></div></div></div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">gpt-5.5 | agent=build | finish=tool-calls</div><div class="chat-text">The active Nginx config currently only exposes the default site. I’m checking running listeners and generated/full web-server config in case sites are served by another process or included elsewhere.</div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04bd586001DtmqGvUYiG0nes_bash_10769517')"><span class="tool-name">bash</span><span class="tool-status">completed</span><span class="tool-title">Dumps complete active Nginx configuration</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04bd586001DtmqGvUYiG0nes_bash_10769517" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;command&quot;: &quot;nginx -T&quot;,
+  &quot;timeout&quot;: 120000,
+  &quot;workdir&quot;: &quot;/&quot;,
+  &quot;description&quot;: &quot;Dumps complete active Nginx configuration&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=0</div><pre># configuration file /etc/nginx/nginx.conf:
+user www-data;
+worker_processes auto;
+worker_cpu_affinity auto;
+pid /run/nginx.pid;
+error_log /var/log/nginx/error.log;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+	worker_connections 768;
+	# multi_accept on;
+}
+
+http {
+
+	##
+	# Basic Settings
+	##
+
+	sendfile on;
+	tcp_nopush on;
+	types_hash_max_size 2048;
+	server_tokens build; # Recommended practice is to turn this off
+
+	# server_names_hash_bucket_size 64;
+	# server_name_in_redirect off;
+
+	includ...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04bd586001DtmqGvUYiG0nes_bash_15743854')"><span class="tool-name">bash</span><span class="tool-status">completed</span><span class="tool-title">Shows listening TCP services and processes</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04bd586001DtmqGvUYiG0nes_bash_15743854" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;command&quot;: &quot;ss -ltnp&quot;,
+  &quot;timeout&quot;: 120000,
+  &quot;workdir&quot;: &quot;/&quot;,
+  &quot;description&quot;: &quot;Shows listening TCP services and processes&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=0</div><pre>State  Recv-Q Send-Q  Local Address:Port  Peer Address:PortProcess                                                 
+LISTEN 0      4096    127.0.0.53%lo:53         0.0.0.0:*    users:((&quot;systemd-resolve&quot;,pid=807,fd=17))              
+LISTEN 0      4096        127.0.0.1:2019       0.0.0.0:*    users:((&quot;caddy&quot;,pid=6483,fd=6))                        
+LISTEN 0      5      178.105.108.45:38241      0.0.0.0:*    users:((&quot;baresip&quot;,pid=72534,fd=8))                     
+LISTEN 0      5             0.0.0.0:...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04bd586001DtmqGvUYiG0nes_bash_4811150')"><span class="tool-name">bash</span><span class="tool-status">completed</span><span class="tool-title">Lists running processes with arguments</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04bd586001DtmqGvUYiG0nes_bash_4811150" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;command&quot;: &quot;ps -eo pid,ppid,user,comm,args&quot;,
+  &quot;timeout&quot;: 120000,
+  &quot;workdir&quot;: &quot;/&quot;,
+  &quot;description&quot;: &quot;Lists running processes with arguments&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=0</div><pre>    PID    PPID USER     COMMAND         COMMAND
+      1       0 root     systemd         /usr/lib/systemd/systemd --switched-root --system --deserialize=52
+      2       0 root     kthreadd        [kthreadd]
+      3       2 root     pool_workqueue_ [pool_workqueue_release]
+      4       2 root     kworker/R-rcu_g [kworker/R-rcu_gp]
+      5       2 root     kworker/R-sync_ [kworker/R-sync_wq]
+      6       2 root     kworker/R-kvfre [kworker/R-kvfree_rcu_reclaim]
+      7       2 root     kworker...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04bd586001DtmqGvUYiG0nes_read_16161000')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">etc/nginx/sites-available</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04bd586001DtmqGvUYiG0nes_read_16161000" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/etc/nginx/sites-available&quot;,
+  &quot;offset&quot;: 1,
+  &quot;limit&quot;: 200
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/etc/nginx/sites-available&lt;/path&gt;
+&lt;type&gt;directory&lt;/type&gt;
+&lt;entries&gt;
+default
+
+(1 entries)
+&lt;/entries&gt;</pre></div></div></div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">gpt-5.5 | agent=build | finish=tool-calls</div><div class="reasoning" onclick="tt('r_msg_eb04c2bee0012c8r5eTqlj1b7x')">&#9654; Reasoning</div><div class="reasoning-body" id="r_msg_eb04c2bee0012c8r5eTqlj1b7x"><pre>**Inspecting Caddy configurations**
+
+I need to take a look at the Caddyfile, and I might also need to check the Docker containers. The path to the Caddyfile is /etc/caddy/Caddyfile. I wonder if there are additional configurations to import. I should also check running processes since I see node apps and Python running. I&#x27;ll consider using Caddy adapt as part of my exploration. It&#x27;s essential to gather all this information properly.</pre></div><div class="chat-text">Caddy, not Nginx, is the active public web server on ports 80/443. I’m reading its Caddyfile and checking Docker containers to list the actual routed hostnames.</div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04c2bee0012c8r5eTqlj1b7x_read_14999653')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">etc/caddy/Caddyfile</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04c2bee0012c8r5eTqlj1b7x_read_14999653" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/etc/caddy/Caddyfile&quot;,
+  &quot;offset&quot;: 1,
+  &quot;limit&quot;: 800
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/etc/caddy/Caddyfile&lt;/path&gt;
+&lt;type&gt;file&lt;/type&gt;
+&lt;content&gt;
+1: {
+2: 	email [REDACTED]
+3: }
+4: 
+5: gulasch.site {
+6: 	reverse_proxy 127.0.0.1:4096
+7: }
+8: 
+9: richard.gulasch.site {
+10: 	reverse_proxy 127.0.0.1:8095
+11: }
+12: 
+13: conversation.gulasch.site {
+14: 	reverse_proxy 127.0.0.1:8096
+15: }
+16: 
+17: drive.gulasch.site {
+18: 	reverse_proxy 127.0.0.1:8097
+19: }
+20: 
+21: terminal.gulasch.site {
+22: 	reverse_proxy 127.0.0.1:8080
+23: }
+24: 
+25: chat.gulasch.site {
+26: 	root * /var/www/chat.gu...</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04c2bee0012c8r5eTqlj1b7x_read_15812532')"><span class="tool-name">read</span><span class="tool-status">completed</span><span class="tool-title">etc/caddy</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04c2bee0012c8r5eTqlj1b7x_read_15812532" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;filePath&quot;: &quot;/etc/caddy&quot;,
+  &quot;offset&quot;: 1,
+  &quot;limit&quot;: 200
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=</div><pre>&lt;path&gt;/etc/caddy&lt;/path&gt;
+&lt;type&gt;directory&lt;/type&gt;
+&lt;entries&gt;
+Caddyfile
+
+(1 entries)
+&lt;/entries&gt;</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04c2bee0012c8r5eTqlj1b7x_bash_4698937')"><span class="tool-name">bash</span><span class="tool-status">completed</span><span class="tool-title">Lists running Docker containers and ports</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04c2bee0012c8r5eTqlj1b7x_bash_4698937" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;command&quot;: &quot;docker ps --format &#x27;table {{.Names}}\\t{{.Image}}\\t{{.Ports}}\\t{{.Status}}&#x27;&quot;,
+  &quot;timeout&quot;: 120000,
+  &quot;workdir&quot;: &quot;/&quot;,
+  &quot;description&quot;: &quot;Lists running Docker containers and ports&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=0</div><pre>NAMES     IMAGE     PORTS     STATUS
+</pre></div></div></div><div class="tool-call"><div class="tool-header" onclick="tt('t_msg_eb04c2bee0012c8r5eTqlj1b7x_bash_2073186')"><span class="tool-name">bash</span><span class="tool-status">completed</span><span class="tool-title">Validates active Caddy configuration</span><span class="tool-toggle">&#9654;</span></div><div class="tool-body" id="t_msg_eb04c2bee0012c8r5eTqlj1b7x_bash_2073186" style="display:none"><div class="tool-section"><div class="tool-section-title">Input</div><pre>{
+  &quot;command&quot;: &quot;caddy validate --config /etc/caddy/Caddyfile&quot;,
+  &quot;timeout&quot;: 120000,
+  &quot;workdir&quot;: &quot;/&quot;,
+  &quot;description&quot;: &quot;Validates active Caddy configuration&quot;
+}</pre></div><div class="tool-section"><div class="tool-section-title">Output exit=0</div><pre>{&quot;level&quot;:&quot;info&quot;,&quot;ts&quot;:1781074250.2731996,&quot;msg&quot;:&quot;using provided configuration&quot;,&quot;config_file&quot;:&quot;/etc/caddy/Caddyfile&quot;,&quot;config_adapter&quot;:&quot;&quot;}
+{&quot;level&quot;:&quot;info&quot;,&quot;ts&quot;:1781074250.2782674,&quot;logger&quot;:&quot;http&quot;,&quot;msg&quot;:&quot;server is listening only on the HTTPS port but has no TLS connection policies; adding one to enable TLS&quot;,&quot;server_name&quot;:&quot;srv0&quot;,&quot;https_port&quot;:443}
+{&quot;level&quot;:&quot;info&quot;,&quot;ts&quot;:1781074250.2782922,&quot;logger&quot;:&quot;http&quot;,&quot;msg&quot;:&quot;enabling automatic HTTP-&gt;HTTPS redirects&quot;,&quot;server_name&quot;:&quot;srv0&quot;}
+{&quot;level&quot;:&quot;info&quot;,&quot;ts&quot;:1781074250...</pre></div></div></div></div></div>
+<div class="chat-msg chat-assistant"><div class="chat-avatar">A</div><div class="chat-bubble"><div class="chat-role">Assistant</div><div class="chat-meta">gpt-5.5 | agent=build | finish=stop</div><div class="reasoning" onclick="tt('r_msg_eb04c4a6f001sUsT3kpHgMN3I3')">&#9654; Reasoning</div><div class="reasoning-body" id="r_msg_eb04c4a6f001sUsT3kpHgMN3I3"><pre>**Confirming hosted sites**
+
+To answer the question about what’s &quot;hosted here,&quot; I might say it’s configured on this server. I could run a local curl command with Host headers to confirm the routing, especially since Caddy automatically redirects HTTP to HTTPS unless specified. 
+
+I could check each domain, but it&#x27;s not strictly necessary. We already validated the Caddyfile, but using `caddy adapt --pretty` could provide clarity. I’ll format my response as “According to the active Caddy config...” in a table. I should also note that Nginx’s default configuration exists but Caddy is actively listening on ports 80 and 443, so sites are from the Caddyfile. There’s a backup directory under `/var/www`, but the HTML is not routed.</pre></div><div class="chat-text">Active public web hosting is handled by Caddy from `/etc/caddy/Caddyfile`.
+
+Hosted domains:
+
+| Domain | Served From / Upstream |
+|---|---|
+| `gulasch.site` | `127.0.0.1:4096` |
+| `richard.gulasch.site` | `127.0.0.1:8095` |
+| `conversation.gulasch.site` | `127.0.0.1:8096` |
+| `drive.gulasch.site` | `127.0.0.1:8097` |
+| `terminal.gulasch.site` | `127.0.0.1:8080` |
+| `chat.gulasch.site` | `/var/www/chat.gulasch.site` |
+| `ocpncord.gulasch.site` | `/var/www/ocpncord.gulasch.site` |
+| `pokemon.gulasch.site` | `/var/www/pokemon.gulasch.site` |
+| `c3cock.gulasch.site` | `/var/www/c3cock.gulasch.site`, `/api/*` to `127.0.0.1:8102` |
+| `angular.gulasch.site` | `/var/www/angular.gulasch.site` |
+| `testwebseite.gulasch.site` | `/var/www/testwebseite.gulasch.site` |
+| `testwebseite2.gulasch.site` | `/var/www/testwebseite2.gulasch.site` |
+| `3d.gulasch.site` | `/var/www/3d.gulasch.site` |
+| `aisaas.gulasch.site` | `/var/www/aisaas.gulasch.site`, `/api/*` to `127.0.0.1:8101` |
+| `n50.camp` | `/var/www/n50.camp`, `/api/*` to `127.0.0.1:8110` |
+| `www.n50.camp` | same as `n50.camp` |
+
+Also configured:
+
+| Endpoint | Notes |
+|---|---|
+| `:9996` | Plain HTTP reverse proxy to `127.0.0.1:4096` |
+
+Notes:
+
+- Caddy is listening on ports `80` and `443`.
+- Nginx only has the default site configured and is not the active public web server.
+- Docker has no running containers.
+- `/var/www/3d.gulasch.site.backup_20260609_195932` appears to be a backup, not an active hosted site.</div></div></div></div></div></div>
+
+<div class="term">
+<div class="term-bar"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="term-title">timeline</span><span>20 events</span></div>
+<div class="term-body"><div class="log"><div class="log-line">service=session.prompt session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 step=0 loop</div>
+<div class="log-line">service=llm providerID=openai modelID=gpt-5.5 session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 small=true agent=title mode=primary stream</div>
+<div class="log-line">service=session.processor session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 messageID=msg_eb04b7544001JwvtFdErv5soCf process</div>
+<div class="log-line">service=llm providerID=openai modelID=gpt-5.5 session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 small=false agent=build mode=primary stream</div>
+<div class="log-line">service=session.prompt session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 step=1 loop</div>
+<div class="log-line">service=session.processor session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 messageID=msg_eb04bad910017CRDGus7qF5ltt process</div>
+<div class="log-line">service=llm providerID=openai modelID=gpt-5.5 session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 small=false agent=build mode=primary stream</div>
+<div class="log-line">service=session.prompt session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 step=2 loop</div>
+<div class="log-line">service=session.processor session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 messageID=msg_eb04bd586001DtmqGvUYiG0nes process</div>
+<div class="log-line">service=llm providerID=openai modelID=gpt-5.5 session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 small=false agent=build mode=primary stream</div>
+<div class="log-line">ERROR 2026-06-10T06:50:30 +10006ms service=llm providerID=openai modelID=gpt-5.5 session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 small=false agent=build mode=primary error={&quot;error&quot;:{&quot;ms&quot;:10000,&quot;name&quot;:&quot;ProviderHeaderTimeoutError&quot;}} stream error</div>
+<div class="log-line">service=llm providerID=openai modelID=gpt-5.5 session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 small=false agent=build mode=primary stream</div>
+<div class="log-line">service=session.prompt session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 step=3 loop</div>
+<div class="log-line">service=session.processor session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 messageID=msg_eb04c2bee0012c8r5eTqlj1b7x process</div>
+<div class="log-line">service=llm providerID=openai modelID=gpt-5.5 session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 small=false agent=build mode=primary stream</div>
+<div class="log-line">service=session.prompt session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 step=4 loop</div>
+<div class="log-line">service=session.processor session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 messageID=msg_eb04c4a6f001sUsT3kpHgMN3I3 process</div>
+<div class="log-line">service=llm providerID=openai modelID=gpt-5.5 session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 small=false agent=build mode=primary stream</div>
+<div class="log-line">service=session.prompt session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 step=5 loop</div>
+<div class="log-line">service=session.prompt session.id=ses_14fb48b5cffedTucIcP7Gwy9m1 exiting loop</div></div></div></div>
+
+</div>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+<a href="index.html" style="display:inline-block;padding:8px 18px;border:1px solid #2A3040;border-radius:6px;color:#6A7894;text-decoration:none;font-size:0.85em;transition:all 0.2s;" onmouseover="this.style.borderColor='#00D4FF';this.style.color='#00D4FF'" onmouseout="this.style.borderColor='#2A3040';this.style.color='#6A7894'">&larr; Back to overview</a>
+<a href="model_gpt-5_5.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid #2A3040;border-radius:6px;color:#6A7894;text-decoration:none;font-size:0.78em;font-family:JetBrains Mono;transition:all 0.2s;" onmouseover="this.style.borderColor='#00D4FF';this.style.color='#00D4FF'" onmouseout="this.style.borderColor='#2A3040';this.style.color='#6A7894'">model: gpt-5.5</a>
+<a href="patterns.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid #2A3040;border-radius:6px;color:#6A7894;text-decoration:none;font-size:0.78em;font-family:JetBrains Mono;transition:all 0.2s;" onmouseover="this.style.borderColor='#00D4FF';this.style.color='#00D4FF'" onmouseout="this.style.borderColor='#2A3040';this.style.color='#6A7894'">patterns</a>
+</div>
+
+<div class="status-bar">
+<div class="status-left"><span class="status-item"><span class="status-dot cyan"></span> openai</span><span class="status-item"><span class="status-dot green"></span> gpt-5.5</span></div>
+<div class="status-right"><span class="status-item">16 tool calls</span><span class="status-item">8 llm calls</span><span class="status-item">6 messages</span></div>
+</div></div>
+<script>function tt(id){var e=document.getElementById(id);if(e){var h=e.style.display==='none';e.style.display=h?'block':'none';var p=e.previousElementSibling;if(p){var tg=p.querySelector('.tool-toggle');if(tg)tg.innerHTML=h?'&#9660;':'&#9654;';}}}</script>
+</body></html>
